@@ -17,11 +17,42 @@
 ** Headers
 */
 
+# include <stdlib.h>
 # include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
 
-typedef struct s_coord {
-	size_t	x;
-	size_t	y;
-}			t_coord;
+
+/*
+** define
+*/
+
+# define TRUE 1
+# define FALSE 0
+
+/*
+** Structures
+*/
+
+typedef struct s_data {
+	char	*start;
+	int		start_found;
+	char	*end;
+	int		end_found;
+	int	ants;
+}			t_data;
+
+typedef struct s_room {
+	int	x;
+	int	y;
+}			t_room;
+
+
+/*
+** Prototypes
+*/
+
+int	map_reader();
+int	clean_all(t_data *data, t_room *room);
 
 #endif

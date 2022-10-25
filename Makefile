@@ -12,7 +12,7 @@
 
 NAME = lem-in
 
-FILES = main.c
+FILES = main.c map_reader.c clean_all.c
 
 CC = gcc
 FLAGS = -Wall -Werror -Wextra
@@ -38,7 +38,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LIBFT_PATH)
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIB_LFT)
-	@echo "$(GREEN)Player ready!$(DEFAULT)"
+	@echo "$(GREEN)All good!$(DEFAULT)"
 
 $(OBJ_DIR)%.o: $(SRCS_PATH)%.c
 	@mkdir -p $(OBJ_DIR)
