@@ -14,6 +14,16 @@
 
 int	clean_all(t_data *data, t_room *room)
 {
+	if (data->start)
+	{
+		ft_printf("free data->start\n");
+		free(data->start);
+	}
+	if (data->end)
+	{
+		ft_printf("free data->end\n");
+		free(data->end);
+	}
 	if (data)
 	{
 		ft_printf("free data\n");

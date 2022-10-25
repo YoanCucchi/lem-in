@@ -12,19 +12,6 @@
 
 #include "lem_in.h"
 
-// static int	is_start(t_data *data, char *line)
-// {
-// 	ft_printf("inside start line = [%s]\n");
-// 	if (!ft_strcmp(line, "##start"))
-// 	{
-// 		ft_printf("it's a match\n");
-// 		data->start = "yolo";
-// 		data->start_found = 1;
-// 		return(TRUE);
-// 	}
-// 	return(FALSE);
-// }
-
 static int	get_ants(t_data *data, char *line)
 {
 	int	len;
@@ -40,6 +27,74 @@ static int	get_ants(t_data *data, char *line)
 	return(TRUE);
 }
 
+static int	get_start(t_data *data, char *line)
+{
+	int	ret;
+	int	index;
+	int	letter;
+
+	letter = 0;
+	index = 0;
+	ft_strdel(&line);
+	ret = get_next_line(0, &line);
+	ft_printf("next line = [%s]\n", line);
+	if (ret <= 0)
+	{
+		ft_printf("ret issue\n");
+		return (FALSE);
+	}
+	while (line[index] != '\0')
+	{
+		letter = line[index];
+		if (letter == ' ')
+		{
+			ft_printf("wtf i'm out\n");
+			break ;
+		}
+		index++;
+	}
+	ft_printf("index = %d\n", index);
+	data->start = ft_strncpy(data->start, line, index);
+	ft_printf("data->start = [%s]\n", data->start);
+	data->start_found = 1;
+	ft_strdel(&line);
+	return (TRUE);
+}
+
+static int	get_end(t_data *data, char *line)
+{
+	int	ret;
+	int	index;
+	int	letter;
+
+	letter = 0;
+	index = 0;
+	ft_strdel(&line);
+	ret = get_next_line(0, &line);
+	ft_printf("next line = [%s]\n", line);
+	if (ret <= 0)
+	{
+		ft_printf("ret issue\n");
+		return (FALSE);
+	}
+	while (line[index] != '\0')
+	{
+		letter = line[index];
+		if (letter == ' ')
+		{
+			ft_printf("wtf i'm out\n");
+			break ;
+		}
+		index++;
+	}
+	ft_printf("index = %d\n", index);
+	data->end = ft_strncpy(data->end, line, index);
+	ft_printf("data->end = [%s]\n", data->start);
+	data->end_found = 1;
+	ft_strdel(&line);
+	return (TRUE);
+}
+
 int	map_reader(t_data *data)
 {
 	char	*line;
@@ -53,12 +108,31 @@ int	map_reader(t_data *data)
 		return (FALSE);
 	}
 	ft_printf("%s\n", line);
-	get_ants(data, line);
+	if (!get_ants(data, line))
+		return (FALSE);
 	ft_strdel(&line);
 	while (get_next_line(0, &line))
 	{
 		ft_printf("%s\n", line);
-		ft_strdel(&line);
+		if (!ft_strcmp(line, "##start") && !data->start_found)
+		{
+			ft_printf("start found\n");
+			if (!get_start(data, line))
+				return (0);
+		}
+		else if (!ft_strcmp(line, "##end") && !data->end_found)
+		{
+			ft_printf("end found\n");
+			if (!get_end(data, line))
+				return (0);
+		}
+		else if (ft_strncmp(line, "##", 2) && ft_strchr(&line[0], '#'))
+		{
+			ft_printf("comment found\n");
+			ft_strdel(&line);
+		}
+		else // we found a room or link
+			ft_strdel(&line);
 	}
 	return (TRUE);
 }
