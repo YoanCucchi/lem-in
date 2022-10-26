@@ -37,7 +37,7 @@ static int	get_start(t_data *data, char *line)
 	index = 0;
 	ft_strdel(&line);
 	ret = get_next_line(0, &line);
-	ft_printf("next line = [%s]\n", line);
+	ft_printf("%s\n", line);
 	if (ret <= 0)
 	{
 		ft_printf("ret issue\n");
@@ -47,15 +47,10 @@ static int	get_start(t_data *data, char *line)
 	{
 		letter = line[index];
 		if (letter == ' ')
-		{
-			ft_printf("wtf i'm out\n");
 			break ;
-		}
 		index++;
 	}
-	ft_printf("index = %d\n", index);
 	data->start = ft_strncpy(data->start, line, index);
-	ft_printf("data->start = [%s]\n", data->start);
 	data->start_found = 1;
 	ft_strdel(&line);
 	return (TRUE);
@@ -71,7 +66,7 @@ static int	get_end(t_data *data, char *line)
 	index = 0;
 	ft_strdel(&line);
 	ret = get_next_line(0, &line);
-	ft_printf("next line = [%s]\n", line);
+	ft_printf("%s\n", line);
 	if (ret <= 0)
 	{
 		ft_printf("ret issue\n");
@@ -81,15 +76,10 @@ static int	get_end(t_data *data, char *line)
 	{
 		letter = line[index];
 		if (letter == ' ')
-		{
-			ft_printf("wtf i'm out\n");
 			break ;
-		}
 		index++;
 	}
-	ft_printf("index = %d\n", index);
 	data->end = ft_strncpy(data->end, line, index);
-	ft_printf("data->end = [%s]\n", data->start);
 	data->end_found = 1;
 	ft_strdel(&line);
 	return (TRUE);
@@ -128,11 +118,18 @@ int	map_reader(t_data *data)
 		}
 		else if (ft_strncmp(line, "##", 2) && ft_strchr(&line[0], '#'))
 		{
-			ft_printf("comment found\n");
 			ft_strdel(&line);
 		}
-		else // we found a room or link
+		else if (ft_strchr(line, '-') == NULL)// we found a room
+		{
+			ft_printf("room found\n");
 			ft_strdel(&line);
+		}
+		else // it's a link
+		{
+			ft_printf("link found\n");
+			ft_strdel(&line);
+		}
 	}
 	return (TRUE);
 }

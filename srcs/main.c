@@ -30,6 +30,7 @@ int	main(int argc, char **argv)
 	ft_bzero(room, sizeof room);
 	data->end = (char *)malloc(sizeof(char) * 100);
 	data->start = (char *)malloc(sizeof(char) * 100);
+	room->name = (char *)malloc(sizeof(char) * 100);
 	// check map
 	// if ok solve
 	// if not exit

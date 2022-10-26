@@ -39,12 +39,14 @@ typedef struct s_data {
 	int		start_found;
 	char	*end;
 	int		end_found;
-	int	ants;
+	int		ants;
 }			t_data;
 
 typedef struct s_room {
-	int	x;
-	int	y;
+	char	*name;
+	int		x;
+	int		y;
+	struct t_room	**links;
 }			t_room;
 
 

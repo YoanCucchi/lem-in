@@ -24,6 +24,11 @@ int	clean_all(t_data *data, t_room *room)
 		ft_printf("free data->end\n");
 		free(data->end);
 	}
+	if (room->name)
+	{
+		ft_printf("free room->name\n");
+		free(room->name);
+	}
 	if (data)
 	{
 		ft_printf("free data\n");
