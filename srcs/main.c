@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	room = NULL;
 	data = (t_data *)malloc(sizeof(t_data));
 	room = (t_room *)malloc(sizeof(t_room));
-	if (!argv || argc == 4)
+	if (!argv || argc == 4)	
 	{
 		clean_all(data, room);
 		return (FALSE);
