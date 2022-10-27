@@ -47,6 +47,7 @@ typedef struct s_room {
 	int		x;
 	int		y;
 	struct t_room	**links;
+	struct t_room	*next;
 }			t_room;
 
 
@@ -54,7 +55,7 @@ typedef struct s_room {
 ** Prototypes
 */
 
-int	map_reader();
+int	map_reader(t_data *data, t_room *room);
 int	clean_all(t_data *data, t_room *room);
 
 #endif

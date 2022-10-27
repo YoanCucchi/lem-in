@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	// if ok solve
 	// if not exit
 	// if solved exit
-	if (!map_reader(data))
+	if (!map_reader(data, room))
 	{
 		ft_printf("error\n");
 		clean_all(data, room);
