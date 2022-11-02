@@ -12,32 +12,27 @@
 
 #include "lem_in.h"
 
-int	clean_all(t_data *data, t_room *room)
+void	clean_all(t_data *data, int error)
 {
-	if (data->start)
+	int	i;
+
+	free(data->links);
+	free(data->ants_str);
+	free(data->rooms_list);
+	if (data->init_2)
 	{
-		ft_printf("free data->start\n");
-		free(data->start);
+		free(data->path);
+		free_array(data->rooms, data, 0);
+		i = -1;
+		while (++i < data->nb_rooms)
+			free(data->tab[i]);
+		free(data->tab);
 	}
-	if (data->end)
+	free(data);
+	if (error)
 	{
-		ft_printf("free data->end\n");
-		free(data->end);
+		ft_putstr_fd("ERROR\n", 2);
+		exit(1);
 	}
-	if (room->name)
-	{
-		ft_printf("free room->name\n");
-		free(room->name);
-	}
-	if (data)
-	{
-		ft_printf("free data\n");
-		free(data);
-	}
-	if (room)
-	{
-		ft_printf("free room\n");
-		free(room);
-	}
-	return (TRUE);
+	exit(0);
 }

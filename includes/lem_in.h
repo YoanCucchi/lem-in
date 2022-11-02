@@ -22,7 +22,6 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-
 /*
 ** define
 */
@@ -35,27 +34,32 @@
 */
 
 typedef struct s_data {
+	char	**rooms;
+	int		**tab;
 	char	*start;
-	int		start_found;
 	char	*end;
+	char	*rooms_list;
+	char	*ants_str;
+	char	*links;
+	int		*path;
+	int		start_found;
 	int		end_found;
 	int		ants;
+	int		nb_rooms;
+	int		dispatch;
+	int		curr_room;
+	int		p_ind;
+	int		good[2];
+	int		new_line;
+	int		init_2;
 }			t_data;
-
-typedef struct s_room {
-	char	*name;
-	int		x;
-	int		y;
-	struct t_room	**links;
-	struct t_room	*next;
-}			t_room;
-
 
 /*
 ** Prototypes
 */
 
-int	map_reader(t_data *data, t_room *room);
-int	clean_all(t_data *data, t_room *room);
+int		map_reader(t_data *data);
+int		clean_all(t_data *data, int error);
+t_data	*struct_init(void);
 
 #endif

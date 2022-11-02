@@ -12,7 +12,7 @@
 
 NAME = lem-in
 
-FILES = main.c map_reader.c clean_all.c
+FILES = main.c map_reader.c clean_all.c struct_init.c
 
 CC = gcc
 FLAGS = -Wall -Werror -Wextra
