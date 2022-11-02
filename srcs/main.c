@@ -19,9 +19,7 @@ int	main(int argc, char **argv)
 	data = struct_init();
 	if (!argv || argc == 4) // change that
 		return (FALSE);
-	ft_printf("ants are [%d]\n", data->ants);
-	ft_printf("start is [%s]\n", data->start);
-	ft_printf("end is [%s]\n", data->end);
+	map_reader(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (TRUE);

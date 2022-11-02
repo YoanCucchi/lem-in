@@ -58,8 +58,9 @@ typedef struct s_data {
 ** Prototypes
 */
 
-int		map_reader(t_data *data);
-int		clean_all(t_data *data, int error);
+void	map_reader(t_data *data);
+void	clean_all(t_data *data, int error);
 t_data	*struct_init(void);
+void	free_array(char **array, t_data *data, int error);
 
 #endif

@@ -12,6 +12,19 @@
 
 #include "lem_in.h"
 
+void	free_array(char **array, t_data *data, int error)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+		(array[i]) ? free(array[i++]) : 0;
+	free(array);
+	if (error)
+		clean_all(data, 1);
+	array = NULL;
+}
+
 void	clean_all(t_data *data, int error)
 {
 	int	i;

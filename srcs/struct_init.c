@@ -22,4 +22,5 @@ t_data	*struct_init(void)
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
 	ft_bzero(data, sizeof data);
+	return (data);
 }
