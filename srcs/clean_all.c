@@ -17,8 +17,8 @@ void	free_array(char **array, t_data *data, int error)
 	int i;
 
 	i = 0;
-	while (array[i])
-		(array[i]) ? free(array[i++]) : 0;
+	while (array[i++])
+		free(array[i]);
 	free(array);
 	if (error)
 		clean_all(data, 1);
@@ -45,7 +45,7 @@ void	clean_all(t_data *data, int error)
 	if (error)
 	{
 		ft_putstr_fd("ERROR\n", 2);
-		exit(1);
+		// exit(1);
 	}
-	exit(0);
+	// exit(0);
 }

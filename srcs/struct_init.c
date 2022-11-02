@@ -21,6 +21,16 @@ t_data	*struct_init(void)
 	data->links = ft_strnew(1);
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
-	ft_bzero(data, sizeof data);
+	data->nb_rooms = 0;
+	data->ants = 0;
+	data->dispatch = 0;
+	data->curr_room = 0;
+	data->p_ind = 0;
+	data->init_2 = 0;
+	data->good[0] = 0;
+	data->good[1] = 0;
+	data->rooms = NULL;
+	data->tab = NULL;
+	data->path = NULL;
 	return (data);
 }

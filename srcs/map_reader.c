@@ -90,17 +90,22 @@ static void	get_rooms(t_data *data, char *line)
 
 static void	get_ants(t_data *data, char *line)
 {
-	int	len;
+	// int		i;
+	// char	*str;
 
-	len = 0;
-	len = ft_strlen(line);
-	while (len--)
-	{
-		if (!ft_isdigit(line[len]))
-			clean_all(data, 1);
-	}
-	data->ants = ft_atoi(line);
-	ft_printf("ants = %d\n", data->ants);
+	// i = 0;
+	data->dispatch = 1;
+	data->ants_str = join_str(data->ants_str, line);
+	if (line[0] == '#')
+		return ;
+	// str = ft_strtrim(line);
+	// if ((data->ants = ft_atoi(str)) <= 0)
+	// 	clean_all(data, 1);
+	// while (str[i] != '\n' && str[i] != 0)
+	// {
+	// 	if (!ft_isdigit(str[i++]))
+	// 		clean_all(data, 1);
+	// }
 }
 
 void	map_reader(t_data *data)
@@ -123,4 +128,5 @@ void	map_reader(t_data *data)
 			clean_all(data, 1);
 		}
 	}
+
 }
