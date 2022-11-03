@@ -12,19 +12,6 @@
 
 #include "lem_in.h"
 
-void	free_array(char **array, t_data *data, int error)
-{
-	int i;
-
-	i = 0;
-	while (array[i++])
-		free(array[i]);
-	free(array);
-	if (error)
-		clean_all(data, 1);
-	array = NULL;
-}
-
 void	clean_all(t_data *data, int error)
 {
 	int	i;
@@ -35,11 +22,14 @@ void	clean_all(t_data *data, int error)
 	if (data->init_2)
 	{
 		free(data->path);
-		free_array(data->rooms, data, 0);
 		i = -1;
 		while (++i < data->nb_rooms)
 			free(data->tab[i]);
 		free(data->tab);
+		i = -1;
+		while (++i < data->nb_rooms)
+			free(data->rooms[i]);
+		free(data->rooms);
 	}
 	free(data);
 	if (error)

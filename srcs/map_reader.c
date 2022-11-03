@@ -14,7 +14,8 @@
 
 static void	is_number(char **r, t_data *data, char *str)
 {
-	int i;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (str[0] == '-' || ft_isdigit(str[0]))
@@ -22,39 +23,44 @@ static void	is_number(char **r, t_data *data, char *str)
 		while (str[++i])
 		{
 			if (!ft_isdigit(str[i]))
-				free_array(r, data, 1);
+			{
+				j = -1;
+				while (r[++j])
+					free(r[j]);
+				free(r);
+				clean_all(data, 1);
+			}
 		}
 	}
 	else
-		free_array(r, data, 1);
+	{
+		j = -1;
+		while (r[++j])
+			free(r[j]);
+		free(r);
+	}
 }
 
 static void	validate_room(t_data *data, char *line)
 {
-	char **r;
+	char	**r;
+	int		i;
 
 	r = ft_strsplit(line, ' ');
 	if (r[0][0] == 'L' || r[3] != NULL)
-		free_array(r, data, 1);
+	{
+		i = -1;
+		while (r[++i])
+			free(r[i]);
+		free(r);
+		clean_all(data, 1);
+	}
 	is_number(r, data, r[1]);
 	is_number(r, data, r[2]);
-	free_array(r, data, 0);
-}
-
-static char	*join_str(char *s1, char *s2)
-{
-	char *new_s;
-
-	new_s = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (s1[0] == 0)
-		return (s2);
-	ft_strcat(new_s, s1);
-	ft_strcat(new_s, "\n");
-	ft_strcat(new_s, s2);
-	ft_strdel(&s1);
-	if (s2)
-		ft_strdel(&s2);
-	return (new_s);
+	i = -1;
+	while (r[++i])
+		free(r[i]);
+	free(r);
 }
 
 static int	is_empty(char *str)
@@ -71,62 +77,89 @@ static int	is_empty(char *str)
 
 static void	get_links(t_data *data, char *line)
 {
+	char	*new;
+
+	new = NULL;
 	if (data->dispatch == 2)
 		data->dispatch = 3;
 	if (data->dispatch != 3)
 		clean_all(data, 1);
-	data->links = join_str(data->links, line);
+	new = ft_strnew(ft_strlen(data->links));
+	free(data->links);
+	data->links = ft_strjoin(new, line);
+	free(new);
 }
 
 static void	get_rooms(t_data *data, char *line)
 {
+	char	*new;
+
 	data->dispatch = 2;
-	data->rooms_list = join_str(data->rooms_list, line);
+	new = ft_strnew(ft_strlen(data->links));
+	free(data->rooms_list);
+	data->rooms_list = ft_strjoin(new, line);
+	free(new);
 	if (line[0] == '#')
+	{
+		ft_printf("return it's a comment\n");
 		return ;
+	}
 	validate_room(data, line);
 	data->nb_rooms++;
 }
 
 static void	get_ants(t_data *data, char *line)
 {
-	// int		i;
-	// char	*str;
+	int		i;
+	char	*s;
 
-	// i = 0;
+	i = 0;
 	data->dispatch = 1;
-	data->ants_str = join_str(data->ants_str, line);
-	if (line[0] == '#')
-		return ;
-	// str = ft_strtrim(line);
-	// if ((data->ants = ft_atoi(str)) <= 0)
-	// 	clean_all(data, 1);
-	// while (str[i] != '\n' && str[i] != 0)
-	// {
-	// 	if (!ft_isdigit(str[i++]))
-	// 		clean_all(data, 1);
-	// }
+	data->ants_str = ft_strcpy(data->ants_str, line);
+	data->ants = ft_atoi(line);
+	s = ft_strtrim(line);
+	data->ants = ft_atoi(s);
+	if (data->ants <= 0)
+		clean_all(data, 1);
+	while (s[i] != '\n' && s[i] != 0)
+	{
+		if (!ft_isdigit(s[i++]))
+			clean_all(data, 1);
+	}
+	free(s);
 }
 
 void	map_reader(t_data *data)
 {
 	char	*line;
 
-	line = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
-		ft_printf("%s\n", line);
+		ft_printf("line = [%s]\n", line);
 		if (!data->ants)
+		{
+			ft_printf("inside first if\n");
 			get_ants(data, line);
+		}
 		else if (ft_strchr(line, '-') || data->dispatch == 3)
+		{
+			ft_printf("inside first else if\n");
 			get_links(data, line);
+			ft_strdel(&line);
+		}
 		else if ((data->dispatch == 1 || data->dispatch == 2) && !is_empty(line))
+		{
+			ft_printf("inside second else if\n");
 			get_rooms(data, line);
+			ft_strdel(&line);
+		}
 		else
 		{
+			ft_printf("inside first else\n");
 			ft_printf("else\n");
 			clean_all(data, 1);
 		}
+		ft_strdel(&line);
+		ft_printf("line freed\n");
 	}
-
 }

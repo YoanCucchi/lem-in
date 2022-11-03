@@ -40,15 +40,13 @@ char	*ft_strtrim(char const *s)
 	size_t	end;
 	char	*str;
 
+	str = NULL;
 	if (!s)
 		return (NULL);
 	start = ft_get_start(s);
 	end = ft_get_end(s);
 	if (start == ft_strlen(s))
 		return ("\0");
-	str = (char *)malloc(sizeof(char) * (end - start) + 1);
-	if (!str)
-		return (NULL);
 	str = ft_strsub(s, start, end - start + 1);
 	return (str);
 }
