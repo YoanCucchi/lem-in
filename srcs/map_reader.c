@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	is_number(char **r, t_data *data, char *str)
+void	is_number(char **r, t_data *data, char *str)
 {
 	int	i;
 	int	j;
@@ -41,29 +41,7 @@ static void	is_number(char **r, t_data *data, char *str)
 	}
 }
 
-static void	validate_room(t_data *data, char *line)
-{
-	char	**r;
-	int		i;
-
-	r = ft_strsplit(line, ' ');
-	if (r[0][0] == 'L' || r[3] != NULL)
-	{
-		i = -1;
-		while (r[++i])
-			free(r[i]);
-		free(r);
-		clean_all(data, 1);
-	}
-	is_number(r, data, r[1]);
-	is_number(r, data, r[2]);
-	i = -1;
-	while (r[++i])
-		free(r[i]);
-	free(r);
-}
-
-static int	is_empty(char *str)
+int	is_empty(char *str)
 {
 	size_t	i;
 
@@ -75,59 +53,30 @@ static int	is_empty(char *str)
 	return (0);
 }
 
-static void	get_links(t_data *data, char *line)
+void	get_start(t_data *data, char *line)
 {
 	char	*new;
 
-	new = NULL;
-	if (data->dispatch == 2)
-		data->dispatch = 3;
-	if (data->dispatch != 3)
-		clean_all(data, 1);
-	new = ft_strnew(ft_strlen(data->links));
-	free(data->links);
-	data->links = ft_strjoin(new, line);
-	free(new);
-}
-
-static void	get_rooms(t_data *data, char *line)
-{
-	char	*new;
-
-	data->dispatch = 2;
-	if (line[0] == '#')
-	{
-		ft_printf("return it's a comment\n");
-		return ;
-	}
-	new = ft_strnew(ft_strlen(data->rooms_list));
-	new = ft_strncpy(new, data->rooms_list, ft_strlen(data->rooms_list));
-	ft_strdel(&data->rooms_list);
-	data->rooms_list = ft_strjoin(new, line);
+	ft_strdel(&line);
+	get_next_line(0, &line);
+	ft_printf("line = [%s]\n", line);
+	new = ft_strnew(ft_strlen(line));
+	data->start = ft_strcpy(data->start, line);
 	ft_strdel(&new);
-	validate_room(data, line);
-	data->nb_rooms++;
+	get_rooms(data, line);
 }
 
-static void	get_ants(t_data *data, char *line)
+void	get_end(t_data *data, char *line)
 {
-	int		i;
-	char	*s;
+	char	*new;
 
-	i = 0;
-	data->dispatch = 1;
-	data->ants_str = ft_strcpy(data->ants_str, line);
-	data->ants = ft_atoi(line);
-	s = ft_strtrim(line);
-	data->ants = ft_atoi(s);
-	if (data->ants <= 0)
-		clean_all(data, 1);
-	while (s[i] != '\n' && s[i] != 0)
-	{
-		if (!ft_isdigit(s[i++]))
-			clean_all(data, 1);
-	}
-	free(s);
+	ft_strdel(&line);
+	get_next_line(0, &line);
+	ft_printf("line = [%s]\n", line);
+	new = ft_strnew(ft_strlen(line));
+	data->end = ft_strcpy(data->end, line);
+	ft_strdel(&new);
+	get_rooms(data, line);
 }
 
 void	map_reader(t_data *data)
@@ -137,30 +86,17 @@ void	map_reader(t_data *data)
 	while (get_next_line(0, &line) > 0)
 	{
 		ft_printf("line = [%s]\n", line);
-		if (!data->ants)
-		{
-			ft_printf("inside first if\n");
-			get_ants(data, line);
-		}
-		else if (ft_strchr(line, '-') || data->dispatch == 3)
-		{
-			ft_printf("inside first else if\n");
-			get_links(data, line);
-			ft_strdel(&line);
-		}
-		else if ((data->dispatch == 1 || data->dispatch == 2) && !is_empty(line))
-		{
-			ft_printf("inside second else if\n");
-			get_rooms(data, line);
-			ft_strdel(&line);
-		}
-		else
-		{
-			ft_printf("inside first else\n");
-			ft_printf("else\n");
+		if (is_empty(line))
 			clean_all(data, 1);
-		}
-		ft_strdel(&line);
-		ft_printf("line freed\n");
+		else if (!ft_strcmp(line, "##start"))
+			get_start(data, line);
+		else if (!ft_strcmp(line, "##end"))
+			get_end(data, line);
+		else if (!data->ants)
+			get_ants(data, line);
+		else if (ft_strchr(line, '-') || data->dispatch == 3)
+			get_links(data, line);
+		else if (data->dispatch == 1 || data->dispatch == 2)
+			get_rooms(data, line);
 	}
 }

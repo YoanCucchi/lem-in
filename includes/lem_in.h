@@ -61,5 +61,13 @@ typedef struct s_data {
 void	map_reader(t_data *data);
 void	clean_all(t_data *data, int error);
 t_data	*struct_init(void);
+void	validate_room(t_data *data, char *line);
+void	get_rooms(t_data *data, char *line);
+void	get_start(t_data *data, char *line);
+void	get_end(t_data *data, char *line);
+void	get_links(t_data *data, char *line);
+void	get_ants(t_data *data, char *line);
+void	is_number(char **r, t_data *data, char *str);
+int		is_empty(char *str);
 
 #endif

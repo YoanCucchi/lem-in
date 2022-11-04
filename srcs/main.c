@@ -16,13 +16,21 @@ int	main(int argc, char **argv)
 {
 	t_data	*data;
 
+	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
+		return (ft_printf("wtf\n"), FALSE);
 	data = struct_init();
-	if (!argv || argc == 4) // change that
-		return (FALSE);
 	map_reader(data);
-	ft_printf("ants str = [%s]\n", data->ants_str);
-	ft_printf("links = [%s]\n", data->links);
-	ft_printf("rooms list = [%s]\n", data->rooms_list);
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("ants = [%s]\n", data->ants_str);
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("data->start = [%s]\n", data->start);
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("data->end = [%s]\n", data->end);
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("data->rooms_list = %s\n", data->rooms_list);
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("data->links = %s\n", data->links);
+	ft_printf("------------------------------------------------------------\n");
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (TRUE);

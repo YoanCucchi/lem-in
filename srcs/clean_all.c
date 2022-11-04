@@ -12,24 +12,38 @@
 
 #include "lem_in.h"
 
-void	clean_all(t_data *data, int error)
+static void	free_char_array(t_data *data, char **array)
 {
 	int	i;
 
+	i = -1;
+	while (++i < data->nb_rooms)
+		free(array[i]);
+	free(array);
+}
+
+static void	free_int_array(t_data *data, int **array)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nb_rooms)
+		free(array[i]);
+	free(array);
+}
+
+void	clean_all(t_data *data, int error)
+{
 	free(data->links);
 	free(data->ants_str);
 	free(data->rooms_list);
+	free(data->start);
+	free(data->end);
 	if (data->init_2)
 	{
 		free(data->path);
-		i = -1;
-		while (++i < data->nb_rooms)
-			free(data->tab[i]);
-		free(data->tab);
-		i = -1;
-		while (++i < data->nb_rooms)
-			free(data->rooms[i]);
-		free(data->rooms);
+		free_int_array(data, data->tab);
+		free_char_array(data, data->rooms);
 	}
 	free(data);
 	if (error)
