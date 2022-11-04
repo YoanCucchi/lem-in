@@ -95,15 +95,16 @@ static void	get_rooms(t_data *data, char *line)
 	char	*new;
 
 	data->dispatch = 2;
-	new = ft_strnew(ft_strlen(data->links));
-	free(data->rooms_list);
-	data->rooms_list = ft_strjoin(new, line);
-	free(new);
 	if (line[0] == '#')
 	{
 		ft_printf("return it's a comment\n");
 		return ;
 	}
+	new = ft_strnew(ft_strlen(data->rooms_list));
+	new = ft_strncpy(new, data->rooms_list, ft_strlen(data->rooms_list));
+	ft_strdel(&data->rooms_list);
+	data->rooms_list = ft_strjoin(new, line);
+	ft_strdel(&new);
 	validate_room(data, line);
 	data->nb_rooms++;
 }
