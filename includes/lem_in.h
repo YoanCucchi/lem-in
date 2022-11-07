@@ -69,5 +69,7 @@ void	get_links(t_data *data, char *line);
 void	get_ants(t_data *data, char *line);
 void	is_number(char **r, t_data *data, char *str);
 int		is_empty(char *str);
+void	free_char_array(t_data *data, char **array);
+void	make_rooms_array(t_data *data);
 
 #endif

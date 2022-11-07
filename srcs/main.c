@@ -12,14 +12,11 @@
 
 #include "lem_in.h"
 
-int	main(int argc, char **argv)
+static void	print_info(t_data *data)
 {
-	t_data	*data;
+	int		i;
 
-	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
-		return (ft_printf("wtf\n"), FALSE);
-	data = struct_init();
-	map_reader(data);
+	i = -1;
 	ft_printf("------------------------------------------------------------\n");
 	ft_printf("ants = [%s]\n", data->ants_str);
 	ft_printf("------------------------------------------------------------\n");
@@ -31,6 +28,24 @@ int	main(int argc, char **argv)
 	ft_printf("------------------------------------------------------------\n");
 	ft_printf("data->links = %s\n", data->links);
 	ft_printf("------------------------------------------------------------\n");
+	while (++i < data->nb_rooms)
+	{
+		ft_printf("data->rooms[%d] = ", i);
+		ft_printf("[%s]\n", data->rooms[i]);
+	}
+	ft_printf("------------------------------------------------------------\n");
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	*data;
+
+	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
+		return (ft_printf("wtf\n"), FALSE);
+	data = struct_init();
+	map_reader(data);
+	make_rooms_array(data);
+	print_info(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (TRUE);

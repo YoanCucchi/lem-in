@@ -29,8 +29,6 @@ t_data	*struct_init(void)
 	data->curr_room = 0;
 	data->p_ind = 0;
 	data->init_2 = 0;
-	data->good[0] = 0;
-	data->good[1] = 0;
 	data->rooms = NULL;
 	data->tab = NULL;
 	data->path = NULL;
