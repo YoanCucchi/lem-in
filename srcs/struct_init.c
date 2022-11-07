@@ -17,7 +17,7 @@ t_data	*struct_init(void)
 	t_data	*data;
 
 	data = NULL;
-	data = (t_data *)malloc(sizeof(t_data));
+	data = (t_data *)ft_memalloc(sizeof(t_data));
 	data->links = ft_strnew(1);
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);

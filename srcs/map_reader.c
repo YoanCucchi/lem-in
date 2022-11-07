@@ -99,6 +99,6 @@ void	map_reader(t_data *data)
 		else if (data->dispatch == 1 || data->dispatch == 2)
 			get_rooms(data, line);
 	}
-	data->rooms = (char**)ft_memalloc(sizeof(char*) * (data->nb_rooms + 1));
+	data->rooms = (char **)ft_memalloc(sizeof(char *) * (data->nb_rooms + 1));
 	data->init_2 = 1;
 }

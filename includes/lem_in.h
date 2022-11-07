@@ -42,14 +42,11 @@ typedef struct s_data {
 	char	*ants_str;
 	char	*links;
 	int		*path;
-	int		start_found;
-	int		end_found;
 	int		ants;
 	int		nb_rooms;
 	int		dispatch;
 	int		curr_room;
 	int		p_ind;
-	int		good[2];
 	int		new_line;
 	int		init_2;
 }			t_data;

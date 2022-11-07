@@ -12,32 +12,41 @@
 
 #include "lem_in.h"
 
+static void	trim_array(t_data *data)
+{
+	int		i;
+	char	**trim;
+
+	i = -1;
+	while (++i < data->nb_rooms)
+	{
+		trim = ft_strsplit(data->rooms[i], ' ');
+		free(data->rooms[i]);
+		// here we can add some check for trim[0] value
+		data->rooms[i] = ft_strdup(trim[0]);
+		free_char_array(data, trim);
+	}
+}
+
 void	make_rooms_array(t_data *data)
 {
 	int		i;
 	int		j;
 	char	**line;
-	// char	**splitter;
 
 	i = 0;
 	j = 0;
 	line = ft_strsplit(data->rooms_list, '\n');
 	while (line[i] && j < data->nb_rooms)
 	{
-		// splitter = ft_strsplit(line[i], ' ');
-		ft_printf("line[i] = %s\n", line[i]);
-		ft_printf("[i] = %d\n", i);
-		ft_printf("[j] = %d\n", j);
 		if (j == 0)
 		{
-			ft_printf("in first if start\n");
 			data->rooms[i] = ft_strdup(data->start);
 			i++;
 			j++;
 		}
 		else
 		{
-			ft_printf("inside else\n");
 			if (!ft_strcmp(line[i], data->end))
 				j++;
 			data->rooms[i] = ft_strdup(line[j]);
@@ -47,4 +56,5 @@ void	make_rooms_array(t_data *data)
 	}
 	data->rooms[data->nb_rooms - 1] = ft_strdup(data->end);
 	free_char_array(data, line);
+	trim_array(data);
 }
