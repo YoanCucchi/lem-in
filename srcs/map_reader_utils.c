@@ -65,6 +65,11 @@ void	get_links(t_data *data, char *line)
 		data->dispatch = 3;
 	if (data->dispatch != 3)
 		clean_all(data, 1);
+	if (line[0] == '#')
+	{
+		ft_strdel(&line);
+		return ;
+	}
 	new = ft_strnew(ft_strlen(data->links) + 1);
 	new = ft_strncpy(new, data->links, ft_strlen(data->links));
 	ft_strdel(&data->links);

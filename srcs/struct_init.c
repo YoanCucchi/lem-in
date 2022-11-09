@@ -12,6 +12,30 @@
 
 #include "lem_in.h"
 
+t_data	*struct_init_2(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	data->init_2 = 1;
+	data->path = (int *)ft_memalloc(sizeof(int) * 1000);
+	data->tab = (int **)ft_memalloc(sizeof(int *) * data->nb_rooms);
+	data->rooms = (char **)ft_memalloc(sizeof(char *) * (data->nb_rooms + 1));
+	while (++i < data->nb_rooms)
+	{
+		data->path[i] = -1;
+		data->rooms[i] = NULL;
+		data->tab[i] = (int *)ft_memalloc(sizeof(int) * data->nb_rooms);
+		j = -1;
+		while (data->tab[i][++j])
+			data->tab[i][j] = 0;
+	}
+	data->rooms[i] = NULL;
+	data->path[0] = 0;
+	return (data);
+}
+
 t_data	*struct_init(void)
 {
 	t_data	*data;
