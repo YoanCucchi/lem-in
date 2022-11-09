@@ -15,8 +15,10 @@
 static void	print_info(t_data *data)
 {
 	int		i;
+	int		j;
 
 	i = -1;
+	j = -1;
 	ft_printf("------------------------------------------------------------\n");
 	ft_printf("ants = [%s]\n", data->ants_str);
 	ft_printf("------------------------------------------------------------\n");
@@ -34,6 +36,27 @@ static void	print_info(t_data *data)
 		ft_printf("[%s]\n", data->rooms[i]);
 	}
 	ft_printf("------------------------------------------------------------\n");
+	i = -1;
+	ft_printf("     ");
+	while (++i < data->nb_rooms)
+	{
+		ft_printf("%d ", i);
+	}
+	ft_printf("\n\n");
+	i = -1;
+	while (data->tab[++i] && i < data->nb_rooms)
+	{
+		j = -1;
+		ft_printf("%d:   ", i);
+		while(++j < data->nb_rooms)
+		{
+			ft_putnbr(data->tab[i][j]);
+			ft_putchar(' ');
+		}
+		ft_putstr("\t\t");
+		ft_putendl(" ");
+	}
+	ft_printf("------------------------------------------------------------\n");
 }
 
 int	main(int argc, char **argv)
@@ -45,6 +68,7 @@ int	main(int argc, char **argv)
 	data = struct_init();
 	map_reader(data);
 	make_rooms_array(data);
+	tab_array(data);
 	print_info(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
