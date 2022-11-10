@@ -37,20 +37,30 @@ static void	print_info(t_data *data)
 	}
 	ft_printf("------------------------------------------------------------\n");
 	i = -1;
-	ft_printf("     ");
+	ft_printf(" index |           ");
 	while (++i < data->nb_rooms)
 	{
-		ft_printf("%d ", i);
+		ft_printf("| %d | ", i);
 	}
-	ft_printf("\n\n");
+	ft_printf("\n");
+	ft_printf("       |-----------|----------------------                  \n");
+	i = -1;
+	ft_printf("       | room_name ");
+	while (++i < data->nb_rooms)
+	{
+		ft_printf("| %s | ", data->rooms[i]);
+	}
+	ft_printf("\n");
+	ft_printf("       |           |----------------------                  \n");
 	i = -1;
 	while (data->tab[++i] && i < data->nb_rooms)
 	{
 		j = -1;
-		ft_printf("%d:   ", i);
+		ft_printf("   %d   |   ", i);
+		ft_printf("  %s     ", data->rooms[i]);
 		while(++j < data->nb_rooms)
 		{
-			ft_putnbr(data->tab[i][j]);
+			ft_printf("| %d |", data->tab[i][j]);
 			ft_putchar(' ');
 		}
 		ft_putstr("\t\t");
