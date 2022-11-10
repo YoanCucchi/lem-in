@@ -27,7 +27,6 @@ void	is_number(char **array, char *str, t_data *data)
 				clean_all(data, 1);
 			}
 		}
-		i = 0;
 	}
 	else
 	{
