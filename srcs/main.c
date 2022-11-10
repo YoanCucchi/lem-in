@@ -36,7 +36,7 @@ static void	print_info(t_data *data)
 		ft_printf("data->rooms[%d] = ", i);
 		ft_printf("[%s]\n", data->rooms[i]);
 	}
-	ft_printf("------------------------------------------------------------\n");
+	ft_printf("--------------------------------------------------------------------------------\n");
 	i = -1;
 	ft_printf(" \x1B[36mindex\x1B[37m |           ");
 	while (++i < data->nb_rooms)
@@ -44,21 +44,32 @@ static void	print_info(t_data *data)
 		ft_printf("| \x1B[36m%d\x1B[37m | ", i);
 	}
 	ft_printf("\n");
-	ft_printf("       |-----------|----------------------                  \n");
+	ft_printf("       |-----------|------------------------------------------------------------\n");
 	i = -1;
 	ft_printf("       | \x1B[33mroom_name \x1B[0m");
 	while (++i < data->nb_rooms)
 	{
-		ft_printf("|\x1B[33m %s \x1B[0m| ", data->rooms[i]);
+		if (ft_strlen(data->rooms[i]) > 1)
+			ft_printf("|\x1B[33m %s\x1B[0m| ", data->rooms[i]);
+		else
+			ft_printf("|\x1B[33m %s \x1B[0m| ", data->rooms[i]);
 	}
 	ft_printf("\n");
-	ft_printf("       |           |----------------------                  \n");
+	ft_printf("       |           |------------------------------------------------------------\n");
 	i = -1;
 	while (data->tab[++i] && i < data->nb_rooms)
 	{
 		j = -1;
-		ft_printf("   \x1B[36m%d\x1B[37m   |   ", i);
-		ft_printf("  \x1B[33m%s\x1B[0m     ", data->rooms[i]);
+		if (ft_strlen(data->rooms[i]) == 1)
+		{
+			ft_printf("   \x1B[36m%d\x1B[37m   |   ", i);
+			ft_printf("  \x1B[33m%s\x1B[0m     ", data->rooms[i]);
+		}
+		else
+		{
+			ft_printf("   \x1B[36m%d\x1B[37m   |   ", i);
+			ft_printf("  \x1B[33m%s\x1B[0m    ", data->rooms[i]);
+		}
 		while (++j < data->nb_rooms)
 		{
 			if (data->tab[i][j] == 1)
@@ -69,7 +80,7 @@ static void	print_info(t_data *data)
 		}
 		ft_putendl(" ");
 	}
-	ft_printf("------------------------------------------------------------\n");
+	ft_printf("--------------------------------------------------------------------------------\n");
 	i = -1;
 	trim = ft_strsplit(data->links, '\n');
 	ft_printf(" \x1B[32mlink list\x1B[0m |");

@@ -51,7 +51,13 @@ void	get_start(t_data *data, char *line)
 {
 	char	*new;
 
+	if (!data->ants)
+	{
+		ft_strdel(&line);
+		clean_all(data, 1);
+	}
 	ft_strdel(&line);
+	// need to find a way to handle multiple comments before start info room
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
 	new = ft_strnew(ft_strlen(line));
@@ -66,7 +72,13 @@ void	get_end(t_data *data, char *line)
 {
 	char	*new;
 
+	if (!data->ants)
+	{
+		ft_strdel(&line);
+		clean_all(data, 1);
+	}
 	ft_strdel(&line);
+	// need to find a way to handle multiple comments before end info room
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
 	new = ft_strnew(ft_strlen(line));
@@ -80,10 +92,12 @@ void	get_end(t_data *data, char *line)
 void	map_reader(t_data *data)
 {
 	char	*line;
+	char	**array;
 
 	while (get_next_line(0, &line) > 0)
 	{
-		if (is_empty(line))
+		array = ft_strsplit(line, ' ');
+		if (!array || is_empty(line))
 			clean_all(data, 1);
 		else if (!ft_strcmp(line, "##start"))
 			get_start(data, line);
@@ -91,10 +105,13 @@ void	map_reader(t_data *data)
 			get_end(data, line);
 		else if (!data->ants)
 			get_ants(data, line);
-		else if (ft_strchr(line, '-') || data->dispatch == 3)
+		else if ((ft_strchr(line, '-') && !array[1]) || data->dispatch == 3)
 			get_links(data, line);
 		else if (data->dispatch == 1 || data->dispatch == 2)
 			get_rooms(data, line);
+		free_char_array(array);
 	}
+	if (!data->start || !data->end)
+		clean_all(data, 1);
 	data = struct_init_2(data);
 }
