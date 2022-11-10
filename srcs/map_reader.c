@@ -12,10 +12,9 @@
 
 #include "lem_in.h"
 
-void	is_number(char **r, t_data *data, char *str)
+void	is_number(char **array, char *str, t_data *data)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	if (str[0] == '-' || ft_isdigit(str[0]))
@@ -24,20 +23,16 @@ void	is_number(char **r, t_data *data, char *str)
 		{
 			if (!ft_isdigit(str[i]))
 			{
-				j = -1;
-				while (r[++j])
-					free(r[j]);
-				free(r);
+				free_char_array(array);
 				clean_all(data, 1);
 			}
 		}
+		i = 0;
 	}
 	else
 	{
-		j = -1;
-		while (r[++j])
-			free(r[j]);
-		free(r);
+		free_char_array(array);
+		clean_all(data, 1);
 	}
 }
 
@@ -58,9 +53,11 @@ void	get_start(t_data *data, char *line)
 	char	*new;
 
 	ft_strdel(&line);
-	get_next_line(0, &line);
-	ft_printf("line = [%s]\n", line);
+	if (get_next_line(0, &line) < 0)
+		clean_all(data, 1);
 	new = ft_strnew(ft_strlen(line));
+	if (!new)
+		clean_all(data, 1);
 	data->start = ft_strcpy(data->start, line);
 	ft_strdel(&new);
 	get_rooms(data, line);
@@ -71,9 +68,11 @@ void	get_end(t_data *data, char *line)
 	char	*new;
 
 	ft_strdel(&line);
-	get_next_line(0, &line);
-	ft_printf("line = [%s]\n", line);
+	if (get_next_line(0, &line) < 0)
+		clean_all(data, 1);
 	new = ft_strnew(ft_strlen(line));
+	if (!new)
+		clean_all(data, 1);
 	data->end = ft_strcpy(data->end, line);
 	ft_strdel(&new);
 	get_rooms(data, line);
@@ -85,7 +84,6 @@ void	map_reader(t_data *data)
 
 	while (get_next_line(0, &line) > 0)
 	{
-		ft_printf("line = [%s]\n", line);
 		if (is_empty(line))
 			clean_all(data, 1);
 		else if (!ft_strcmp(line, "##start"))

@@ -12,40 +12,59 @@
 
 #include "lem_in.h"
 
-static void	free_int_array(t_data *data, int **array)
+static void	free_tab_array(t_data *data, int **tab)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data->nb_rooms)
-		free(array[i]);
-	free(array);
+	{
+		free(tab[i]);
+		tab[i] = NULL;
+	}
+	free(tab);
+	tab = NULL;
 }
 
-void	free_char_array(t_data *data, char **array)
+static void	clean_struct(t_data *data)
+{
+	if (data->links)
+		free(data->links);
+	if (data->ants_str)
+		free(data->ants_str);
+	if (data->rooms_list)
+		free(data->rooms_list);
+	if (data->start)
+		free(data->start);
+	if (data->end)
+		free(data->end);
+	if (data->path)
+		free(data->path);
+	if (data->tab)
+		free_tab_array(data, data->tab);
+	if (data->rooms)
+		free_char_array(data->rooms);
+	free(data);
+}
+
+void	free_char_array(char **array)
 {
 	int	i;
 
 	i = -1;
-	while (++i < data->nb_rooms)
+	while (array[++i])
+	{
 		free(array[i]);
+		array[i] = NULL;
+	}
 	free(array);
+	array = NULL;
 }
 
 void	clean_all(t_data *data, int error)
 {
-	free(data->links);
-	free(data->ants_str);
-	free(data->rooms_list);
-	free(data->start);
-	free(data->end);
-	if (data->init_2)
-	{
-		free(data->path);
-		free_int_array(data, data->tab);
-		free_char_array(data, data->rooms);
-	}
-	free(data);
+	if (data)
+		clean_struct(data);
 	if (error)
 	{
 		ft_putstr_fd("ERROR\n", 2);

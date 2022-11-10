@@ -48,7 +48,7 @@ void	tab_array(t_data *data)
 			data->tab[r_1][r_2] = 1;
 		if (r_1)
 			data->tab[r_2][r_1] = 1;
-		free_char_array(data, l);
+		free_char_array(l);
 	}
-	free_char_array(data, links);
+	free_char_array(links);
 }

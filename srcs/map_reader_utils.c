@@ -12,26 +12,28 @@
 
 #include "lem_in.h"
 
+static void	clean_line_array_all(t_data *data, char *s, char *line)
+{
+	if (s)
+		ft_strdel(&s);
+	if (line)
+		ft_strdel(&line);
+	clean_all(data, 1);
+}
+
 void	validate_room(t_data *data, char *line)
 {
 	char	**r;
-	int		i;
 
 	r = ft_strsplit(line, ' ');
 	if (r[0][0] == 'L' || r[3] != NULL)
 	{
-		i = -1;
-		while (r[++i])
-			free(r[i]);
-		free(r);
+		free_char_array(r);
 		clean_all(data, 1);
 	}
-	is_number(r, data, r[1]);
-	is_number(r, data, r[2]);
-	i = -1;
-	while (r[++i])
-		free(r[i]);
-	free(r);
+	is_number(r, r[1], data);
+	is_number(r, r[2], data);
+	free_char_array(r);
 }
 
 void	get_rooms(t_data *data, char *line)
@@ -40,16 +42,17 @@ void	get_rooms(t_data *data, char *line)
 
 	data->dispatch = 2;
 	if (line[0] == '#')
-	{
-		ft_strdel(&line);
-		return ;
-	}
+		return(ft_strdel(&line));
 	new = ft_strnew(ft_strlen(data->rooms_list) + 1);
+	if (!new)
+		clean_all(data, 1);
 	new = ft_strncpy(new, data->rooms_list, ft_strlen(data->rooms_list));
 	ft_strdel(&data->rooms_list);
 	if (ft_strcmp(new, ""))
 		new = ft_strcat(new, "\n");
 	data->rooms_list = ft_strjoin(new, line);
+	if (!data->rooms_list)
+		clean_line_array_all(data, new, line);
 	ft_strdel(&new);
 	validate_room(data, line);
 	data->nb_rooms++;
@@ -66,16 +69,17 @@ void	get_links(t_data *data, char *line)
 	if (data->dispatch != 3)
 		clean_all(data, 1);
 	if (line[0] == '#')
-	{
-		ft_strdel(&line);
-		return ;
-	}
+		return(ft_strdel(&line));
 	new = ft_strnew(ft_strlen(data->links) + 1);
+	if (!new)
+		clean_line_array_all(data, new, line);
 	new = ft_strncpy(new, data->links, ft_strlen(data->links));
 	ft_strdel(&data->links);
 	if (ft_strcmp(new, ""))
 		new = ft_strcat(new, "\n");
 	data->links = ft_strjoin(new, line);
+	if (!data->links)
+		clean_line_array_all(data, new, line);
 	ft_strdel(&new);
 	ft_strdel(&line);
 }
@@ -85,18 +89,19 @@ void	get_ants(t_data *data, char *line)
 	int		i;
 	char	*s;
 
-	i = 0;
-	data->dispatch = 1;
-	data->ants_str = ft_strcpy(data->ants_str, line);
-	data->ants = ft_atoi(line);
+	i = -1;
 	s = ft_strtrim(line);
+	if (!s)
+		clean_all(data, 1);
+	data->dispatch = 1;
+	data->ants_str = ft_strcpy(data->ants_str, s);
 	data->ants = ft_atoi(s);
 	if (data->ants <= 0)
-		clean_all(data, 1);
+		clean_line_array_all(data, s, line);
 	while (s[i] != '\n' && s[i] != 0)
 	{
-		if (!ft_isdigit(s[i++]))
-			clean_all(data, 1);
+		if (!ft_isdigit(s[++i]))
+			clean_line_array_all(data, s, line);
 	}
 	ft_strdel(&s);
 	ft_strdel(&line);

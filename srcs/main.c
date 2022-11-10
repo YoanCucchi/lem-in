@@ -17,6 +17,7 @@ static void	print_info(t_data *data)
 	int		i;
 	int		j;
 	char	**trim;
+
 	i = -1;
 	j = -1;
 	ft_printf("------------------------------------------------------------\n");
@@ -58,7 +59,7 @@ static void	print_info(t_data *data)
 		j = -1;
 		ft_printf("   \x1B[36m%d\x1B[37m   |   ", i);
 		ft_printf("  \x1B[33m%s\x1B[0m     ", data->rooms[i]);
-		while(++j < data->nb_rooms)
+		while (++j < data->nb_rooms)
 		{
 			if (data->tab[i][j] == 1)
 				ft_printf("| \x1B[31m%d \x1B[0m|", data->tab[i][j]);
@@ -71,26 +72,32 @@ static void	print_info(t_data *data)
 	ft_printf("------------------------------------------------------------\n");
 	i = -1;
 	trim = ft_strsplit(data->links, '\n');
-	ft_printf("         \x1B[32mlink list\x1B[0m |");
+	ft_printf(" \x1B[32mlink list\x1B[0m |");
 	while (trim[++i])
+	{
 		ft_printf(" \x1B[32m[%s]\x1B[0m |", trim[i]);
+		free(trim[i]);
+	}
+	free(trim);
 	ft_printf("\n");
 	ft_printf("------------------------------------------------------------\n");
-	free_char_array(data, trim);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	*data;
 
+	data = NULL;
+	// Any non compliant or empty lines will automatically stop the ant 
+	// farm’s reading as well as the orderly processing of the acquired data.
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
-		return (ft_printf("wtf\n"), FALSE);
-	data = struct_init();
+		clean_all(data, 1);
+	data = struct_init(data);
 	map_reader(data);
 	make_rooms_array(data);
 	tab_array(data);
 	print_info(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
-	return (TRUE);
+	return (0);
 }
