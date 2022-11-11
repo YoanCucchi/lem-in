@@ -57,9 +57,19 @@ void	get_start(t_data *data, char *line)
 		clean_all(data, 1);
 	}
 	ft_strdel(&line);
+
 	// need to find a way to handle multiple comments before start info room
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
+	while (line[0] == '#')
+	{
+		ft_strdel(&line);
+		if (get_next_line(0, &line) < 0)
+		{
+			ft_strdel(&line);
+			clean_all(data, 1);
+		}
+	}
 	new = ft_strnew(ft_strlen(line));
 	if (!new)
 		clean_all(data, 1);
