@@ -97,7 +97,9 @@ static void	print_info(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
+	int		i;
 
+	i = -1;
 	data = NULL;
 	// Any non compliant or empty lines will automatically stop the ant 
 	// farm’s reading as well as the orderly processing of the acquired data.
@@ -105,7 +107,10 @@ int	main(int argc, char **argv)
 		clean_all(data, 1);
 	data = struct_init(data);
 	map_reader(data);
+	ft_printf("all rooms = %s\n", data->rooms_list);
 	make_rooms_array(data);
+	while (data->rooms[++i])
+		ft_printf("rooms[i] = %s\n", data->rooms[i]);
 	tab_array(data);
 	print_info(data);
 	clean_all(data, 0);

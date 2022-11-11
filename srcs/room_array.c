@@ -12,72 +12,60 @@
 
 #include "lem_in.h"
 
-static void	trim_array(t_data *data)
-{
-	int		i;
-	char	**trim;
-
-	i = -1;
-	while (++i < data->nb_rooms)
-	{
-		trim = ft_strsplit(data->rooms[i], ' ');
-		if (!trim)
-			free_char_array(trim);
-		free(data->rooms[i]);
-		// here we can add some check for trim[0] value
-		data->rooms[i] = ft_strdup(trim[0]);
-		if (!data->rooms[i])
-		{
-			free_char_array(trim);
-			clean_all(data, 1);
-		}
-		free_char_array(trim);
-	}
-}
-
 void	make_rooms_array(t_data *data)
 {
 	int		i;
 	int		j;
-	char	**line;
+	char	**rooms_name;
+	char	**rooms_trim;
 
 	i = -1;
-	j = -1;
-	line = ft_strsplit(data->rooms_list, '\n');
-	if (!line)
-		clean_all(data, 1);
-	while (line[++i] && ++j < data->nb_rooms)
+	j = 0;
+	rooms_name = ft_strsplit(data->rooms_list, '\n');
+	if (!rooms_name)
+		clean_all(data, 1);ft_printf("--------------------------------------------------------\n");
+	while (rooms_name[++i] && j <= data->nb_rooms)
 	{
-		if (j == 0)
+		ft_printf("--------------------------------------------------------\n");
+		ft_printf("rooms_name i = %s\n", rooms_name[i]);
+		rooms_trim = ft_strsplit(rooms_name[i], ' ');
+		ft_printf("rooms_trim[0] = %s\n", rooms_trim[0]);
+		ft_printf("i = %d\n", i);
+		ft_printf("j = %d\n", j);
+
+		if (!ft_strcmp(rooms_name[i], data->start))
 		{
-			data->rooms[i] = ft_strdup(data->start);
-			if (!data->rooms[i])
-			{
-				free_char_array(line);
-				clean_all(data, 1);
-			}
+			ft_printf("start found\n");
+			data->rooms[0] = ft_strdup(rooms_trim[0]);
+			ft_printf("we stored : %s\n", data->rooms[j]);
+			ft_printf("in data->rooms[%d]\n", j);
+		}
+		else if (!ft_strcmp(rooms_name[i], data->end))
+		{
+			ft_printf("end found\n");
+			data->rooms[data->nb_rooms - 1] = ft_strdup(rooms_trim[0]);
+			ft_printf("we stored : %s\n", data->rooms[j]);
+			ft_printf("in data->rooms[%d]\n", data->nb_rooms - 1);
 		}
 		else
 		{
-			if (!ft_strcmp(line[i], data->end))
+			ft_printf("in else \n");
+			if (j == 0)
 				j++;
-			if (j < data->nb_rooms)
+			else if (j == data->nb_rooms)
+				j--;
+			data->rooms[j] = ft_strdup(rooms_trim[0]);
+			ft_printf("we stored : %s", data->rooms[j]);
+			ft_printf("in data->rooms[%d]\n", j);
+			if (!data->rooms[j])
 			{
-				data->rooms[i] = ft_strdup(line[j]);
-				if (!data->rooms[i])
-				{
-					free_char_array(line);
-					clean_all(data, 1);
-				}
+				free_char_array(rooms_name);
+				clean_all(data, 1);
 			}
+			j++;
+			ft_printf("--------------------------------------------------------\n");
 		}
+		free_char_array(rooms_trim);
 	}
-	data->rooms[data->nb_rooms - 1] = ft_strdup(data->end);
-	if (!data->rooms[data->nb_rooms - 1])
-	{
-		free_char_array(line);
-		clean_all(data, 1);
-	}
-	free_char_array(line);
-	trim_array(data);
+	free_char_array(rooms_name);
 }

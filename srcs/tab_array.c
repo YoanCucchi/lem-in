@@ -12,18 +12,18 @@
 
 #include "lem_in.h"
 
-static void	validate_link(t_data *data, char *link)
-{
-	char **l;
+// static void	validate_link(t_data *data, char *link)
+// {
+// 	char **l;
 
-	l = ft_strsplit(link, '-');
-	if (l[2] != NULL)
-	{
-		free_char_array(l);
-		clean_all(data, 1);
-	}
-	free_char_array(l);
-}
+// 	l = ft_strsplit(link, '-');
+// 	if (l[2] != NULL)
+// 	{
+// 		free_char_array(l);
+// 		clean_all(data, 1);
+// 	}
+// 	free_char_array(l);
+// }
 
 static int	find_index(t_data *data, char *name)
 {
@@ -52,7 +52,7 @@ void	tab_array(t_data *data)
 	while (links[++i])
 	{
 		ft_printf("links[i] = [%s]\n", links[i]);
-		validate_link(data, links[i]);
+		// validate_link(data, links[i]);
 		l = ft_strsplit(links[i], '-');
 		r_1 = find_index(data, l[0]);
 		ft_printf("r1 = [%d]\n", r_1);
