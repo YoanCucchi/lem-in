@@ -49,7 +49,8 @@ void	get_rooms(t_data *data, char *line)
 	new = ft_strncpy(new, data->rooms_list, ft_strlen(data->rooms_list));
 	ft_strdel(&data->rooms_list);
 	if (ft_strcmp(new, ""))
-		new = ft_strcat(new, "\n");
+		new = ft_strcat(new, " ");
+	ft_printf("new = %s", new);
 	data->rooms_list = ft_strjoin(new, line);
 	if (!data->rooms_list)
 		clean_line_array_all(data, new, line);

@@ -36,6 +36,7 @@ typedef struct s_data {
 	char	*start;
 	char	*end;
 	char	*rooms_list;
+	char	*rooms_list2;
 	char	*ants_str;
 	char	*links;
 	int		*path;

@@ -51,6 +51,7 @@ t_data	*struct_init(t_data *data)
 	data->links = ft_strnew(1);
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
+	data->rooms_list2 = ft_strnew(1);
 	data->start = ft_strnew(1);
 	data->end = ft_strnew(1);
 	if (!data->links || !data->ants_str || !data->rooms_list || !data->start \
