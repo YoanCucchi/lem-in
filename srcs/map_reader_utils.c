@@ -102,6 +102,7 @@ void	get_ants(t_data *data, char *line)
 	data->dispatch = 1;
 	data->ants_str = ft_strcpy(data->ants_str, s);
 	data->ants = ft_atoi(s);
+	ft_printf("ants = %d\n", data->ants);
 	if (data->ants <= 0)
 		clean_line_array_all(data, s, line);
 	while (s[i] != '\n' && s[i] != 0)

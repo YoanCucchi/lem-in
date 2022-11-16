@@ -23,8 +23,10 @@ void	make_rooms_array(t_data *data)
 	j = 0;
 	rooms_name = ft_strsplit(data->rooms_list, '\n');
 	ft_printf("data->start = %s\n", data->start);
+	ft_printf("data->end = %s\n", data->end);
 	if (!rooms_name)
-		clean_all(data, 1);ft_printf("--------------------------------------------------------\n");
+		clean_all(data, 1);
+	ft_printf("--------------------------------------------------------\n");
 	while (rooms_name[++i] && j <= data->nb_rooms)
 	{
 		ft_printf("--------------------------------------------------------\n");
@@ -37,14 +39,14 @@ void	make_rooms_array(t_data *data)
 		{
 			ft_printf("start found\n");
 			data->rooms[0] = ft_strdup(rooms_trim[0]);
-			ft_printf("we stored : %s\n", data->rooms[j]);
+			ft_printf("we stored : [%s]\n", data->rooms[j]);
 			ft_printf(" in data->rooms[%d]\n", j);
 		}
 		else if (!ft_strcmp(rooms_name[i], data->end))
 		{
 			ft_printf("end found\n");
 			data->rooms[data->nb_rooms - 1] = ft_strdup(rooms_trim[0]);
-			ft_printf("we stored : %s\n", data->rooms[j]);
+			ft_printf("we stored : [%s]\n", data->rooms[j]);
 		}
 		else
 		{
@@ -55,7 +57,7 @@ void	make_rooms_array(t_data *data)
 				j--;
 			data->rooms[j] = ft_strdup(rooms_trim[0]);
 			// data->rooms[j] = rooms_trim[0];
-			ft_printf("we stored : %s", data->rooms[j]);
+			ft_printf("we stored : [%s]", data->rooms[j]);
 			ft_printf(" in data->rooms[%d]\n", j);
 			if (!data->rooms[j])
 			{

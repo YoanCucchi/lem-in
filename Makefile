@@ -12,7 +12,7 @@
 
 NAME = lem-in
 
-FILES = main.c map_reader.c map_reader_utils.c clean_all.c struct_init.c \
+SOURCES = main.c map_reader.c map_reader_utils.c clean_all.c struct_init.c \
 room_array.c tab_array.c
 
 CC = gcc
@@ -26,8 +26,7 @@ OBJ_DIR  = objects/
 LIBFT_PATH = libft/
 LIB_LFT = -L ./libft/ -lft
 
-SRCS = $(addprefix $(SRCS_PATH), $(FILES))
-OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
+OBJECTS = $(SOURCES:%.c=$(OBJ_DIR)%.o)
 
 DEFAULT = \033[0;39m
 GRAY = \033[0;90m
@@ -36,9 +35,9 @@ PURPLE = \033[0;94m
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJECTS)
 	@make -C $(LIBFT_PATH)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIB_LFT)
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJECTS) $(INCLUDES) $(LIB_LFT)
 	@echo "$(GREEN)All good!$(DEFAULT)"
 
 $(OBJ_DIR)%.o: $(SRCS_PATH)%.c
@@ -55,7 +54,7 @@ git:
 clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GRAY)$(OBJ_DIR) cleaned!$(DEFAULT)"
-	@make clean -C libft/
+	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
 	@rm -rf $(NAME)

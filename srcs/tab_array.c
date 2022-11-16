@@ -32,8 +32,15 @@ static int	find_index(t_data *data, char *name)
 	index = -1;
 	while (data->rooms[++index] && index < data->nb_rooms)
 	{
+		ft_printf("data->rooms[index] = %s\n", data->rooms[index]);
+		if (data->rooms[index] == NULL)
+			ft_printf("NULLLLL\n");
+		ft_printf("in while\n");
 		if (!ft_strcmp(data->rooms[index], name))
+		{
+			ft_printf("match found\n");
 			return (index);
+		}
 	}
 	return (index);
 }

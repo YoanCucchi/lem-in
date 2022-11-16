@@ -12,47 +12,47 @@
 
 #include "lem_in.h"
 
-static void	header(t_data *data)
-{
-	int i;
+// static void	header(t_data *data)
+// {
+// 	int i;
 
-	i = -1;
-	ft_putstr("\n\n");
-	ft_putstr("\t   ");
-	while (++i < data->nb_rooms)
-	{
-		ft_putchar(' ');
-		ft_putnbr((i > 9) ? (i % 10) : i);
-	}
-	ft_putstr("\n\n");
-}
+// 	i = -1;
+// 	ft_putstr("\n\n");
+// 	ft_putstr("\t   ");
+// 	while (++i < data->nb_rooms)
+// 	{
+// 		ft_putchar(' ');
+// 		ft_putnbr((i > 9) ? (i % 10) : i);
+// 	}
+// 	ft_putstr("\n\n");
+// }
 
-static void		print_matrix(t_data *data)
-{
-	int i;
-	int j;
+// static void		print_matrix(t_data *data)
+// {
+// 	int i;
+// 	int j;
 
-	header(data);
-	i = -1;
-	while (++i < data->nb_rooms)
-	{
-		ft_putchar('\t');
-		ft_putnbr((i > 9) ? (i % 10) : i);
-		ft_putstr("   ");
-		j = -1;
-		while (++j < data->nb_rooms)
-		{
-			ft_putnbr(data->tab[i][j]);
-			ft_putchar(' ');
-		}
-		ft_putstr("\t\t");
-		ft_putchar('[');
-		ft_putnbr(i);
-		ft_putstr("] -  ");
-		ft_putendl(data->rooms[i]);
-	}
-	ft_putstr("\n\n");
-}
+// 	header(data);
+// 	i = -1;
+// 	while (++i < data->nb_rooms)
+// 	{
+// 		ft_putchar('\t');
+// 		ft_putnbr((i > 9) ? (i % 10) : i);
+// 		ft_putstr("   ");
+// 		j = -1;
+// 		while (++j < data->nb_rooms)
+// 		{
+// 			ft_putnbr(data->tab[i][j]);
+// 			ft_putchar(' ');
+// 		}
+// 		ft_putstr("\t\t");
+// 		ft_putchar('[');
+// 		ft_putnbr(i);
+// 		ft_putstr("] -  ");
+// 		ft_putendl(data->rooms[i]);
+// 	}
+// 	ft_putstr("\n\n");
+// }
 
 // static void	print_info(t_data *data)
 // {
@@ -139,19 +139,68 @@ static void		print_matrix(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
+	char	**line;
+	char	**r;
+	int 	i;
 
+	i = -1;
 	data = NULL;
 	// Any non compliant or empty lines will automatically stop the ant 
 	// farm’s reading as well as the orderly processing of the acquired data.
+	
+	// WTF data start is so freaking weird ONLY WITH LETTER
+	
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
 		clean_all(data, 1);
 	data = struct_init(data);
 	map_reader(data);
-	make_rooms_array(data);
-	tab_array(data);
-	// print_info(data);
-	print_matrix(data);
-	clean_all(data, 0);
+	ft_printf("data->rooms_list = %s\n", data->rooms_list);
+	line = ft_strsplit(data->rooms_list, ' ');
+	ft_printf("line[0] = %s\n", line[0]);
+	// ft_printf("line[1] = %s\n", line[1]);
+	ft_printf("line[2] = %s\n", line[2]);
+	ft_printf("line[3] = %s\n", line[3]);
+	while (line[i]) // problem is from get next line removing the last \n
+	{
+		ft_printf("inside \n");
+		// ft_printf("line[i] = %s\n", line[i]);
+		r = ft_strsplit(line[i], ' ');
+		ft_printf("r[0] = %s\n", r[0]);
+		if (!ft_strcmp("##start", line[i]))
+			data->start_found = 1;
+		else if (!ft_strcmp("##end", line[i]))
+			data->end_found = 1;
+		
+		else if (data->start_found == 1)
+		{
+			data->rooms[0] = ft_strdup(r[0]);
+			data->start_found++;
+		}
+		else if (data->end_found == 1)
+		{
+			data->rooms[data->nb_rooms - 1] = ft_strdup(r[0]);
+			data->end_found++;
+		}
+		else if (line[i][0] != '#')
+		{
+			data->rooms[i] = ft_strdup(r[0]);
+			ft_printf("stored in data->rooms[i] = %s\n", data->rooms[i]);
+			ft_printf("r[0] = %s\n", data->rooms[i]);
+		}
+		free_char_array(r);
+		r = NULL;
+		i += 3;
+	}
+	free_char_array(line);
+	i = -1;
+	// ft_printf("test = %s\n", data->rooms[25]);
+	while (data->rooms[++i])
+		ft_printf("data->rooms[i] = %s\n", data->rooms[i]);
+	// make_rooms_array(data);
+	// tab_array(data);
+	// // print_info(data);
+	// print_matrix(data);
+	// clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
 }

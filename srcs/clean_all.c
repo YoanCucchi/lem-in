@@ -68,7 +68,7 @@ void	clean_all(t_data *data, int error)
 	if (error)
 	{
 		ft_putstr_fd("ERROR\n", 2);
-		exit(1);
+		// exit(1);
 	}
 	// exit(0);
 }

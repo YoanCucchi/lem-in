@@ -39,6 +39,8 @@ typedef struct s_data {
 	char	*ants_str;
 	char	*links;
 	int		*path;
+	int		start_found;
+	int		end_found;
 	int		ants;
 	int		nb_rooms;
 	int		dispatch;

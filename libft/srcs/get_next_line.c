@@ -6,11 +6,11 @@
 /*   By: ycucchi <yoan066@yahoo.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 11:33:57 by ycucchi           #+#    #+#             */
-/*   Updated: 2022/01/25 17:30:41 by ycucchi          ###   ########.fr       */
+/*   Updated: 2022/11/15 15:07:52 by ycucchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "get_next_line.h"
 
 static int	read_all(char **array, const int fd)
 {

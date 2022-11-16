@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "ft_printf.h"
 
 int	is_it_double_specifier(char *str, char *tmp, int i, t_parameter *p)
 {

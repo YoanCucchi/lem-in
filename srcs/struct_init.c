@@ -56,6 +56,8 @@ t_data	*struct_init(t_data *data)
 	if (!data->links || !data->ants_str || !data->rooms_list || !data->start \
 	|| !data->end)
 		clean_all(data, 1);
+	data->start_found = 0;
+	data->end_found = 0;
 	data->nb_rooms = 0;
 	data->ants = 0;
 	data->dispatch = 0;

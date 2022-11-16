@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "ft_printf.h"
 
 static char	*adding_zero(char *nbr, char *s2, char *add_dot, t_float *f)
 {

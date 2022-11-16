@@ -27,21 +27,23 @@ ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c ft_strnstr.c ft_strrchr.c\
 ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c ft_tolower.c\
 ft_toupper.c ft_long_itoa.c ft_unsigned_long_itoa.c ft_nbrlen.c \
 ft_print_char.c ft_putnstr.c ft_octal_itoa.c get_next_line.c\
-./ft_printf/ft_printf.c ./ft_printf/ft_print_utils.c ./ft_printf/ft_parse.c \
-./ft_printf/ft_initialize_parameter.c ./ft_printf/ft_print_str.c \
-./ft_printf/ft_print_nbr.c ./ft_printf/ft_print_hex.c \
-./ft_printf/ft_length_flags.c ./ft_printf/ft_print_flag_hex.c \
-./ft_printf/ft_print_octal.c ./ft_printf/ft_octal_helper.c \
-./ft_printf/ft_hex_helper.c ./ft_printf/ft_print_unbr.c \
-./ft_printf/ft_nbr_helper.c ./ft_printf/ft_print_float.c \
-./ft_printf/ft_float_helper.c ./ft_printf/ft_initialize_float.c \
-./ft_printf/ft_float_rounding.c ./ft_printf/ft_float_helper_print.c \
-./ft_sqrt.c ./ft_pow.c ./ft_isspace.c
+ft_sqrt.c ft_pow.c ft_isspace.c
+
+FT_PRINTF_SOURCES = ft_printf.c ft_print_utils.c ft_parse.c \
+ft_initialize_parameter.c ft_print_str.c ft_print_nbr.c ft_print_hex.c \
+ft_length_flags.c ft_print_flag_hex.c ft_print_octal.c ft_octal_helper.c \
+ft_hex_helper.c ft_print_unbr.c ft_nbr_helper.c ft_print_float.c \
+ft_float_helper.c ft_initialize_float.c ft_float_rounding.c \
+ft_float_helper_print.c
 
 OBJECTS = $(SOURCES:%.c=$(DIR_OBJ)%.o)
+FT_PRINTF_OBJS = $(FT_PRINTF_SOURCES:%.c=$(DIR_OBJ)%.o)
 
 DIR_OBJ = ./objects/
 DIR_SRC = ./srcs/
+DIR_FT_PRINTF = ./srcs/ft_printf/
+
+INCLUDES = -I ./includes/
 
 # Colors
 DEFAULT = \033[0;39m
@@ -56,14 +58,18 @@ WHITE = \033[0;97m
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
+$(NAME): $(OBJECTS) $(FT_PRINTF_OBJS)
 	@echo "$(PURPLE)Creating libft..$(DEFAULT)"
-	@ar rcs $(NAME) $(OBJECTS)
+	@ar rcs $(NAME) $(OBJECTS) $(FT_PRINTF_OBJS)
 	@echo "$(GREEN)libft created!$(DEFAULT)"
 
 $(DIR_OBJ)%.o:$(DIR_SRC)%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+
+$(DIR_OBJ)%.o:$(DIR_FT_PRINTF)%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	@echo "$(PURPLE)Cleaning all objects..$(DEFAULT)"
