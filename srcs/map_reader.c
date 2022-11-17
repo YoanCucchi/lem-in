@@ -72,6 +72,7 @@ void	get_start(t_data *data, char *line)
 void	get_end(t_data *data, char *line)
 {
 	char	*new;
+
 	ft_printf("in end\n");
 	if (!data->ants)
 	{

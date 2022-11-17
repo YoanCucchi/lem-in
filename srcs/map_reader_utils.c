@@ -42,7 +42,7 @@ void	get_rooms(t_data *data, char *line)
 
 	data->dispatch = 2;
 	if (line[0] == '#')
-		return(ft_strdel(&line));
+		return (ft_strdel(&line));
 	new = ft_strnew(ft_strlen(data->rooms_list) + 1);
 	if (!new)
 		clean_all(data, 1);
@@ -71,7 +71,7 @@ void	get_links(t_data *data, char *line)
 	if (data->dispatch != 3)
 		clean_all(data, 1);
 	if (line[0] == '#')
-		return(ft_strdel(&line));
+		return (ft_strdel(&line));
 	new = ft_strnew(ft_strlen(data->links) + 1);
 	if (!new)
 		clean_line_array_all(data, new, line);

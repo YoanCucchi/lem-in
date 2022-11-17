@@ -44,34 +44,19 @@ t_data	*struct_init(t_data *data)
 {
 	data = (t_data *)ft_memalloc(sizeof(t_data));
 	if (!data)
-	{
-		ft_printf("ERROR\n");
-		exit (1);
-	}
+		clean_all(data, 1);
+	ft_bzero(data, sizeof (t_data));
 	data->links = ft_strnew(1);
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
-	data->rooms_list2 = ft_strnew(1);
+	data->rooms_trim = ft_strnew(1);
 	data->start = ft_strnew(1);
 	data->end = ft_strnew(1);
 	data->trim_start = ft_strnew(1);
 	data->trim_end = ft_strnew(1);
+	data->test = ft_strnew(1);
 	if (!data->links || !data->ants_str || !data->rooms_list || !data->start \
-	|| !data->end || data->trim_start || data->trim_end)
-	{
-		ft_printf("malloc error\n");
+	|| !data->end || !data->trim_start || !data->trim_end || !data->rooms_trim)
 		clean_all(data, 1);
-	}
-	data->start_found = 0;
-	data->end_found = 0;
-	data->nb_rooms = 0;
-	data->ants = 0;
-	data->dispatch = 0;
-	data->curr_room = 0;
-	data->p_ind = 0;
-	data->init_2 = 0;
-	data->rooms = NULL;
-	data->tab = NULL;
-	data->path = NULL;
 	return (data);
 }

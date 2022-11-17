@@ -151,7 +151,7 @@ int	main(int argc, char **argv)
 	data = struct_init(data);
 	map_reader(data);
 	make_rooms_array(data);
-	tab_array(data);
+	tab_array(data); // problem with map 42 data->rooms[0] weird
 	// print_info(data);
 	print_matrix(data);
 	clean_all(data, 0);
