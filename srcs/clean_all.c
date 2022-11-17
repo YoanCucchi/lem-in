@@ -12,21 +12,6 @@
 
 #include "lem_in.h"
 
-static void	clean_rooms(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (data->rooms[++i])
-	{
-		ft_printf("i = %d\n", i);
-		if (data->rooms[i] != NULL && i != 0 && i != data->nb_rooms - 1)
-			ft_strdel(&data->rooms[i]);
-	}
-	free(data->rooms);
-	data->rooms = NULL;
-}
-
 static void	free_tab_array(t_data *data, int **tab)
 {
 	int	i;
@@ -62,7 +47,7 @@ static void	clean_struct(t_data *data)
 	if (data->path)
 		free(data->path);
 	if (data->rooms)
-		clean_rooms(data);
+		free_char_array(data->rooms);
 	if (data->tab)
 		free_tab_array(data, data->tab);
 	free(data);

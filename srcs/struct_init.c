@@ -50,11 +50,10 @@ t_data	*struct_init(t_data *data)
 	data->ants_str = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
 	data->rooms_trim = ft_strnew(1);
-	data->start = ft_strnew(1);
-	data->end = ft_strnew(1);
-	data->trim_start = ft_strnew(1);
-	data->trim_end = ft_strnew(1);
-	data->test = ft_strnew(1);
+	data->start = ft_strnew(100);
+	data->end = ft_strnew(100);
+	data->trim_start = ft_strnew(100);
+	data->trim_end = ft_strnew(100);
 	if (!data->links || !data->ants_str || !data->rooms_list || !data->start \
 	|| !data->end || !data->trim_start || !data->trim_end || !data->rooms_trim)
 		clean_all(data, 1);

@@ -12,19 +12,18 @@
 
 #include "lem_in.h"
 
-void	make_rooms_array(t_data *data)
+static void	trim_room_array(t_data *data) // need to add extra malloc protection
 {
-	char	*new;
 	char	**line;
+	char	*new;
 	int		i;
-	int		j;
 
 	i = 0;
 	line = ft_strsplit(data->rooms_list, ' ');
+	if (!line)
+		clean_all(data, 1);
 	ft_strdel(&data->rooms_trim);
 	data->rooms_trim = "";
-	ft_printf("data->room_list = %s\n", data->rooms_list);
-	ft_printf("data->room_list2 = %s\n", data->rooms_trim);
 	while (line[i])
 	{
 		new = ft_strnew(ft_strlen(data->rooms_trim) + 1);
@@ -40,22 +39,24 @@ void	make_rooms_array(t_data *data)
 		i += 3;
 	}
 	free_char_array(line);
-	ft_printf("data->room_list2 end= %s\n", data->rooms_trim);
-	line = ft_strsplit(data->start, ' ');
-	data->trim_start = ft_strcpy(data->trim_start, line[0]);
-	free_char_array(line);
-	ft_printf("data->trim_start= %s\n", data->trim_start);
-	line = ft_strsplit(data->end, ' ');
-	data->trim_end = ft_strcpy(data->trim_end, line[0]);
-	free_char_array(line);
-	ft_printf("data->trim_end= %s\n", data->trim_end);
-	data->rooms[0] = data->trim_start;
-	data->rooms[data->nb_rooms - 1] = data->trim_end;
+}
+
+void	make_rooms_array(t_data *data) // need to add extra malloc protection
+{
+	char	**line;
+	int		i;
+	int		j;
+
+	trim_room_array(data);
+	data->rooms[0] = ft_strdup(data->trim_start);
+	data->rooms[data->nb_rooms - 1] = ft_strdup(data->trim_end);
+	line = ft_strsplit(data->rooms_trim, ' ');
 	i = -1;
 	j = 1;
-	line = ft_strsplit(data->rooms_trim, ' ');
 	while (line[++i] && j < data->nb_rooms)
 	{
+		ft_printf("line[i] = %s\n", line[i]);
+
 		if (!ft_strcmp(data->trim_start, line[i]))
 		{
 			ft_printf("we found start\n");
@@ -78,4 +79,5 @@ void	make_rooms_array(t_data *data)
 		}
 	}
 	free_char_array(line);
+	ft_printf("data->rooms[0] = %s\n", data->rooms[0]);
 }

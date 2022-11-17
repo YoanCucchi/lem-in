@@ -50,6 +50,7 @@ int	is_empty(char *str)
 void	get_start(t_data *data, char *line)
 {
 	char	*new;
+	char	**trim;
 
 	ft_printf("in start\n");
 	if (!data->ants)
@@ -61,17 +62,26 @@ void	get_start(t_data *data, char *line)
 	// need to find a way to handle multiple comments before end info room
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
+	ft_printf("in start : line = %s\n", line);
 	new = ft_strnew(ft_strlen(line));
 	if (!new)
 		clean_all(data, 1);
 	data->start = ft_strcpy(data->start, line);
+	if (!data->start)
+		clean_all(data, 1);
 	ft_strdel(&new);
+	trim = ft_strsplit(data->start, ' ');
+	data->trim_start = ft_strcpy(data->trim_start, trim[0]);
+	if (!data->trim_start)
+		clean_all(data, 1);
+	free_char_array(trim);
 	get_rooms(data, line);
 }
 
 void	get_end(t_data *data, char *line)
 {
 	char	*new;
+	char	**trim;
 
 	ft_printf("in end\n");
 	if (!data->ants)
@@ -86,8 +96,16 @@ void	get_end(t_data *data, char *line)
 	new = ft_strnew(ft_strlen(line));
 	if (!new)
 		clean_all(data, 1);
+	ft_printf("in end : line = %s\n", line);
 	data->end = ft_strcpy(data->end, line);
+	if (!data->end)
+		clean_all(data, 1);
 	ft_strdel(&new);
+	trim = ft_strsplit(data->end, ' ');
+	data->trim_end = ft_strcpy(data->trim_end, trim[0]);
+	if (!data->trim_end)
+		clean_all(data, 1);
+	free_char_array(trim);
 	get_rooms(data, line);
 }
 
