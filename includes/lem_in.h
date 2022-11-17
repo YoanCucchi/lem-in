@@ -35,6 +35,8 @@ typedef struct s_data {
 	int		**tab;
 	char	*start;
 	char	*end;
+	char	*trim_start;
+	char	*trim_end;
 	char	*rooms_list;
 	char	*rooms_list2;
 	char	*ants_str;

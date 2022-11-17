@@ -40,6 +40,12 @@ static void	clean_struct(t_data *data)
 		free(data->start);
 	if (data->end)
 		free(data->end);
+	// ft_printf("data trim start = %s\n", data->trim_start);
+	// if (data->trim_start != NULL)
+	// 	free(data->trim_start);
+	// ft_printf("data trim end = %s\n", data->trim_end);
+	// if (data->trim_end != NULL)
+	// 	free(data->trim_end);
 	if (data->path)
 		free(data->path);
 	if (data->tab)
@@ -70,7 +76,7 @@ void	clean_all(t_data *data, int error)
 	if (error)
 	{
 		ft_putstr_fd("ERROR\n", 2);
-		// exit(1);
+		exit(1);
 	}
 	// exit(0);
 }

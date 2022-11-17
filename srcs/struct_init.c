@@ -54,9 +54,14 @@ t_data	*struct_init(t_data *data)
 	data->rooms_list2 = ft_strnew(1);
 	data->start = ft_strnew(1);
 	data->end = ft_strnew(1);
+	data->trim_start = ft_strnew(1);
+	data->trim_end = ft_strnew(1);
 	if (!data->links || !data->ants_str || !data->rooms_list || !data->start \
-	|| !data->end)
+	|| !data->end || data->trim_start || data->trim_end)
+	{
+		ft_printf("malloc error\n");
 		clean_all(data, 1);
+	}
 	data->start_found = 0;
 	data->end_found = 0;
 	data->nb_rooms = 0;

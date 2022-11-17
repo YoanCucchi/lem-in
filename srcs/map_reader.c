@@ -95,6 +95,7 @@ void	map_reader(t_data *data)
 	char	*line;
 	char	**array;
 
+	ft_printf("starting map reader \n");
 	while (get_next_line(0, &line) > 0)
 	{
 		array = ft_strsplit(line, ' ');
@@ -103,6 +104,10 @@ void	map_reader(t_data *data)
 			clean_all(data, 1);
 		else if (data->ants == 0)
 			get_ants(data, line);
+		else if (!ft_strcmp("##start", line))
+			get_start(data, line);
+		else if (!ft_strcmp("##end", line))
+			get_end(data, line);
 		else if ((ft_strchr(line, '-') && !array[1]) || data->dispatch == 3)
 			get_links(data, line);
 		else if (data->dispatch == 1 || data->dispatch == 2)

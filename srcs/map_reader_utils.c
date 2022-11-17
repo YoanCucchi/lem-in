@@ -50,7 +50,7 @@ void	get_rooms(t_data *data, char *line)
 	ft_strdel(&data->rooms_list);
 	if (ft_strcmp(new, ""))
 		new = ft_strcat(new, " ");
-	ft_printf("new = %s", new);
+	ft_printf("new room = %s\n", new);
 	data->rooms_list = ft_strjoin(new, line);
 	if (!data->rooms_list)
 		clean_line_array_all(data, new, line);
@@ -65,6 +65,7 @@ void	get_links(t_data *data, char *line)
 	char	*new;
 
 	new = NULL;
+	ft_printf("inside links\n");
 	if (data->dispatch == 2)
 		data->dispatch = 3;
 	if (data->dispatch != 3)
