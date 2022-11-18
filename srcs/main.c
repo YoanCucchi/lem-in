@@ -63,8 +63,6 @@ static void		print_matrix(t_data *data)
 // 	i = -1;
 // 	j = -1;
 // 	ft_printf("------------------------------------------------------------\n");
-// 	ft_printf("ants = [%s]\n", data->ants_str);
-// 	ft_printf("------------------------------------------------------------\n");
 // 	ft_printf("data->start = [%s]\n", data->start);
 // 	ft_printf("------------------------------------------------------------\n");
 // 	ft_printf("data->end = [%s]\n", data->end);
@@ -151,7 +149,7 @@ int	main(int argc, char **argv)
 	data = struct_init(data);
 	map_reader(data);
 	make_rooms_array(data);
-	// tab_array(data);
+	tab_array(data);
 	// print_info(data);
 	print_matrix(data);
 	clean_all(data, 0);
