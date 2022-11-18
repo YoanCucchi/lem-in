@@ -34,8 +34,6 @@ static void	clean_struct(t_data *data)
 		free(data->trim_end);
 	if (data->links)
 		free(data->links);
-	if (data->ants_str)
-		free(data->ants_str);
 	if (data->rooms_list)
 		free(data->rooms_list);
 	if (data->rooms_trim)

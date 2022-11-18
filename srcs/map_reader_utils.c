@@ -107,9 +107,6 @@ void	get_ants(t_data *data, char *line)
 		if (!ft_isdigit(s[i]))
 			clean_line_array_all(data, s, line);
 	}
-	data->ants_str = ft_strcpy(data->ants_str, s);
-	if (!data->ants_str)
-		clean_line_array_all(data, s, line);
 	data->ants = ft_atoi(s);
 	ft_printf("ants = %d\n", data->ants);
 	if (data->ants <= 0)
