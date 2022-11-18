@@ -1,24 +1,24 @@
-Process:         lem-in [56757]
+Process:         lem-in [58142]
 Path:            /Users/USER/*/lem-in
-Load Address:    0x10462c000
+Load Address:    0x1047f4000
 Identifier:      lem-in
 Version:         0
 Code Type:       ARM64
 Platform:        macOS
 Parent Process:  zsh [55471]
 
-Date/Time:       2022-11-18 12:23:21.576 +0200
-Launch Time:     2022-11-18 12:23:21.113 +0200
+Date/Time:       2022-11-18 12:49:27.783 +0200
+Launch Time:     2022-11-18 12:49:27.318 +0200
 OS Version:      macOS 13.0 (22A380)
 Report Version:  7
 Analysis Tool:   /usr/bin/leaks
 
-Physical footprint:         1713K
-Physical footprint (peak):  1713K
+Physical footprint:         1121K
+Physical footprint (peak):  1121K
 Idle exit: untracked
 ----
 
 leaks Report Version: 4.0
-Process 56757: 208 nodes malloced for 12 KB
-Process 56757: 0 leaks for 0 total leaked bytes.
+Process 58142: 208 nodes malloced for 12 KB
+Process 58142: 0 leaks for 0 total leaked bytes.
 

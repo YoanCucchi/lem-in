@@ -151,7 +151,7 @@ int	main(int argc, char **argv)
 	data = struct_init(data);
 	map_reader(data);
 	make_rooms_array(data);
-	tab_array(data);
+	// tab_array(data);
 	// print_info(data);
 	print_matrix(data);
 	clean_all(data, 0);
