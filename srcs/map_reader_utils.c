@@ -99,7 +99,7 @@ void	get_ants(t_data *data, char *line)
 		return ;
 	}
 	s = ft_strtrim(line);
-	if (!s)
+	if (!s || s[1])
 		clean_all(data, 1);
 	data->dispatch = 1;
 	data->ants_str = ft_strcpy(data->ants_str, s);
