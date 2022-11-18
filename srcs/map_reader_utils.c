@@ -94,24 +94,26 @@ void	get_ants(t_data *data, char *line)
 	i = -1;
 	ft_printf("line for ants %s\n", line);
 	if (line[0] == '#')
+		return (ft_strdel(&line));
+	s = ft_strtrim(line);
+	ft_printf("s = %s\n", s);
+	if (!s)
 	{
 		ft_strdel(&line);
-		return ;
-	}
-	s = ft_strtrim(line);
-	if (!s)
 		clean_all(data, 1);
-	data->dispatch = 1;
+	}
+	while (s[++i] != '\n' && s[++i] != '\0')
+	{
+		if (!ft_isdigit(s[i]))
+			clean_line_array_all(data, s, line);
+	}
 	data->ants_str = ft_strcpy(data->ants_str, s);
+	if (!data->ants_str)
+		clean_line_array_all(data, s, line);
 	data->ants = ft_atoi(s);
 	ft_printf("ants = %d\n", data->ants);
 	if (data->ants <= 0)
 		clean_line_array_all(data, s, line);
-	while (s[i] != '\n' && s[i] != 0)
-	{
-		if (!ft_isdigit(s[++i]))
-			clean_line_array_all(data, s, line);
-	}
 	ft_strdel(&s);
 	ft_strdel(&line);
 }
