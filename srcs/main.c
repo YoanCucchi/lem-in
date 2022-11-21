@@ -19,7 +19,7 @@ static void	header(t_data *data)
 
 	i = -1;
 	j = -1;
-	ft_printf("\n\n      \x1B[36mindex\x1B[37m  ");
+	ft_printf("\n\n\x1B[36mindex\x1B[37m ");
 	while (++i < data->nb_rooms)
 	{
 		j = i;
@@ -41,11 +41,11 @@ static void		print_matrix(t_data *data)
 	while (++i < data->nb_rooms)
 	{
 		if (ft_nbrlen(i, 10) == 1)
-			ft_printf("\t  \x1B[36m%d\x1B[37m   ", i);
+			ft_printf("  \x1B[36m%d\x1B[37m    ", i);
 		else if (ft_nbrlen(i, 10) == 2)
-			ft_printf("\t \x1B[36m%d\x1B[37m   ", i);
+			ft_printf(" \x1B[36m%d\x1B[37m    ", i);
 		else
-			ft_printf("\t\x1B[36m%d\x1B[37m   ", i);
+			ft_printf("\x1B[36m%d\x1B[37m    ", i);
 		j = -1;
 		while (++j < data->nb_rooms)
 		{
