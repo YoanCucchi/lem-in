@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ycucchi <yoan066@yahoo.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 12:50:39 by ycucc	hi           #+#    #+#             */
+/*   Created: 2022/11/07 12:50:39 by ycucchi           #+#    #+#             */
 /*   Updated: 2022/11/07 12:50:40 by ycucchi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ static void	trim_room_array(t_data *data) // need to add extra malloc protection
 		ft_strdel(&new);
 		i += 3;
 	}
-	free_char_array(line);
+	free_char_array(data, line, 0);
 }
 
 void	make_rooms_array(t_data *data) // need to add extra malloc protection
@@ -55,29 +55,17 @@ void	make_rooms_array(t_data *data) // need to add extra malloc protection
 	j = 1;
 	while (line[++i] && j < data->nb_rooms)
 	{
-		ft_printf("line[i] = %s\n", line[i]);
-
 		if (!ft_strcmp(data->trim_start, line[i]))
-		{
-			ft_printf("we found start\n");
 			data->start_found++;
-		}
 		else if (!ft_strcmp(data->trim_end, line[i]))
-		{
-			ft_printf("we found end\n");
 			data->end_found++;
-		}
 		else if (data->start_found > 1 || data->end_found > 1)
-		{
-			free_char_array(line);
-			clean_all(data, 1);
-		}
+			free_char_array(data, line, 1);
 		else
 		{
 			data->rooms[j] = ft_strdup(line[i]);
 			j++;
 		}
 	}
-	free_char_array(line);
-	ft_printf("data->rooms[0] = %s\n", data->rooms[0]);
+	free_char_array(data, line, 0);
 }

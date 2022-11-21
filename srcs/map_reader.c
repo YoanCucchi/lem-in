@@ -22,17 +22,11 @@ void	is_number(char **array, char *str, t_data *data)
 		while (str[++i])
 		{
 			if (!ft_isdigit(str[i]))
-			{
-				free_char_array(array);
-				clean_all(data, 1);
-			}
+				free_char_array(data, array, 1);
 		}
 	}
 	else
-	{
-		free_char_array(array);
-		clean_all(data, 1);
-	}
+		free_char_array(data, array, 1);
 }
 
 int	is_empty(char *str)
@@ -49,15 +43,10 @@ int	is_empty(char *str)
 
 void	get_start(t_data *data, char *line)
 {
-	char	*new;
 	char	**trim;
 
-	ft_printf("in start\n");
 	if (!data->ants)
-	{
-		ft_strdel(&line);
-		clean_all(data, 1);
-	}
+		clean_line_all(data, line);
 	ft_strdel(&line);
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
@@ -67,33 +56,25 @@ void	get_start(t_data *data, char *line)
 		if (get_next_line(0, &line) < 0)
 			clean_all(data, 1);
 	}
-	ft_printf("in start : line = %s\n", line);
-	new = ft_strnew(ft_strlen(line));
-	if (!new)
-		clean_all(data, 1);
 	data->start = ft_strcpy(data->start, line);
 	if (!data->start)
-		clean_all(data, 1);
-	ft_strdel(&new);
+		clean_line_all(data, line);
 	trim = ft_strsplit(data->start, ' ');
+	if (!trim)
+		clean_line_all(data, line);
 	data->trim_start = ft_strcpy(data->trim_start, trim[0]);
+	free_char_array(data, trim, 0);
 	if (!data->trim_start)
-		clean_all(data, 1);
-	free_char_array(trim);
+		clean_line_all(data, line);
 	get_rooms(data, line);
 }
 
 void	get_end(t_data *data, char *line)
 {
-	char	*new;
 	char	**trim;
 
-	ft_printf("in end\n");
 	if (!data->ants)
-	{
-		ft_strdel(&line);
-		clean_all(data, 1);
-	}
+		clean_line_all(data, line);
 	ft_strdel(&line);
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
@@ -103,19 +84,16 @@ void	get_end(t_data *data, char *line)
 		if (get_next_line(0, &line) < 0)
 			clean_all(data, 1);
 	}
-	new = ft_strnew(ft_strlen(line));
-	if (!new)
-		clean_all(data, 1);
-	ft_printf("in end : line = %s\n", line);
 	data->end = ft_strcpy(data->end, line);
 	if (!data->end)
-		clean_all(data, 1);
-	ft_strdel(&new);
+		clean_line_all(data, line);
 	trim = ft_strsplit(data->end, ' ');
+	if (!trim)
+		clean_line_all(data, line);
 	data->trim_end = ft_strcpy(data->trim_end, trim[0]);
+	free_char_array(data, trim, 0);
 	if (!data->trim_end)
-		clean_all(data, 1);
-	free_char_array(trim);
+		clean_line_all(data, line);
 	get_rooms(data, line);
 }
 
@@ -124,11 +102,9 @@ void	map_reader(t_data *data)
 	char	*line;
 	char	**array;
 
-	ft_printf("starting map reader \n");
 	while (get_next_line(0, &line) > 0)
 	{
 		array = ft_strsplit(line, ' ');
-		ft_printf("line = %s\n", line);
 		if (!array || is_empty(line))
 			clean_all(data, 1);
 		else if (data->ants == 0)
@@ -141,9 +117,9 @@ void	map_reader(t_data *data)
 			get_links(data, line);
 		else if (data->dispatch == 1 || data->dispatch == 2)
 			get_rooms(data, line);
-		free_char_array(array);
+		free_char_array(data, array, 0);
 	}
-	if (!data->start || !data->end)
+	if (!ft_strcmp(data->start, "") || !ft_strcmp(data->end, ""))
 		clean_all(data, 1);
 	data = struct_init_2(data);
 }

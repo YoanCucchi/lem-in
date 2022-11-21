@@ -18,11 +18,8 @@ static void	validate_link(t_data *data, char *link)
 
 	l = ft_strsplit(link, '-');
 	if (l[2] != NULL)
-	{
-		free_char_array(l);
-		clean_all(data, 1);
-	}
-	free_char_array(l);
+		free_char_array(data, l, 1);
+	free_char_array(data, l, 0);
 }
 
 static int	find_index(t_data *data, char *name)
@@ -32,18 +29,21 @@ static int	find_index(t_data *data, char *name)
 	index = -1;
 	while (data->rooms[++index] && index < data->nb_rooms)
 	{
-		ft_printf("data->rooms[index] = %s\n", data->rooms[index]);
 		if (data->rooms[index] == NULL)
-			ft_printf("NULLLLL\n");
-		ft_printf("in while\n");
+			return (data->nb_rooms + 1);
 		if (!ft_strcmp(data->rooms[index], name))
-		{
-			ft_printf("match found");
-			ft_printf(" at index %d\n", index);
 			return (index);
-		}
 	}
 	return (index);
+}
+
+static void	clean_links_array_all(t_data *data, char **links, char **l)
+{
+	if (links)
+		free_char_array(data, links, 0);
+	if (l)
+		free_char_array(data, l, 0);
+	clean_all(data, 1);
 }
 
 void	tab_array(t_data *data)
@@ -56,27 +56,19 @@ void	tab_array(t_data *data)
 
 	i = -1;
 	links = ft_strsplit(data->links, '\n');
-	ft_printf("data->nb_rooms = %d\n", data->nb_rooms);
 	while (links[++i])
 	{
-		ft_printf("links[i] = [%s]\n", links[i]);
 		validate_link(data, links[i]);
 		l = ft_strsplit(links[i], '-');
 		r_1 = find_index(data, l[0]);
-		ft_printf("r1 = [%d]\n", r_1);
 		r_2 = find_index(data, l[1]);
-		ft_printf("r2 = [%d]\n", r_2);
-		if (r_1 >= data->nb_rooms || r_2 >= data->nb_rooms) // > or >= problem
-		{
-			free_char_array(l);
-			free_char_array(links);
-			clean_all(data, 1);
-		}
+		if (r_1 >= data->nb_rooms || r_2 >= data->nb_rooms)
+			clean_links_array_all(data, links, l);
 		if (r_2)
 			data->tab[r_1][r_2] = 1;
 		if (r_1)
 			data->tab[r_2][r_1] = 1;
-		free_char_array(l);
+		free_char_array(data, l, 0);
 	}
-	free_char_array(links);
+	free_char_array(data, links, 0);
 }

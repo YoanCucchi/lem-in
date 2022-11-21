@@ -69,6 +69,10 @@ int		is_empty(char *str);
 void	make_rooms_array(t_data *data);
 t_data	*struct_init_2(t_data *data);
 void	tab_array(t_data *data);
-void	free_char_array(char **array);
+void	free_char_array(t_data *data, char **array, int leave);
+void	print_matrix(t_data *data);
+void	clean_line_all(t_data *data, char *line);
+void	free_tab_array(t_data *data, int **tab);
+void	clean_line_array_all(t_data *data, char *s, char *line);
 
 #endif

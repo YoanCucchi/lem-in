@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_all.c                                        :+:      :+:    :+:   */
+/*   clean_all_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ycucchi <yoan066@yahoo.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	free_tab_array(t_data *data, int **tab)
+void	free_tab_array(t_data *data, int **tab)
 {
 	int	i;
 
@@ -26,32 +26,14 @@ static void	free_tab_array(t_data *data, int **tab)
 	tab = NULL;
 }
 
-static void	clean_struct(t_data *data)
+void	clean_line_all(t_data *data, char *line)
 {
-	if (data->trim_start)
-		free(data->trim_start);
-	if (data->trim_end)
-		free(data->trim_end);
-	if (data->links)
-		free(data->links);
-	if (data->rooms_list)
-		free(data->rooms_list);
-	if (data->rooms_trim)
-		free(data->rooms_trim);
-	if (data->start)
-		free(data->start);
-	if (data->end)
-		free(data->end);
-	if (data->path)
-		free(data->path);
-	if (data->rooms)
-		free_char_array(data->rooms);
-	if (data->tab)
-		free_tab_array(data, data->tab);
-	free(data);
+	if (line)
+		ft_strdel(&line);
+	clean_all(data, 1);
 }
 
-void	free_char_array(char **array)
+void	free_char_array(t_data *data, char **array, int leave)
 {
 	int	i;
 
@@ -63,16 +45,6 @@ void	free_char_array(char **array)
 	}
 	free(array);
 	array = NULL;
-}
-
-void	clean_all(t_data *data, int error)
-{
-	if (data)
-		clean_struct(data);
-	if (error)
-	{
-		ft_putstr_fd("ERROR\n", 2);
-		exit(1);
-	}
-	// exit(0);
+	if (leave)
+		clean_all(data, 1);
 }
