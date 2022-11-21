@@ -62,7 +62,7 @@ static void		print_matrix(t_data *data)
 			ft_printf("\t[\x1B[36m%d\x1B[37m]   ->  ", i);
 		ft_printf("[\x1B[33m%s\x1B[37m]\n", data->rooms[i]);
 	}
-	ft_putstr("\n\n");
+	ft_printf("\n\n");
 }
 
 // static void	print_info(t_data *data)
