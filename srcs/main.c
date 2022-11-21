@@ -39,18 +39,11 @@ static void	clean_struct(t_data *data)
 
 void	clean_all(t_data *data, int error)
 {
-	int	i;
-
-	i = 0;
 	if (data)
 		clean_struct(data);
 	if (error)
 	{
 		ft_putstr_fd("ERROR\n", 2);
-		while (1)
-		{
-			i++;
-		}
 		exit(1);
 	}
 	// exit(0);

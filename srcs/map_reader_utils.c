@@ -91,19 +91,14 @@ void	get_ants(t_data *data, char *line)
 		return (ft_strdel(&line));
 	data->dispatch = 1;
 	s = ft_strtrim(line);
-
 	if (!s)
-	{
-		ft_strdel(&line);
-		clean_all(data, 1);
-	}
+		clean_line_all(data, line);
 	while (s[++i] != '\n' && s[++i] != '\0')
 	{
 		if (!ft_isdigit(s[i]))
 			clean_line_array_all(data, s, line);
 	}
 	data->ants = ft_atoi(s);
-
 	if (data->ants <= 0)
 		clean_line_array_all(data, s, line);
 	ft_strdel(&s);

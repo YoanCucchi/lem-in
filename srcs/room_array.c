@@ -12,47 +12,8 @@
 
 #include "lem_in.h"
 
-static void	trim_room_array(t_data *data) // need to add extra malloc protection
+static void	storing_rooms(t_data *data, char **line, int i, int j)
 {
-	char	**line;
-	char	*new;
-	int		i;
-
-	i = 0;
-	line = ft_strsplit(data->rooms_list, ' ');
-	if (!line)
-		clean_all(data, 1);
-	ft_strdel(&data->rooms_trim);
-	data->rooms_trim = "";
-	while (line[i])
-	{
-		new = ft_strnew(ft_strlen(data->rooms_trim) + 1);
-		if (!new)
-			clean_all(data, 1);
-		new = ft_strncpy(new, data->rooms_trim, ft_strlen(data->rooms_trim));
-		if (i != 0)
-			ft_strdel(&data->rooms_trim);
-		if (ft_strcmp(new, ""))
-				new = ft_strcat(new, " ");
-		data->rooms_trim = ft_strjoin(new, line[i]);
-		ft_strdel(&new);
-		i += 3;
-	}
-	free_char_array(data, line, 0);
-}
-
-void	make_rooms_array(t_data *data) // need to add extra malloc protection
-{
-	char	**line;
-	int		i;
-	int		j;
-
-	trim_room_array(data);
-	data->rooms[0] = ft_strdup(data->trim_start);
-	data->rooms[data->nb_rooms - 1] = ft_strdup(data->trim_end);
-	line = ft_strsplit(data->rooms_trim, ' ');
-	i = -1;
-	j = 1;
 	while (line[++i] && j < data->nb_rooms)
 	{
 		if (!ft_strcmp(data->trim_start, line[i]))
@@ -64,8 +25,59 @@ void	make_rooms_array(t_data *data) // need to add extra malloc protection
 		else
 		{
 			data->rooms[j] = ft_strdup(line[i]);
+			if (!data->rooms[j])
+				free_char_array(data, line, 1);
 			j++;
 		}
 	}
+}
+
+static void	trim_room_array(t_data *data, char **line, int i)
+{
+	char	*new;
+
+	line = ft_strsplit(data->rooms_list, ' ');
+	if (!line)
+		clean_all(data, 1);
+	ft_strdel(&data->rooms_trim);
+	data->rooms_trim = "";
+	while (line[i])
+	{
+		new = ft_strnew(ft_strlen(data->rooms_trim) + 1);
+		if (!new)
+			free_char_array(data, line, 1);
+		new = ft_strncpy(new, data->rooms_trim, ft_strlen(data->rooms_trim));
+		if (i != 0)
+			ft_strdel(&data->rooms_trim);
+		if (ft_strcmp(new, ""))
+				new = ft_strcat(new, " ");
+		data->rooms_trim = ft_strjoin(new, line[i]);
+		ft_strdel(&new);
+		if (!data->rooms_trim)
+			free_char_array(data, line, 1);
+		i += 3;
+	}
+	free_char_array(data, line, 0);
+}
+
+void	make_rooms_array(t_data *data)
+{
+	char	**line;
+	int		i;
+	int		j;
+
+	i = 0;
+	line = NULL;
+	trim_room_array(data, line, i);
+	line = ft_strsplit(data->rooms_trim, ' ');
+	if (!line)
+		clean_all(data, 1);
+	i = -1;
+	j = 1;
+	data->rooms[0] = ft_strdup(data->trim_start);
+	data->rooms[data->nb_rooms - 1] = ft_strdup(data->trim_end);
+	if (!data->rooms[0] || ! data->rooms[data->nb_rooms - 1])
+		clean_all(data, 1);
+	storing_rooms(data, line, i, j);
 	free_char_array(data, line, 0);
 }
