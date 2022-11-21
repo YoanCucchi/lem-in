@@ -14,17 +14,21 @@
 
 static void	header(t_data *data)
 {
-	int i;
+	int	i;
+	int	j;
 
 	i = -1;
-	ft_putstr("\n\n");
-	ft_putstr("\t   ");
+	j = -1;
+	ft_printf("\n\n      \x1B[36mindex\x1B[37m  ");
 	while (++i < data->nb_rooms)
 	{
-		ft_putchar(' ');
-		ft_putnbr((i > 9) ? (i % 10) : i);
+		j = i;
+		while (ft_nbrlen(j, 10) > 1)
+			j %= 10;
+		ft_printf(" \x1B[36m%d\x1B[37m", j);
 	}
-	ft_putstr("\n\n");
+	ft_printf("\t[\x1B[36mindex\x1B[37m] ->  [\x1B[33mroom_name\x1B[37m]\n");
+	ft_printf("\n");
 }
 
 static void		print_matrix(t_data *data)
@@ -36,20 +40,27 @@ static void		print_matrix(t_data *data)
 	i = -1;
 	while (++i < data->nb_rooms)
 	{
-		ft_putchar('\t');
-		ft_putnbr((i > 9) ? (i % 10) : i);
-		ft_putstr("   ");
+		if (ft_nbrlen(i, 10) == 1)
+			ft_printf("\t  \x1B[36m%d\x1B[37m   ", i);
+		else if (ft_nbrlen(i, 10) == 2)
+			ft_printf("\t \x1B[36m%d\x1B[37m   ", i);
+		else
+			ft_printf("\t\x1B[36m%d\x1B[37m   ", i);
 		j = -1;
 		while (++j < data->nb_rooms)
 		{
-			ft_putnbr(data->tab[i][j]);
-			ft_putchar(' ');
+			if (data->tab[i][j] == 1)
+				ft_printf("X ");
+			else
+				ft_printf("- ");
 		}
-		ft_putstr("\t\t");
-		ft_putchar('[');
-		ft_putnbr(i);
-		ft_putstr("] -  ");
-		ft_putendl(data->rooms[i]);
+		if (ft_nbrlen(i, 10) == 1)
+			ft_printf("\t[\x1B[36m%d\x1B[37m]     ->  ", i);
+		else if (ft_nbrlen(i, 10) == 2)
+			ft_printf("\t[\x1B[36m%d\x1B[37m]    ->  ", i);
+		else
+			ft_printf("\t[\x1B[36m%d\x1B[37m]   ->  ", i);
+		ft_printf("[\x1B[33m%s\x1B[37m]\n", data->rooms[i]);
 	}
 	ft_putstr("\n\n");
 }
@@ -143,7 +154,7 @@ int	main(int argc, char **argv)
 	// farm’s reading as well as the orderly processing of the acquired data.
 	
 	// WTF data start is so freaking weird ONLY WITH LETTER
-
+	// option + fleche to move line around
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
 		clean_all(data, 1);
 	data = struct_init(data);
