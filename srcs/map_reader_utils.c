@@ -95,6 +95,7 @@ void	get_ants(t_data *data, char *line)
 	ft_printf("line for ants %s\n", line);
 	if (line[0] == '#')
 		return (ft_strdel(&line));
+	data->dispatch = 1;
 	s = ft_strtrim(line);
 	ft_printf("s = %s\n", s);
 	if (!s)
