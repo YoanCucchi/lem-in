@@ -12,6 +12,48 @@
 
 #include "lem_in.h"
 
+void	is_number(char **array, char *str, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (str[0] == '-' || ft_isdigit(str[0]))
+	{
+		while (str[++i])
+		{
+			if (!ft_isdigit(str[i]))
+				free_char_array(data, array, 1);
+		}
+	}
+	else
+		free_char_array(data, array, 1);
+}
+
+int	is_empty(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (i == ft_strlen(str))
+		return (1);
+	return (0);
+}
+
+void	copy_map(t_data *data, char *line)
+{
+	char	*line_copy;
+
+	line_copy = NULL;
+	if (is_empty(line))
+		clean_all(data, 1);
+	line_copy = ft_strdup(line);
+	line_copy = ft_strcat(line_copy, "\n");
+	data->map = ft_strcat(data->map, line_copy);
+	free(line_copy);
+}
+
 void	clean_line_array_all(t_data *data, char *s, char *line)
 {
 	if (s)
@@ -23,84 +65,12 @@ void	clean_line_array_all(t_data *data, char *s, char *line)
 
 void	validate_room(t_data *data, char *line)
 {
-	char	**r;
+	char	**array;
 
-	r = ft_strsplit(line, ' ');
-	if (r[0][0] == 'L' || r[3] != NULL)
-		free_char_array(data, r, 1);
-	is_number(r, r[1], data);
-	is_number(r, r[2], data);
-	free_char_array(data, r, 0);
-}
-
-void	get_rooms(t_data *data, char *line)
-{
-	char	*new;
-
-	data->dispatch = 2;
-	if (line[0] == '#')
-		return (ft_strdel(&line));
-	new = ft_strnew(ft_strlen(data->rooms_list) + 1);
-	if (!new)
-		clean_line_all(data, line);
-	new = ft_strncpy(new, data->rooms_list, ft_strlen(data->rooms_list));
-	ft_strdel(&data->rooms_list);
-	if (ft_strcmp(new, ""))
-		new = ft_strcat(new, " ");
-	data->rooms_list = ft_strjoin(new, line);
-	if (!data->rooms_list)
-		clean_line_array_all(data, new, line);
-	ft_strdel(&new);
-	validate_room(data, line);
-	data->nb_rooms++;
-	ft_strdel(&line);
-}
-
-void	get_links(t_data *data, char *line)
-{
-	char	*new;
-
-	new = NULL;
-	if (data->dispatch == 2)
-		data->dispatch = 3;
-	if (data->dispatch != 3)
-		clean_all(data, 1);
-	if (line[0] == '#')
-		return (ft_strdel(&line));
-	new = ft_strnew(ft_strlen(data->links) + 1);
-	if (!new)
-		clean_line_array_all(data, new, line);
-	new = ft_strncpy(new, data->links, ft_strlen(data->links));
-	ft_strdel(&data->links);
-	if (ft_strcmp(new, ""))
-		new = ft_strcat(new, "\n");
-	data->links = ft_strjoin(new, line);
-	if (!data->links)
-		clean_line_array_all(data, new, line);
-	ft_strdel(&new);
-	ft_strdel(&line);
-}
-
-void	get_ants(t_data *data, char *line)
-{
-	int		i;
-	char	*s;
-
-	i = -1;
-	if (line[0] == '#')
-		return (ft_strdel(&line));
-	data->dispatch = 1;
-	s = ft_strtrim(line);
-	if (!s)
-		clean_line_all(data, line);
-	while (s[++i] != '\n' && s[++i] != '\0')
-	{
-		if (!ft_isdigit(s[i]))
-			clean_line_array_all(data, s, line);
-	}
-	data->ants = ft_atoi(s);
-	if (data->ants <= 0)
-		clean_line_array_all(data, s, line);
-	ft_strdel(&s);
-	ft_strdel(&line);
+	array = ft_strsplit(line, ' ');
+	if (array[0][0] == 'L' || array[3] != NULL)
+		free_char_array(data, array, 1);
+	is_number(array, array[1], data);
+	is_number(array, array[2], data);
+	free_char_array(data, array, 0);
 }

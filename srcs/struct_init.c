@@ -49,6 +49,7 @@ t_data	*struct_init(t_data *data)
 	data->links = ft_strnew(1);
 	data->rooms_list = ft_strnew(1);
 	data->rooms_trim = ft_strnew(1);
+	data->map = ft_strnew(1000);
 	data->start = ft_strnew(100);
 	data->end = ft_strnew(100);
 	data->trim_start = ft_strnew(100);

@@ -12,7 +12,6 @@
 
 #include "lem_in.h"
 
-
 static void	storing_start_end_rooms(t_data *data)
 {
 	data->rooms[0].name = ft_strcpy(data->rooms[0].name, data->trim_start);

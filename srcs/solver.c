@@ -15,7 +15,6 @@
 int	solver(void)
 {
 	//find all paths
-	
 	// delete impossible path
 	// choose the best / bests
 	return (0);

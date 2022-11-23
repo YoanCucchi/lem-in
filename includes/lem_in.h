@@ -45,6 +45,7 @@ typedef struct s_data {
 	char	*rooms_list;
 	char	*rooms_trim;
 	char	*links;
+	char	*map;
 	int		*path;
 	int		start_found;
 	int		end_found;
@@ -80,5 +81,6 @@ void	clean_line_all(t_data *data, char *line);
 void	free_tab_array(t_data *data, int **tab);
 void	clean_line_array_all(t_data *data, char *s, char *line);
 void	result(t_data *data);
+void	copy_map(t_data *data, char *line);
 
 #endif

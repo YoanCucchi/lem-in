@@ -12,11 +12,20 @@
 
 #include "lem_in.h"
 
-static void	clean_struct(t_data *data)
+static void	free_map_array(t_data *data)
 {
 	int	i;
 
 	i = -1;
+	while (data->rooms[++i].name)
+	{
+		ft_strdel(&data->rooms[i].name);
+	}
+	free(data->rooms);
+}
+
+static void	clean_struct(t_data *data)
+{
 	if (data->trim_start)
 		free(data->trim_start);
 	if (data->trim_end)
@@ -33,14 +42,10 @@ static void	clean_struct(t_data *data)
 		free(data->end);
 	if (data->path)
 		free(data->path);
+	if (data->map)
+		free(data->map);
 	if (data->rooms)
-	{
-		while (data->rooms[++i].name)
-		{
-			ft_strdel(&data->rooms[i].name);
-		}
-		free(data->rooms);
-	}
+		free_map_array(data);
 	if (data->tab)
 		free_tab_array(data, data->tab);
 	free(data);
