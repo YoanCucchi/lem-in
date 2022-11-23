@@ -79,5 +79,12 @@ void	make_rooms_array(t_data *data)
 	if (!data->rooms[0] || ! data->rooms[data->nb_rooms - 1])
 		clean_all(data, 1);
 	storing_rooms(data, line, i, j);
+	i = -1;
+	while (data->rooms[++i])
+	{
+		data->all_rooms[i].name = ft_strcpy(data->all_rooms[i].name, data->rooms[i]);
+		if (!data->all_rooms[i].name)
+			clean_all(data, 1);
+	}
 	free_char_array(data, line, 0);
 }

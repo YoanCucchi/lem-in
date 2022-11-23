@@ -71,10 +71,8 @@ int	main(int argc, char **argv)
 	map_reader(data);
 	make_rooms_array(data);
 	tab_array(data);
-	data->all_rooms[0].name = ft_strcpy(data->all_rooms[0].name, data->rooms[0]);
-	data->all_rooms[0].visited = 2;
 	ft_printf("data->rooms[0]= %s\n", data->all_rooms[0].name);
-	ft_printf("data->rooms[0]= %d\n", data->all_rooms[0].visited);
+	ft_printf("data->rooms[1]= %s\n", data->all_rooms[1].name);
 	// print_matrix(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");

@@ -23,7 +23,7 @@ t_data	*struct_init_2(t_data *data)
 	data->path = (int *)ft_memalloc(sizeof(int) * 1000);
 	data->tab = (int **)ft_memalloc(sizeof(int *) * data->nb_rooms);
 	data->rooms = (char **)ft_memalloc(sizeof(char *) * (data->nb_rooms + 1));
-	if (!data->rooms || !data->path || !data->tab)
+	if (!data->rooms || !data->path || !data->tab || !data->all_rooms)
 		clean_all(data, 1);
 	while (++i < data->nb_rooms)
 	{
