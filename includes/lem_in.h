@@ -30,7 +30,13 @@
 ** Structures
 */
 
+typedef struct s_rooms {
+	char	*name;
+	int		visited;
+}			t_rooms;
+
 typedef struct s_data {
+	t_rooms	*all_rooms;
 	char	**rooms;
 	int		**tab;
 	char	*start;

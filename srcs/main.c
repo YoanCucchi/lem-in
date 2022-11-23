@@ -14,6 +14,9 @@
 
 static void	clean_struct(t_data *data)
 {
+	int	i;
+
+	i = -1;
 	if (data->trim_start)
 		free(data->trim_start);
 	if (data->trim_end)
@@ -30,6 +33,14 @@ static void	clean_struct(t_data *data)
 		free(data->end);
 	if (data->path)
 		free(data->path);
+	if (data->all_rooms)
+	{
+		while (data->all_rooms[++i].name)
+		{
+			ft_strdel(&data->all_rooms[i].name);
+		}
+		free(data->all_rooms);
+	}
 	if (data->rooms)
 		free_char_array(data, data->rooms, 0);
 	if (data->tab)
@@ -60,7 +71,11 @@ int	main(int argc, char **argv)
 	map_reader(data);
 	make_rooms_array(data);
 	tab_array(data);
-	print_matrix(data);
+	data->all_rooms[0].name = ft_strcpy(data->all_rooms[0].name, data->rooms[0]);
+	data->all_rooms[0].visited = 2;
+	ft_printf("data->rooms[0]= %s\n", data->all_rooms[0].name);
+	ft_printf("data->rooms[0]= %d\n", data->all_rooms[0].visited);
+	// print_matrix(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
