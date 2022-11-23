@@ -12,6 +12,19 @@
 
 #include "lem_in.h"
 
+
+static void	storing_start_end_rooms(t_data *data)
+{
+	data->all_rooms[0].name = \
+	ft_strcpy(data->all_rooms[0].name, data->trim_start);
+	if (!data->all_rooms[0].name)
+		clean_all(data, 1);
+	data->all_rooms[data->nb_rooms - 1].name = \
+	ft_strcpy(data->all_rooms[data->nb_rooms - 1].name, data->trim_end);
+	if (!data->all_rooms[data->nb_rooms - 1].name)
+		clean_all(data, 1);
+}
+
 static void	storing_rooms(t_data *data, char **line, int i, int j)
 {
 	while (line[++i] && j < data->nb_rooms)
@@ -24,8 +37,9 @@ static void	storing_rooms(t_data *data, char **line, int i, int j)
 			free_char_array(data, line, 1);
 		else
 		{
-			data->rooms[j] = ft_strdup(line[i]);
-			if (!data->rooms[j])
+			data->all_rooms[j].name = \
+			ft_strcpy(data->all_rooms[j].name, line[i]);
+			if (!data->all_rooms[j].name)
 				free_char_array(data, line, 1);
 			j++;
 		}
@@ -74,17 +88,7 @@ void	make_rooms_array(t_data *data)
 		clean_all(data, 1);
 	i = -1;
 	j = 1;
-	data->rooms[0] = ft_strdup(data->trim_start);
-	data->rooms[data->nb_rooms - 1] = ft_strdup(data->trim_end);
-	if (!data->rooms[0] || ! data->rooms[data->nb_rooms - 1])
-		clean_all(data, 1);
+	storing_start_end_rooms(data);
 	storing_rooms(data, line, i, j);
-	i = -1;
-	while (data->rooms[++i])
-	{
-		data->all_rooms[i].name = ft_strcpy(data->all_rooms[i].name, data->rooms[i]);
-		if (!data->all_rooms[i].name)
-			clean_all(data, 1);
-	}
 	free_char_array(data, line, 0);
 }
