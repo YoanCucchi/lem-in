@@ -27,11 +27,11 @@ static int	find_index(t_data *data, char *name)
 	int	index;
 
 	index = -1;
-	while (data->rooms[++index] && index < data->nb_rooms)
+	while (data->rooms[++index].name && index < data->nb_rooms)
 	{
-		if (data->rooms[index] == NULL)
+		if (data->rooms[index].name == NULL)
 			return (data->nb_rooms + 1);
-		if (!ft_strcmp(data->rooms[index], name))
+		if (!ft_strcmp(data->rooms[index].name, name))
 			return (index);
 	}
 	return (index);

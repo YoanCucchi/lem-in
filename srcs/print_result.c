@@ -31,13 +31,13 @@ static void	print_result(t_data *data, int n)
 	while (--ants > 0)
 	{
 		if (n - ants > 0 && (n - ants) <= data->p_ind)
-			print_ant(ants, data->rooms[data->path[n - ants]]);
+			print_ant(ants, data->rooms[data->path[n - ants]].name);
 	}
 	ft_putchar('\n');
 	print_result(data, ++n);
 }
 
-void		result(t_data *data)
+void	result(t_data *data)
 {
 	int i;
 
@@ -49,7 +49,7 @@ void		result(t_data *data)
 	while (++i <= data->p_ind)
 	{
 		ft_putchar('[');
-		ft_printf("%s", data->rooms[data->path[i]]);
+		ft_printf("%s", data->rooms[data->path[i]].name);
 		ft_putchar(']');
 		if (i != data->p_ind)
 			ft_putchar('-');

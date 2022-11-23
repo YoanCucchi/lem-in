@@ -72,7 +72,7 @@ void	print_matrix(t_data *data)
 				ft_printf("- ");
 		}
 		print_help(i, 2);
-		ft_printf("[\x1B[33m%s\x1B[37m]\n", data->rooms[i]);
+		ft_printf("[\x1B[33m%s\x1B[37m]\n", data->rooms[i].name);
 	}
 	ft_printf("\n\n");
 }

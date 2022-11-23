@@ -15,13 +15,12 @@
 
 static void	storing_start_end_rooms(t_data *data)
 {
-	data->all_rooms[0].name = \
-	ft_strcpy(data->all_rooms[0].name, data->trim_start);
-	if (!data->all_rooms[0].name)
+	data->rooms[0].name = ft_strcpy(data->rooms[0].name, data->trim_start);
+	if (!data->rooms[0].name)
 		clean_all(data, 1);
-	data->all_rooms[data->nb_rooms - 1].name = \
-	ft_strcpy(data->all_rooms[data->nb_rooms - 1].name, data->trim_end);
-	if (!data->all_rooms[data->nb_rooms - 1].name)
+	data->rooms[data->nb_rooms - 1].name = \
+	ft_strcpy(data->rooms[data->nb_rooms - 1].name, data->trim_end);
+	if (!data->rooms[data->nb_rooms - 1].name)
 		clean_all(data, 1);
 }
 
@@ -37,9 +36,8 @@ static void	storing_rooms(t_data *data, char **line, int i, int j)
 			free_char_array(data, line, 1);
 		else
 		{
-			data->all_rooms[j].name = \
-			ft_strcpy(data->all_rooms[j].name, line[i]);
-			if (!data->all_rooms[j].name)
+			data->rooms[j].name = ft_strcpy(data->rooms[j].name, line[i]);
+			if (!data->rooms[j].name)
 				free_char_array(data, line, 1);
 			j++;
 		}

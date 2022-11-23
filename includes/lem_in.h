@@ -36,8 +36,7 @@ typedef struct s_rooms {
 }			t_rooms;
 
 typedef struct s_data {
-	t_rooms	*all_rooms;
-	char	**rooms;
+	t_rooms	*rooms;
 	int		**tab;
 	char	*start;
 	char	*end;
@@ -80,5 +79,6 @@ void	print_matrix(t_data *data);
 void	clean_line_all(t_data *data, char *line);
 void	free_tab_array(t_data *data, int **tab);
 void	clean_line_array_all(t_data *data, char *s, char *line);
+void	result(t_data *data);
 
 #endif
