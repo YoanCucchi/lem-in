@@ -75,7 +75,8 @@ int	main(int argc, char **argv)
 	make_rooms_array(data);
 	tab_array(data);
 	print_matrix(data);
-	// result(data);
+	if (solver(data, 0))
+		result(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
