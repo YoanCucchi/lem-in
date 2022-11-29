@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 	ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
 	ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
 	ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
+	
 	if (solver(data, 0))
 		result(data);
 	clean_all(data, 0);
