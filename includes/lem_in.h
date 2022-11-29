@@ -85,5 +85,6 @@ void	clean_line_array_all(t_data *data, char *s, char *line);
 void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
 int		solver(t_data *data, int current_room);
+void	nb_links(t_data *data);
 
 #endif

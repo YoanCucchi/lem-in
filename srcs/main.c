@@ -75,6 +75,14 @@ int	main(int argc, char **argv)
 	make_rooms_array(data);
 	tab_array(data);
 	print_matrix(data);
+	nb_links(data);
+	ft_printf("data->rooms[1].visited = %d\n", data->rooms[1].visited);
+	ft_printf("data->rooms[2].visited = %d\n", data->rooms[2].visited);
+	ft_printf("data->rooms[3].visited = %d\n", data->rooms[3].visited);
+	ft_printf("data->rooms[4].visited = %d\n", data->rooms[4].visited);
+	ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
+	ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
+	ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
 	if (solver(data, 0))
 		result(data);
 	clean_all(data, 0);
