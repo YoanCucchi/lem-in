@@ -70,8 +70,11 @@ int	solver(t_data *data, int i)
 			// ft_printf("j = %d\n", j);
 			if (data->tab[i][data->nb_rooms - 1] || data->tab[j][data->nb_rooms - 1]) // we are in the last room
 			{
+				// ft_printf("i = %d\n", i);
+				// ft_printf("j = %d\n", j);
+				// ft_printf("data->p ind = %d\n", data->p_ind);
 				data->rooms[data->p_ind].visited = 0;
-				data->rooms[j].visited--;
+				data->rooms[j].visited = 0;
 				data->p_ind = i;
 				// ft_printf("links left = %d\n", data->rooms[j].visited);
 				// ft_printf("links R1 = %d\n", data->rooms[1].visited);
