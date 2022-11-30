@@ -30,6 +30,7 @@
 ** Structures
 */
 
+
 typedef struct s_rooms {
 	char	*name;
 	int		visited;
@@ -52,7 +53,8 @@ typedef struct s_data {
 	int		ants;
 	int		nb_rooms;
 	int		dispatch;
-
+	int		path_i;
+	int		path_j;
 	int		next_room;
 	int		curr_room;
 	int		p_ind;

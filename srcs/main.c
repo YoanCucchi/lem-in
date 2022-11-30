@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
 		clean_all(data, 1);
 	data = struct_init(data);
+	
 	map_reader(data);
 	make_rooms_array(data);
 	tab_array(data);
@@ -83,9 +84,13 @@ int	main(int argc, char **argv)
 	ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
 	ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
 	ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
-	
-	if (solver(data, 0))
-		result(data);
+	// if (solver(data, 0))
+	// 	result(data);
+	solver(data, 0);
+	ft_printf("data->path 0 = %d\n", data->path[0]);
+	ft_printf("data->path 1 = %d\n", data->path[1]);
+	ft_printf("data->path 2 = %d\n", data->path[2]);
+
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
