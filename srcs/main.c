@@ -79,17 +79,19 @@ int	main(int argc, char **argv)
 	nb_links(data);
 	if (solver(data, 0))
 		result(data);
-	ft_printf("data->path[0][0] = %d\n", data->path[0][0]);
-	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
-	ft_printf("data->path[0][2] = %d\n", data->path[0][2]);
-	ft_printf("data->path[0][3] = %d\n", data->path[0][3]);
-	ft_printf("data->path[0][4] = %d\n", data->path[0][4]);
-	ft_printf("\n\n");
-	ft_printf("data->path[1][0] = %d\n", data->path[1][0]);
-	ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
-	ft_printf("data->path[1][2] = %d\n", data->path[1][2]);
-	ft_printf("data->path[1][3] = %d\n", data->path[1][3]);
-	ft_printf("data->path[1][4] = %d\n", data->path[1][4]);
+	
+	print_matrix(data);
+	// ft_printf("data->path[0][0] = %d\n", data->path[0][0]);
+	// ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
+	// ft_printf("data->path[0][2] = %d\n", data->path[0][2]);
+	// ft_printf("data->path[0][3] = %d\n", data->path[0][3]);
+	// ft_printf("data->path[0][4] = %d\n", data->path[0][4]);
+	// ft_printf("\n\n");
+	// ft_printf("data->path[1][0] = %d\n", data->path[1][0]);
+	// ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
+	// ft_printf("data->path[1][2] = %d\n", data->path[1][2]);
+	// ft_printf("data->path[1][3] = %d\n", data->path[1][3]);
+	// ft_printf("data->path[1][4] = %d\n", data->path[1][4]);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
