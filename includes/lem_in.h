@@ -47,7 +47,7 @@ typedef struct s_data {
 	char	*rooms_trim;
 	char	*links;
 	char	*map;
-	int		*path;
+	int		**path;
 	int		start_found;
 	int		end_found;
 	int		ants;
