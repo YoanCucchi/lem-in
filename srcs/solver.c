@@ -12,16 +12,16 @@
 
 #include "lem_in.h"
 
-static void	destroy_links(t_data *data, int i)
-{
-	int	j;
+// static void	destroy_links(t_data *data, int i)
+// {
+// 	int	j;
 
-	j = -1;
-	while (++j < data->nb_rooms)
-	{
-		data->tab[i][j] = 0;
-	}
-}
+// 	j = -1;
+// 	while (++j < data->nb_rooms)
+// 	{
+// 		data->tab[i][j] = 0;
+// 	}
+// }
 
 void	nb_links(t_data *data)
 {
@@ -96,7 +96,7 @@ int	solver(t_data *data, int i)
 				// ft_printf("data->p ind = %d\n", data->p_ind);
 				data->rooms[data->p_ind].visited = 0;
 				data->rooms[j].visited = 0;
-				destroy_links(data, j);
+				// destroy_links(data, j);
 				data->p_ind = i;
 				// ft_printf("links left = %d\n", data->rooms[j].visited);
 				// ft_printf("links R1 = %d\n", data->rooms[1].visited);
