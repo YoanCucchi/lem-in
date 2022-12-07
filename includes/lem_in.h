@@ -59,6 +59,7 @@ typedef struct s_data {
 	int		curr_room;
 	int		p_ind;
 	int		init_2;
+	int		step;
 }			t_data;
 
 /*

@@ -27,22 +27,69 @@
 // 		data->rooms[data->path[data->path_i][1]].visited = 0;
 // }
 
+static int	update_visited(t_data *data)
+{
+	int	index;
+	int	print;
+
+	print = 0;
+	while (data->path[0][++print])
+		ft_printf("data->path = %d\n", data->path[data->path_i - 1][print]);
+	index = data->nb_rooms - 1;
+	ft_printf("index = %d\n", index);
+	ft_printf("data->path_i = %d\n", data->path_i);
+	ft_printf("data->rooms[R1].visited = %d\n", data->rooms[1].visited);
+	ft_printf("data->rooms[R2].visited = %d\n", data->rooms[2].visited);
+	ft_printf("data->rooms[R3].visited = %d\n", data->rooms[3].visited);
+	ft_printf("data->rooms[R4].visited = %d\n", data->rooms[4].visited);
+	ft_printf("data->rooms[R5].visited = %d\n", data->rooms[5].visited);
+	ft_printf("data->rooms[R6].visited = %d\n", data->rooms[6].visited);
+	ft_printf("data->rooms[R7].visited = %d\n", data->rooms[7].visited);
+	while (data->path[data->path_i - 1][--data->step])
+	{
+		// l'idée c'est de visited-- la room visité et de continuer dans les index --
+		// jusqu'a ce qu'en faisant visited-- la room.visited tombe à 0.
+		// la on veut visited-- l'index - 1 et reprendre la recherche de path
+		ft_printf("inside loop\n");
+		ft_printf("index = %d\n", index);
+		ft_printf("data->step = %d\n", data->step);
+		ft_printf("data->path[data->path_i][data->step] = %d\n", data->path[data->path_i - 1][data->step]);
+		ft_printf("visited = %d\n", data->rooms[data->path[data->path_i - 1][data->step - 1]].visited);
+		if (data->rooms[data->path[data->path_i - 1][data->step - 1]].visited - 1 > 0)
+		{
+			ft_printf("before data->rooms[data->path[data->path_i - 1][data->step - 1]].visited = %d\n", data->rooms[data->path[data->path_i - 1][data->step - 1]].visited);
+			data->rooms[data->path[data->path_i - 1][data->step - 1]].visited--;
+			ft_printf("after data->rooms[data->path[data->path_i - 1][data->step - 1]].visited = %d\n", data->rooms[data->path[data->path_i - 1][data->step - 1]].visited);
+		}
+		else if (data->rooms[data->path[data->path_i - 1][data->step - 1]].visited - 1 == 0)
+		{
+			data->rooms[data->path[data->path_i - 1][data->step - 1]].visited--;
+			if (data->step - 2 > 0)
+			data->rooms[data->path[data->path_i - 1][data->step - 2]].visited--;
+			data->step = 0;
+			return 1;
+		}
+	}
+	data->step = 0;
+	return (0);
+}
+
 static int	already_in_path(t_data *data, int j)
 {
 	int	test;
 
 	// i = 4 j = 1
-	ft_printf("------------------------------------------------------------\n");
-	ft_printf("j already in path = %d\n", j);
+	// ft_printf("------------------------------------------------------------\n");
+	// ft_printf("j already in path = %d\n", j);
 	test = data->path_j;
-	ft_printf("test = %d\n", test);
+	// ft_printf("test = %d\n", test);
 	while (test--)
 	{
-		ft_printf("data->path[data->path_i][test] = %d\n", data->path[data->path_i][test]);
+		// ft_printf("data->path[data->path_i][test] = %d\n", data->path[data->path_i][test]);
 		if (data->path[data->path_i][test] == j)
 			return(1);
 	}
-	ft_printf("------------------------------------------------------------\n");
+	// ft_printf("------------------------------------------------------------\n");
 	return (0);
 }
 
@@ -64,8 +111,8 @@ void	nb_links(t_data *data)
 			if (data->tab[i][j])
 				links++;
 		}
-		ft_printf("data->tab[%d]", i);
-		ft_printf("has %d links\n", links);
+		// ft_printf("data->tab[%d]", i);
+		// ft_printf("has %d links\n", links);
 		data->rooms[i].visited = links;
 	}
 }
@@ -95,51 +142,54 @@ int	solver(t_data *data, int i)
 	// ft_printf("i = %d\n", i);
 	data->p_ind = i;
 	// check all link and visited to find a way to check everything without crashing
-	ft_printf("------------------------------------------------------------\n");
-	ft_printf("data->rooms[R5].visited = %d\n", data->rooms[5].visited);
-	ft_printf("data->rooms[R2].visited = %d\n", data->rooms[2].visited);
-	ft_printf("data->path_i = %d\n", data->path_i);
-	ft_printf("------------------------------------------------------------\n");
+	// ft_printf("------------------------------------------------------------\n");
+	// ft_printf("data->rooms[R5].visited = %d\n", data->rooms[5].visited);
+	// ft_printf("data->rooms[R2].visited = %d\n", data->rooms[2].visited);
+	// ft_printf("data->path_i = %d\n", data->path_i);
+	// ft_printf("------------------------------------------------------------\n");
 	while (++j < data->nb_rooms - 1 && data->path_j < data->nb_rooms - 1) // we search for links from start
 	{
-		ft_printf("i = %d\n", i);
-		ft_printf("j = %d\n", j);
-		ft_printf("data->tab[i][j] = %d\n", data->tab[i][j]);
-		ft_printf("data->rooms[j].visited = %d\n", data->rooms[j].visited);
+		// ft_printf("i = %d\n", i);
+		// ft_printf("j = %d\n", j);
+		// ft_printf("data->tab[i][j] = %d\n", data->tab[i][j]);
+		// ft_printf("data->rooms[j].visited = %d\n", data->rooms[j].visited);
 		if (data->tab[i][j] && data->rooms[j].visited && !already_in_path(data, j)) // there's a link
 		{
 			// data->tab[j][i] = 0;
-			ft_printf("i = %d\n", i);
-			ft_printf("j = %d\n", j);
-			ft_printf("data->path_i = %d\n", data->path_i);
-			ft_printf("data->path_j = %d\n", data->path_j);
+			// ft_printf("i = %d\n", i);
+			// ft_printf("j = %d\n", j);
+			// ft_printf("data->path_i = %d\n", data->path_i);
+			// ft_printf("data->path_j = %d\n", data->path_j);
 			if (i == 0)
 			{
 				data->path[data->path_i][0] = 0;
 				if (data->path_j == 0)
 					data->path_j++;
+				data->step++;
 			}
 			data->path[data->path_i][data->path_j] = j;
 			data->path_j++;
+			data->step++;
 			// ft_printf("i = %d\n", i);
 			// ft_printf("j = %d\n", j);
 			if (data->tab[i][data->nb_rooms - 1] || data->tab[j][data->nb_rooms - 1]) // we are in the last room
 			{
+
+				ft_printf("------------------------------------------------------------\n");
 				ft_printf("END FOUND\n");
 				ft_printf("i = %d\n", i);
 				ft_printf("j = %d\n", j);
 				ft_printf("data->p ind = %d\n", data->p_ind);
-				data->rooms[data->p_ind].visited = 0; // PROBLEM HERE WITH R2/R5
-				data->rooms[j].visited--; // PROBLEM HERE WITH R2/R5
 				data->p_ind = i;
-				// ft_printf("links left = %d\n", data->rooms[j].visited);
-				// ft_printf("links R1 = %d\n", data->rooms[1].visited);
-				// if (!data->rooms[1].visited)
-					// destroy_links(data, j);
 				data->path[data->path_i][data->path_j] = data->nb_rooms - 1;
 				data->path_i++;
 				data->path_j = 0;
-				solver(data, 0);
+				data->step++;
+				ft_printf("------------------------------------------------------------\n");
+				if (update_visited(data))
+					solver(data, 0);
+				else
+					return (1);
 			}
 			solver(data, j);
 		}
