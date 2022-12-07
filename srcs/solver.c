@@ -12,16 +12,19 @@
 
 #include "lem_in.h"
 
-// static void	destroy_links(t_data *data, int i)
+// static void	clean_path(t_data *data)
 // {
-// 	int	j;
+// 	int	reset;
 
-// 	j = -1;
-// 	while (++j < data->nb_rooms)
+// 	reset = -1;
+// 	while (++reset < data->nb_rooms - 1)
 // 	{
-// 		ft_printf("i = %d", i);
-// 		data->tab[i][j] = 0;
+// 		ft_printf("\n\n\n\n\n\n-----------------------------------------\n");
+// 		ft_printf("data->path_i = %d\n",data->path_i);
+// 		ft_printf("reset = %d", reset);
+// 		data->path[data->path_i][reset] = 0;
 // 	}
+// 		data->rooms[data->path[data->path_i][1]].visited = 0;
 // }
 
 static int	already_in_path(t_data *data, int j)
@@ -83,14 +86,20 @@ void	nb_links(t_data *data)
 int	solver(t_data *data, int i)
 {
 	// check if link
-	// problem car tab[2][x] = 0 du coup il atteint un j trop grand et go avec 
+	// problem car rooms[2].visited = 0  du coup il atteint un j trop grand et go avec 
 	// i = 0 et rentre dans R3 
+	// solution if j > nb room delete path ???
 	int	j;
 	
 	j = -1;
 	// ft_printf("i = %d\n", i);
 	data->p_ind = i;
 	// check all link and visited to find a way to check everything without crashing
+	ft_printf("------------------------------------------------------------\n");
+	ft_printf("data->rooms[R5].visited = %d\n", data->rooms[5].visited);
+	ft_printf("data->rooms[R2].visited = %d\n", data->rooms[2].visited);
+	ft_printf("data->path_i = %d\n", data->path_i);
+	ft_printf("------------------------------------------------------------\n");
 	while (++j < data->nb_rooms - 1 && data->path_j < data->nb_rooms - 1) // we search for links from start
 	{
 		ft_printf("i = %d\n", i);
@@ -119,9 +128,9 @@ int	solver(t_data *data, int i)
 				ft_printf("END FOUND\n");
 				ft_printf("i = %d\n", i);
 				ft_printf("j = %d\n", j);
-				// ft_printf("data->p ind = %d\n", data->p_ind);
+				ft_printf("data->p ind = %d\n", data->p_ind);
 				data->rooms[data->p_ind].visited = 0; // PROBLEM HERE WITH R2/R5
-				data->rooms[j].visited = 0; // PROBLEM HERE WITH R2/R5
+				data->rooms[j].visited--; // PROBLEM HERE WITH R2/R5
 				data->p_ind = i;
 				// ft_printf("links left = %d\n", data->rooms[j].visited);
 				// ft_printf("links R1 = %d\n", data->rooms[1].visited);
@@ -132,9 +141,15 @@ int	solver(t_data *data, int i)
 				data->path_j = 0;
 				solver(data, 0);
 			}
-			
 			solver(data, j);
 		}
 	}
+	ft_printf("j TPIHETP HEPIFEPFJPEFJPOJFPEOFFEJP = %d\n", j);
+	ft_printf("nb rooms = %d\n", data->nb_rooms);
+	// if (j >= data->nb_rooms - 1) // what about i
+	// {
+	// 	// clean_path(data);
+	// 	solver(data, 0);
+	// }
 	return (1);
 }
