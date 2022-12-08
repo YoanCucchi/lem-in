@@ -33,8 +33,10 @@ static int	update_visited(t_data *data)
 	int	print;
 
 	print = 0;
+	ft_printf("data->path = ");
 	while (data->path[0][++print])
-		ft_printf("data->path = %d\n", data->path[data->path_i - 1][print]);
+		ft_printf("%d - ", data->path[data->path_i - 1][print]);
+	ft_printf("\n");
 	index = data->nb_rooms - 1;
 	ft_printf("index = %d\n", index);
 	ft_printf("data->path_i = %d\n", data->path_i);
@@ -53,9 +55,10 @@ static int	update_visited(t_data *data)
 		ft_printf("inside loop\n");
 		ft_printf("index = %d\n", index);
 		ft_printf("data->step = %d\n", data->step);
-		ft_printf("data->path[data->path_i][data->step] = %d\n", data->path[data->path_i - 1][data->step]);
+		ft_printf("data->path[data->path_i - 1][data->step - 1] = %d\n", data->path[data->path_i - 1][data->step - 1]);
 		ft_printf("visited = %d\n", data->rooms[data->path[data->path_i - 1][data->step - 1]].visited);
-		if (data->rooms[data->path[data->path_i - 1][data->step - 1]].visited - 1 > 0)
+		if (data->rooms[data->path[data->path_i - 1][data->step - 1]].visited - 1 > 0 &&\
+			data->path[data->path_i - 1][data->step - 1] != 0) // 0 = start
 		{
 			ft_printf("before data->rooms[data->path[data->path_i - 1][data->step - 1]].visited = %d\n", data->rooms[data->path[data->path_i - 1][data->step - 1]].visited);
 			data->rooms[data->path[data->path_i - 1][data->step - 1]].visited--;
