@@ -142,27 +142,10 @@ int	solver(t_data *data, int i)
 	int	j;
 	
 	j = -1;
-	// ft_printf("i = %d\n", i);
-	data->p_ind = i;
-	// check all link and visited to find a way to check everything without crashing
-	// ft_printf("------------------------------------------------------------\n");
-	// ft_printf("data->rooms[R5].visited = %d\n", data->rooms[5].visited);
-	// ft_printf("data->rooms[R2].visited = %d\n", data->rooms[2].visited);
-	// ft_printf("data->path_i = %d\n", data->path_i);
-	// ft_printf("------------------------------------------------------------\n");
 	while (++j < data->nb_rooms - 1 && data->path_j < data->nb_rooms - 1) // we search for links from start
 	{
-		// ft_printf("i = %d\n", i);
-		// ft_printf("j = %d\n", j);
-		// ft_printf("data->tab[i][j] = %d\n", data->tab[i][j]);
-		// ft_printf("data->rooms[j].visited = %d\n", data->rooms[j].visited);
 		if (data->tab[i][j] && data->rooms[j].visited && !already_in_path(data, j)) // there's a link
 		{
-			// data->tab[j][i] = 0;
-			// ft_printf("i = %d\n", i);
-			// ft_printf("j = %d\n", j);
-			// ft_printf("data->path_i = %d\n", data->path_i);
-			// ft_printf("data->path_j = %d\n", data->path_j);
 			if (i == 0)
 			{
 				data->path[data->path_i][0] = 0;
@@ -173,22 +156,17 @@ int	solver(t_data *data, int i)
 			data->path[data->path_i][data->path_j] = j;
 			data->path_j++;
 			data->step++;
-			// ft_printf("i = %d\n", i);
-			// ft_printf("j = %d\n", j);
+			// in this if we need to find a way to exclude when there another
+			// link possible with a room != end
 			if (data->tab[i][data->nb_rooms - 1] || data->tab[j][data->nb_rooms - 1]) // we are in the last room
 			{
 
-				ft_printf("------------------------------------------------------------\n");
-				ft_printf("END FOUND\n");
-				ft_printf("i = %d\n", i);
-				ft_printf("j = %d\n", j);
-				ft_printf("data->p ind = %d\n", data->p_ind);
-				data->p_ind = i;
+				// ft_printf("------------------------------------------------------------\n");
+				// ft_printf("END FOUND\n");
 				data->path[data->path_i][data->path_j] = data->nb_rooms - 1;
 				data->path_i++;
 				data->path_j = 0;
 				data->step++;
-				ft_printf("------------------------------------------------------------\n");
 				if (update_visited(data))
 					solver(data, 0);
 				else
@@ -197,12 +175,10 @@ int	solver(t_data *data, int i)
 			solver(data, j);
 		}
 	}
-	ft_printf("j TPIHETP HEPIFEPFJPEFJPOJFPEOFFEJP = %d\n", j);
-	ft_printf("nb rooms = %d\n", data->nb_rooms);
-	// if (j >= data->nb_rooms - 1) // what about i
-	// {
-	// 	// clean_path(data);
-	// 	solver(data, 0);
-	// }
-	return (1);
+	ft_printf("j = %d", j);
+	if (j > data->nb_rooms - 1)
+		solver(data, 0);
+	ft_printf("\n\nEND\n\n");
+	// check if we have at least 1 path if so return 1 else return 0
+	return (ft_printf("\n\nEND\n\n"), 1);
 }
