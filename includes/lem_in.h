@@ -33,6 +33,7 @@
 
 typedef struct s_rooms {
 	char	*name;
+	int		links;
 	int		visited;
 }			t_rooms;
 
