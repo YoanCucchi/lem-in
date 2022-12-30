@@ -12,6 +12,43 @@
 
 #include "lem_in.h"
 
+static void set_visited(t_data *data, int round)
+{
+	int i = 0;
+
+	while (i < data->nb_rooms)
+	{
+		int x = 0;
+		while (x < data->path_counter)
+		{
+			int j = 0;
+			while (j < round)
+			{
+				if (data->final_path[x][j] == i)
+				{
+					data->rooms[i].visited = 1;
+					break;
+				}
+				j++;
+			}
+			x++;
+		}
+		i++;
+	}
+}
+
+static void reset_visited(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->nb_rooms)
+	{
+		data->rooms[i].visited = 0;
+		i++;
+	}
+}
+
 static void	save_path(t_data *data, int j, int round)
 {
 	int	i;
@@ -24,6 +61,8 @@ static void	save_path(t_data *data, int j, int round)
 		i++;
 	}
 	data->path_counter++;
+	reset_visited(data);
+	set_visited(data, round);
 }
 
 void	nb_links(t_data *data) //give all links end included
@@ -119,15 +158,18 @@ int	solver(t_data *data, int i)
 		k = 0;
 		if (data->path[j][round - 1]) // si le path n'est pas = 0
 		{
+			if (data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+			data->tab[data->nb_rooms -1][data->path[j][round - 1]])
+			{
+				data->path[j][round] = data->nb_rooms - 1;
+				data->rooms[data->path[j][round - 1]].visited = 1;
+				save_path(data, j, round); // SAVETHEPATH
+				break;
+			}
 			while (k < data->nb_rooms) // nombre de lien
 			{
 				// il faut que je rajoute un check pour voir si il y a un lien
 				// avec la room end, je dois stop et save path
-				// if (data->tab[data->path[j][round - 1]][data->nb_rooms - 1])
-				// {
-				// 	save_path(data, j, round); // SAVETHEPATH
-				// 	break;
-				// }
 				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
 				{
 					ft_printf("j = %d\n", j);
@@ -174,5 +216,14 @@ int	solver(t_data *data, int i)
 	ft_printf("data->final_path[2][2] = %d\n", data->final_path[2][2]);
 	ft_printf("data->final_path[2][3] = %d\n", data->final_path[2][3]);
 	ft_printf("--------------------------------------------------\n");
+	ft_printf("data->rooms[0].visited = %d\n", data->rooms[0].visited);
+	ft_printf("data->rooms[1].visited = %d\n", data->rooms[1].visited);
+	ft_printf("data->rooms[2].visited = %d\n", data->rooms[2].visited);
+	ft_printf("data->rooms[3].visited = %d\n", data->rooms[3].visited);
+	ft_printf("data->rooms[4].visited = %d\n", data->rooms[4].visited);
+	ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
+	ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
+	ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
+	ft_printf("data->rooms[8].visited = %d\n", data->rooms[8].visited);
 	return (1);
 }
