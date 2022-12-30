@@ -49,6 +49,8 @@ typedef struct s_data {
 	char	*links;
 	char	*map;
 	int		**path;
+	int		**final_path;
+	int		path_counter;
 	int		start_found;
 	int		end_found;
 	int		ants;

@@ -42,6 +42,8 @@ static void	clean_struct(t_data *data)
 		free(data->end);
 	if (data->path)
 		free_tab_array(data, data->path);
+	if (data->final_path)
+		free_tab_array(data, data->final_path);
 	if (data->map)
 		free(data->map);
 	if (data->rooms)
