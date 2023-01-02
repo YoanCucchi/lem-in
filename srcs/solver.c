@@ -114,6 +114,7 @@ static void	save_path(t_data *data, int j, int round)
 		i++;
 	}
 	data->path_counter++;
+	data->rooms[0].links--;
 	reset_visited(data);
 	set_visited(data, round);
 	reset_path(data, round);
@@ -141,25 +142,6 @@ void	nb_links(t_data *data) //give all links end included
 		ft_printf("data->tab[%d]", i);
 		ft_printf(" = %d\n", links);
 		data->rooms[i].links = links;
-	}
-}
-
-static void	path_first(t_data *data, int round, int path_nb)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_rooms)
-	{
-		ft_printf("path_nb = %d\n", path_nb);
-		if (data->tab[0][i] && !data->rooms[i].visited)
-		{
-			data->path[path_nb][round] = i;
-			data->rooms[i].visited = 1;
-			ft_printf("test = %d\n", i);
-			path_nb++;
-		}
-		i++;
 	}
 }
 
@@ -197,85 +179,6 @@ static void	path_link_end(t_data *data, int round)
 	int	j;
 	int	k;
 
-	j = 0;
-	while (j < data->nb_rooms)
-	{
-		k = 0;
-		if (data->path[j][round - 1]) // si le path n'est pas = 0
-		{
-			while (k < data->nb_rooms) // nombre de lien
-			{
-				// il faut que je rajoute un check pour voir si il y a un lien
-				// avec la room end, je dois stop et save path
-				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && all_visited(data, data->path[j][round - 1]))
-				{
-					ft_printf("j = %d\n", j);
-					ft_printf("lien avec 2222 %d\n", k);
-					data->path[j][round] = k;
-					data->rooms[k].visited = 1;
-					if (k == data->nb_rooms - 1)
-						save_path(data, j, round); // SAVETHEPATH
-					break;
-				}
-				else if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && !all_visited(data, data->path[j][round - 1]))
-				{
-					ft_printf("ON A PAS TOUT VISITE\n\n\n\n\n\n\n\n\n");
-					ft_printf("k = %d\n", k);
-					ft_printf("tmp_path_counter = %d\n", data->tmp_path_counter);
-					make_new_path(data, j, k, round);
-					if (k == data->nb_rooms - 1)
-						save_path(data, j, round); // SAVETHEPATH
-					break;
-				}
-				k++;
-			}
-		}
-		j++;
-	}	
-}
-int	solver(t_data *data, int i)
-{
-	int	path_nb;
-	int	round;
-	int	j;
-	int	k;
-
-	path_nb = 0;
-	round = 1;
-	if (i)
-		nb_links(data);
-	data->tmp_path_counter = data->rooms[0].links;
-	// je connais le nombre de lien de chaque salle
-	// si start à + d'un lien valide go
-	if (data->rooms[0].links > 0)
-		path_first(data, round, path_nb);
-	ft_printf("path_nb = %d\n", path_nb);
-	round++;
-	ft_printf("round = %d\n", round);
-	// j'ai X paths qui correspondent au nombre de link de start
-	// de la je veux trouver tous les liens que ces X paths ont.
-	j = 0;
-	while (j < data->nb_rooms)
-	{
-		k = 0;
-		if (data->path[j][round - 1]) // si le path n'est pas = 0
-		{
-			while (k < data->nb_rooms) // nombre de lien
-			{
-				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
-				{
-					ft_printf("j = %d\n", j);
-					ft_printf("lien avec %d\n", k);
-					data->path[j][round] = k;
-					data->rooms[k].visited = 1;
-					break;
-				}
-				k++;
-			}
-		}
-		j++;
-	}
-	round++;
 	j = 0;
 	while (j < data->nb_rooms)
 	{
@@ -320,22 +223,34 @@ int	solver(t_data *data, int i)
 		}
 		j++;
 	}
+}
+int	solver(t_data *data, int i)
+{
+	// int	path_nb;
+	int	round;
+	int	j;
+	// int	k;
+
+	// path_nb = 0;
 	round = 1;
-	// path_first(data, round, path_nb);
-	// round++;
-	ft_printf("round = %d\n", round);
-	j = 0;
-	ft_printf("data->path[j][round - 1] = %d\n", data->path[j][round - 1]);
-	while ((!data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
-		!data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
+	if (i)
+		nb_links(data);
+	data->tmp_path_counter = data->rooms[0].links;
+	// je connais le nombre de lien de chaque salle
+	// si start à + d'un lien valide go
+	while (data->rooms[0].links > 0)
 	{
-		path_no_link_end(data, round);
-		round++;
+		round = 1;
 		j = 0;
-	}
-	if ((data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
-		data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
+		while ((!data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+			!data->tab[data->nb_rooms -1][data->path[j][round - 1]])) // tant que je suis pas sur une room connectée a end
+		{
+			path_no_link_end(data, round);
+			round++;
+			j = 0;
+		}
 		path_link_end(data, round);
+	}
 	ft_printf("round = %d\n", round);
 	ft_printf("data->rooms[0].links = %d\n", data->rooms[0].links);
 	ft_printf("--------------------------------------------------\n");
