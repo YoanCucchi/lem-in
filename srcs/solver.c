@@ -151,7 +151,7 @@ static void	path_first(t_data *data, int round, int path_nb)
 	i = 0;
 	while (i < data->nb_rooms)
 	{
-		ft_printf("in");
+		ft_printf("path_nb = %d\n", path_nb);
 		if (data->tab[0][i] && !data->rooms[i].visited)
 		{
 			data->path[path_nb][round] = i;
@@ -163,6 +163,76 @@ static void	path_first(t_data *data, int round, int path_nb)
 	}
 }
 
+static void path_no_link_end(t_data *data, int round)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	while (j < data->nb_rooms)
+	{
+		k = 0;
+		if (k == 0) // si le path n'est pas = 0
+		{
+			ft_printf("exist??? or not ???\n");
+			while (k < data->nb_rooms) // nombre de lien
+			{
+				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
+				{
+					ft_printf("j = %d\n", j);
+					ft_printf("lien avec %d\n", k);
+					data->path[j][round] = k;
+					data->rooms[k].visited = 1;
+					break;
+				}
+				k++;
+			}
+		}
+		j++;
+	}
+}
+
+static void	path_link_end(t_data *data, int round)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	while (j < data->nb_rooms)
+	{
+		k = 0;
+		if (data->path[j][round - 1]) // si le path n'est pas = 0
+		{
+			while (k < data->nb_rooms) // nombre de lien
+			{
+				// il faut que je rajoute un check pour voir si il y a un lien
+				// avec la room end, je dois stop et save path
+				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && all_visited(data, data->path[j][round - 1]))
+				{
+					ft_printf("j = %d\n", j);
+					ft_printf("lien avec 2222 %d\n", k);
+					data->path[j][round] = k;
+					data->rooms[k].visited = 1;
+					if (k == data->nb_rooms - 1)
+						save_path(data, j, round); // SAVETHEPATH
+					break;
+				}
+				else if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && !all_visited(data, data->path[j][round - 1]))
+				{
+					ft_printf("ON A PAS TOUT VISITE\n\n\n\n\n\n\n\n\n");
+					ft_printf("k = %d\n", k);
+					ft_printf("tmp_path_counter = %d\n", data->tmp_path_counter);
+					make_new_path(data, j, k, round);
+					if (k == data->nb_rooms - 1)
+						save_path(data, j, round); // SAVETHEPATH
+					break;
+				}
+				k++;
+			}
+		}
+		j++;
+	}	
+}
 int	solver(t_data *data, int i)
 {
 	int	path_nb;
@@ -250,6 +320,24 @@ int	solver(t_data *data, int i)
 		}
 		j++;
 	}
+	round = 1;
+	// path_first(data, round, path_nb);
+	// round++;
+	ft_printf("round = %d\n", round);
+	j = 0;
+	ft_printf("data->path[j][round - 1] = %d\n", data->path[j][round - 1]);
+	while ((!data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+		!data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
+	{
+		path_no_link_end(data, round);
+		round++;
+		j = 0;
+	}
+	if ((data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+		data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
+		path_link_end(data, round);
+	ft_printf("round = %d\n", round);
+	ft_printf("data->rooms[0].links = %d\n", data->rooms[0].links);
 	ft_printf("--------------------------------------------------\n");
 	ft_printf("data->path[0][0] = %d\n", data->path[0][0]);
 	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
