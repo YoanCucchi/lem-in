@@ -54,6 +54,7 @@ typedef struct s_data {
 	int		**path;
 	int		**final_path;
 	int		path_counter;
+	int		tmp_path_counter;
 	int		start_found;
 	int		end_found;
 	int		ants;

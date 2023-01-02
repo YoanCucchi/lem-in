@@ -12,6 +12,59 @@
 
 #include "lem_in.h"
 
+static void reset_path(t_data *data, int round)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < data->nb_rooms)
+	{
+		j = 0;
+		while (j <= round)
+		{
+			data->path[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	make_new_path(t_data *data, int j, int k, int round)
+{
+	// je dois faire une copie du path en cours et y ajouter le lien suivant (k)
+	// j = index path a copier
+	// k = lien a copier dans le nouveau path créé
+	int	i;
+
+	i = 0;
+	ft_printf("round = %d\n", round);
+	while (i < round)
+	{
+		data->path[data->tmp_path_counter][i] = data->path[j][i];
+		i++;
+	}
+	data->path[data->tmp_path_counter][i] = k;
+	if (k == data->nb_rooms - 1)
+	{
+		ft_printf("INSIDE\n");
+		data->path[j][i] = k;
+	}
+}
+
+static int	all_visited(t_data *data, int i) // return 0 false
+{
+	int	j;
+
+	j = -1;
+	while (++j < data->nb_rooms - 1)
+	{
+		if (data->tab[i][j] && !data->rooms[j].visited)
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
 static void set_visited(t_data *data, int round)
 {
 	int i = 0;
@@ -63,6 +116,7 @@ static void	save_path(t_data *data, int j, int round)
 	data->path_counter++;
 	reset_visited(data);
 	set_visited(data, round);
+	reset_path(data, round);
 }
 
 void	nb_links(t_data *data) //give all links end included
@@ -120,7 +174,7 @@ int	solver(t_data *data, int i)
 	round = 1;
 	if (i)
 		nb_links(data);
-	ft_printf("data->visited.links = %d\n", data->rooms[0].links);
+	data->tmp_path_counter = data->rooms[0].links;
 	// je connais le nombre de lien de chaque salle
 	// si start à + d'un lien valide go
 	if (data->rooms[0].links > 0)
@@ -158,9 +212,10 @@ int	solver(t_data *data, int i)
 		k = 0;
 		if (data->path[j][round - 1]) // si le path n'est pas = 0
 		{
-			if (data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
-			data->tab[data->nb_rooms -1][data->path[j][round - 1]])
+			if ((data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+			data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
 			{
+				// je dois check si il y'a d'autre lien que end je dois dupliquer path
 				data->path[j][round] = data->nb_rooms - 1;
 				data->rooms[data->path[j][round - 1]].visited = 1;
 				save_path(data, j, round); // SAVETHEPATH
@@ -170,12 +225,22 @@ int	solver(t_data *data, int i)
 			{
 				// il faut que je rajoute un check pour voir si il y a un lien
 				// avec la room end, je dois stop et save path
-				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
+				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && all_visited(data, data->path[j][round - 1]))
 				{
 					ft_printf("j = %d\n", j);
-					ft_printf("lien avec %d\n", k);
+					ft_printf("lien avec 2222 %d\n", k);
 					data->path[j][round] = k;
 					data->rooms[k].visited = 1;
+					if (k == data->nb_rooms - 1)
+						save_path(data, j, round); // SAVETHEPATH
+					break;
+				}
+				else if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && !all_visited(data, data->path[j][round - 1]))
+				{
+					ft_printf("ON A PAS TOUT VISITE\n\n\n\n\n\n\n\n\n");
+					ft_printf("k = %d\n", k);
+					ft_printf("tmp_path_counter = %d\n", data->tmp_path_counter);
+					make_new_path(data, j, k, round);
 					if (k == data->nb_rooms - 1)
 						save_path(data, j, round); // SAVETHEPATH
 					break;
