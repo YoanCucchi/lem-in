@@ -50,6 +50,7 @@ static void	make_new_path(t_data *data, int j, int k, int round)
 		ft_printf("INSIDE\n");
 		data->path[j][i] = k;
 	}
+	data->tmp_path_counter++;
 }
 
 static int	all_visited(t_data *data, int i) // return 0 false
@@ -114,10 +115,13 @@ static void	save_path(t_data *data, int j, int round)
 		i++;
 	}
 	data->path_counter++;
+	ft_printf("nb links avant = %d\n", data->rooms[0].links);
 	data->rooms[0].links--;
+	ft_printf("nb links apres = %d\n", data->rooms[0].links);
 	reset_visited(data);
 	set_visited(data, round);
 	reset_path(data, round);
+	ft_printf("END OF SAVE PATH\n");
 }
 
 void	nb_links(t_data *data) //give all links end included
@@ -145,41 +149,10 @@ void	nb_links(t_data *data) //give all links end included
 	}
 }
 
-static void path_no_link_end(t_data *data, int round)
+static void	path_link_end(t_data *data, int round, int j)
 {
-	int	j;
 	int	k;
 
-	j = 0;
-	while (j < data->nb_rooms)
-	{
-		k = 0;
-		if (k == 0) // si le path n'est pas = 0
-		{
-			ft_printf("exist??? or not ???\n");
-			while (k < data->nb_rooms) // nombre de lien
-			{
-				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
-				{
-					ft_printf("j = %d\n", j);
-					ft_printf("lien avec %d\n", k);
-					data->path[j][round] = k;
-					data->rooms[k].visited = 1;
-					break;
-				}
-				k++;
-			}
-		}
-		j++;
-	}
-}
-
-static void	path_link_end(t_data *data, int round)
-{
-	int	j;
-	int	k;
-
-	j = 0;
 	while (j < data->nb_rooms)
 	{
 		k = 0;
@@ -201,7 +174,7 @@ static void	path_link_end(t_data *data, int round)
 				if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited && all_visited(data, data->path[j][round - 1]))
 				{
 					ft_printf("j = %d\n", j);
-					ft_printf("lien avec 2222 %d\n", k);
+					ft_printf("lien avec %d\n", k);
 					data->path[j][round] = k;
 					data->rooms[k].visited = 1;
 					if (k == data->nb_rooms - 1)
@@ -224,35 +197,71 @@ static void	path_link_end(t_data *data, int round)
 		j++;
 	}
 }
+
+static void path_no_link_end(t_data *data, int round, int j)
+{
+	int	k;
+
+	while (j < data->nb_rooms)
+	{
+		k = 0;
+		if ((data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
+			data->tab[data->nb_rooms -1][data->path[j][round - 1]]))
+		{
+			ft_printf("going to link end inside no link end------------->");
+			path_link_end(data, round, j);
+			data->p_ind = 1;
+			break;
+		}
+		ft_printf("NE DOIS PAS s'IMPRIMER APRES END OF SAVE PATH\n");
+		while (k < data->nb_rooms) // nombre de lien
+		{
+			if (data->tab[data->path[j][round - 1]][k] && !data->rooms[k].visited)
+			{
+				ft_printf("j = %d\n", j);
+				ft_printf("lien avec %d\n", k);
+				data->path[j][round] = k;
+				data->rooms[k].visited = 1;
+				break;
+			}
+			k++;
+		}
+	j++;
+	}
+}
+
 int	solver(t_data *data, int i)
 {
-	// int	path_nb;
 	int	round;
 	int	j;
-	// int	k;
 
-	// path_nb = 0;
+	// je dois inclure la notion de nombre d'étape dans les paths pour trouver les plus rapides
+	// par exemple probleme avec si path 1 est tres long il le prend en premier quand meme 
+	// initialiser à -1 pour eviter probleme avec room 0
+	// dans la while loop il faut check pour que des qu'il y a un lien avec end
+	// on se casse de la
 	round = 1;
 	if (i)
 		nb_links(data);
 	data->tmp_path_counter = data->rooms[0].links;
 	// je connais le nombre de lien de chaque salle
 	// si start à + d'un lien valide go
-	while (data->rooms[0].links > 0)
+	j = 0;
+	while (data->rooms[0].links > 1)
 	{
 		round = 1;
-		j = 0;
-		while ((!data->tab[data->path[j][round - 1]][data->nb_rooms -1] || \
-			!data->tab[data->nb_rooms -1][data->path[j][round - 1]])) // tant que je suis pas sur une room connectée a end
+		data->p_ind = 0;
+		while (!data->tab[data->path[j][round - 1]][data->nb_rooms -1] && !data->p_ind) // tant que je suis pas sur une room connectée a end
 		{
-			path_no_link_end(data, round);
+			path_no_link_end(data, round, 0);
 			round++;
-			j = 0;
+			ft_printf("new round\n");
 		}
-		path_link_end(data, round);
+		// path_link_end(data, round, 0);
 	}
 	ft_printf("round = %d\n", round);
 	ft_printf("data->rooms[0].links = %d\n", data->rooms[0].links);
+	ft_printf("data->tmp_path_counter = %d\n", data->tmp_path_counter);
 	ft_printf("--------------------------------------------------\n");
 	ft_printf("data->path[0][0] = %d\n", data->path[0][0]);
 	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
@@ -268,6 +277,11 @@ int	solver(t_data *data, int i)
 	ft_printf("data->path[2][1] = %d\n", data->path[2][1]);
 	ft_printf("data->path[2][2] = %d\n", data->path[2][2]);
 	ft_printf("data->path[2][3] = %d\n", data->path[2][3]);
+	ft_printf("--------------------------------------------------\n");
+	ft_printf("data->path[3][0] = %d\n", data->path[3][0]);
+	ft_printf("data->path[3][1] = %d\n", data->path[3][1]);
+	ft_printf("data->path[3][2] = %d\n", data->path[3][2]);
+	ft_printf("data->path[3][3] = %d\n", data->path[3][3]);
 	ft_printf("--------------------------------------------------\n");
 	ft_printf("data->final_path[0][0] = %d\n", data->final_path[0][0]);
 	ft_printf("data->final_path[0][1] = %d\n", data->final_path[0][1]);

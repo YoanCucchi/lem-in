@@ -54,14 +54,14 @@ void		result(t_data *data)
 	ft_printf("%s\n", data->rooms_list); // problem with that one all # not stored
 	ft_printf("%s\n", data->links);
 	ft_printf("\n");
-	while (i <= data->nb_rooms && data->path[i][j])
+	while (i <= data->nb_rooms && data->final_path[i][j])
 	{
-		while (j <= data->nb_rooms && data->path[i][j])
+		while (j <= data->nb_rooms && data->final_path[i][j])
 		{
 				if (j == 1)
 					ft_printf("[%s]-", data->rooms[0]);
-				ft_printf("[%s]", data->rooms[data->path[i][j]].name);
-				if (data->path[i][++j])
+				ft_printf("[%s]", data->rooms[data->final_path[i][j]].name);
+				if (data->final_path[i][++j])
 					ft_printf("-");
 		}
 		i++;
