@@ -14,7 +14,7 @@ NAME = lem-in
 
 SOURCES = main.c map_reader.c map_reader_utils.c map_reader_functions.c \
 clean_all_helper.c struct_init.c room_array.c tab_array.c print.c \
-print_result.c solver.c
+print_result.c path_finder.c path_utils.c
 
 CC = gcc
 FLAGS = -Wall -Werror -Wextra

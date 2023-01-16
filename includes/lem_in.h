@@ -62,11 +62,7 @@ typedef struct s_data {
 	int		dispatch;
 	int		path_i;
 	int		path_j;
-	int		next_room;
-	int		curr_room;
-	int		p_ind;
 	int		init_2;
-	int		step;
 }			t_data;
 
 /*
@@ -94,7 +90,9 @@ void	free_tab_array(t_data *data, int **tab);
 void	clean_line_array_all(t_data *data, char *s, char *line);
 void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
-int		solver(t_data *data, int current_room);
-void	nb_links(t_data *data);
+void	find_path(t_data *data);
+void	find_starting_links(t_data *data, int *connections);
+void	reset_connections(t_data *data, int *connections);
+int		*find_connections(t_data *data, int *connections);
 
 #endif
