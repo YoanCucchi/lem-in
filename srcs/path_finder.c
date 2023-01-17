@@ -12,17 +12,6 @@
 
 #include "lem_in.h"
 
-// static int	is_there_any_solution(t_data *data, int *connections)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (connections[i])
-// 	{
-// 		if ()
-// 	}
-// }
-
 static void	reset_path(t_data *data)
 {
 	int	i;
@@ -87,22 +76,14 @@ void	find_path(t_data *data)
 	// then for each connection check how much connection there is
 	// and act accordingly (1 = perfect, >1 = dup path, 0 = drop)
 	if (!find_starting_links(data, connections)) // find and copy starting links
-	{
-		ft_printf("free\n");
-		free(connections);
-		return ;
-	}
+		return (free(connections));
 	if (connections[i] && connections[i] != data->nb_rooms - 1)
 	{
 		while (!winner && connections)
 		{
-			if (find_connections(data, connections) != NULL)
-				connections = find_connections(data, connections);
-			else
-			{
-				// free(connections);
+			if (find_connections(data, connections) == NULL)
 				break ;
-			}
+			connections = find_connections(data, connections);
 			i = 0;
 			while (connections[i])
 			{
