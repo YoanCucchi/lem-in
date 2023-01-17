@@ -90,27 +90,29 @@ static int	*remove_connection(int *connections, int index)
 	return (connections);
 }
 
-static void	delete_path_data(t_data *data, int index)
+static void	move_path_data(t_data *data, int index, int delete)
 {
-	int	size = 10; // a fixer. index = 2 soit = index 3
+	int	size;
+	int	i;
 
-	ft_printf("inside");
-	while (index + 1 < size)
+	size = 10; // a fixer.
+	i = size - 1;
+	if (delete) // remove a path
 	{
-		ft_printf("in loop : index = %d\n", index);
-		ft_memcpy(data->path[index], data->path[index+1], size * sizeof(int));
-		index++;
+		while (index < i)
+		{
+			ft_printf("in loop : index = %d\n", index);
+			ft_memcpy(data->path[index], data->path[index + 1], size * sizeof(int));
+			index++;
+		}
 	}
-}
-
-static void	move_path_data(t_data *data)
-{
-	int	size = 10; // a fixer.
-	int	i = size - 1;
-	while (i > 0)
+	else // move to the right
 	{
-		ft_memcpy(data->path[i], data->path[i-1], size * sizeof(int));
-		i--;
+		while (i > index)
+		{
+			ft_memcpy(data->path[i], data->path[i - 1], size * sizeof(int));
+			i--;
+		}
 	}
 }
 
@@ -154,14 +156,14 @@ int	*find_connections(t_data *data, int *connections)
 			ft_printf("MULTIPLE ROOMS LINK\n");
 			// move all path data to next path
 			connections = add_new_connection(connections, i);
-			move_path_data(data);
+			move_path_data(data, i, 0);
 		}
 		else if (nb_links(data, connections[i]) == 0)
 		{
 			ft_printf("no connections for this path FINISH HIM\n");
 			// need to delete this shitty path
 			connections = remove_connection(connections, i);
-			delete_path_data(data, i);
+			move_path_data(data, i, 1);
 			// find connections again ?  ou just path_i++ et i++ ? ou rien mais
 			// retourne connections sans celle path empty.
 		}
