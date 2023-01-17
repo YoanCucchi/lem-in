@@ -12,6 +12,17 @@
 
 #include "lem_in.h"
 
+// static int	is_there_any_solution(t_data *data, int *connections)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (connections[i])
+// 	{
+// 		if ()
+// 	}
+// }
+
 static void	reset_path(t_data *data)
 {
 	int	i;
@@ -65,6 +76,7 @@ static void	store_final_path(t_data *data, int i)
 
 void	find_path(t_data *data)
 {
+
 	int	*connections;
 	int	i;
 	int	winner;
@@ -74,17 +86,23 @@ void	find_path(t_data *data)
 	winner = 0;
 	// then for each connection check how much connection there is
 	// and act accordingly (1 = perfect, >1 = dup path, 0 = drop)
-	ft_printf("DEBUT FIND PATH\n\n\n");
 	if (!find_starting_links(data, connections)) // find and copy starting links
 	{
+		ft_printf("free\n");
 		free(connections);
 		return ;
 	}
 	if (connections[i] && connections[i] != data->nb_rooms - 1)
 	{
-		while (!winner)
+		while (!winner && connections)
 		{
-			connections = find_connections(data, connections);
+			if (find_connections(data, connections) != NULL)
+				connections = find_connections(data, connections);
+			else
+			{
+				// free(connections);
+				break ;
+			}
 			i = 0;
 			while (connections[i])
 			{
@@ -100,26 +118,6 @@ void	find_path(t_data *data)
 			}
 		}
 		reset_path(data);
-		ft_printf("connections => \n");
-		ft_printf("connections[0] = %d\n", connections[0]);
-		ft_printf("connections[1] = %d\n", connections[1]);
-		ft_printf("connections[2] = %d\n", connections[2]);
-		ft_printf("connections[3] = %d\n", connections[3]);
-		ft_printf("connections[4] = %d\n", connections[4]);
-		ft_printf("connections[5] = %d\n", connections[5]);
-		ft_printf("data->rooms[0].visited = %d\n", data->rooms[0].visited);
-		ft_printf("data->rooms[1].visited = %d\n", data->rooms[1].visited);
-		ft_printf("data->rooms[2].visited = %d\n", data->rooms[2].visited);
-		ft_printf("data->rooms[3].visited = %d\n", data->rooms[3].visited);
-		ft_printf("data->rooms[4].visited = %d\n", data->rooms[4].visited);
-		ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
-		ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
-		ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
-		ft_printf("data->rooms[8].visited = %d\n", data->rooms[8].visited);
-		ft_printf("data->rooms[9].visited = %d\n", data->rooms[9].visited);
-		// store winner in final path, increase path number ++
-		// clear all paths, reset visited++
-		// recommencer xd
 	}
 	free(connections);
 	find_path(data);

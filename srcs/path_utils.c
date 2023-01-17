@@ -12,6 +12,20 @@
 
 #include "lem_in.h"
 
+int	connections_all_zero(t_data *data, int *connections)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_rooms - 1)
+	{
+		if (connections[i] != 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	print_connections(int *connections)
 {
 	int	i;
@@ -207,7 +221,11 @@ int	*find_connections(t_data *data, int *connections)
 	}
 	data->path_j++;
 	free(save);
-
+	if (connections_all_zero(data, connections) == 0)
+	{
+		ft_printf("GET OUT BITCH\n\n");
+		return (0);
+	}
 	ft_printf("connections before starting new cycle : \n\n");
 	print_connections(connections);
 	ft_printf("path at this points = \n\n");
