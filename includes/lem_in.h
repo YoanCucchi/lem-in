@@ -54,7 +54,6 @@ typedef struct s_data {
 	int		**path;
 	int		**final_path;
 	int		path_counter;
-	int		tmp_path_counter;
 	int		start_found;
 	int		end_found;
 	int		ants;
@@ -91,7 +90,7 @@ void	clean_line_array_all(t_data *data, char *s, char *line);
 void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
 void	find_path(t_data *data);
-void	find_starting_links(t_data *data, int *connections);
+int		find_starting_links(t_data *data, int *connections);
 void	reset_connections(t_data *data, int *connections);
 int		*find_connections(t_data *data, int *connections);
 void	print_connections(int *connections);

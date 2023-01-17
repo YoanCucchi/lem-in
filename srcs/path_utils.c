@@ -24,18 +24,25 @@ void	print_connections(int *connections)
 	}
 }
 
-void	find_starting_links(t_data *data, int *connections)
+int	find_starting_links(t_data *data, int *connections)
 {
 	int	i;
 	int	j;
+	int	found;
 
 	i = 0;
 	j = 0;
+	found = 0;
+	data->path_j = 1;
+	data->path_i = 0;
+	ft_printf("in starting links\n");
 	// first fonction to check connections with start and create paths
-	while (!data->rooms[j].visited && j < data->nb_rooms)
+	while (j < data->nb_rooms)
 	{
-		if (data->tab[0][j])
+		ft_printf("inside while loop\n");
+		if (data->tab[0][j] && !data->rooms[j].visited)
 		{
+			found++;
 			connections[i] = j;
 			data->rooms[j].visited = 1;
 			data->path[data->path_i++][data->path_j] = j;
@@ -44,6 +51,10 @@ void	find_starting_links(t_data *data, int *connections)
 		j++;
 	}
 	data->path_j++;
+	print_connections(connections);
+	if (!found)
+		return (0);
+	return (1);
 }
 
 void	reset_connections(t_data *data, int *connections)
@@ -51,8 +62,9 @@ void	reset_connections(t_data *data, int *connections)
 	int	i;
 
 	i = 0;
-	while (i++ < data->nb_rooms)
-		connections[i] = 0;
+	ft_printf("reset connections \n");
+	while (i < data->nb_rooms)
+		connections[i++] = 0;
 }
 
 static int	*add_new_connection(int *connections, int index)
