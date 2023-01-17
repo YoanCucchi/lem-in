@@ -16,23 +16,32 @@ void	find_path(t_data *data)
 {
 	int	*connections;
 	int	i;
+	int	winner;
 
-	ft_printf("inside\n");
 	connections = (int *)malloc(sizeof(int) * data->nb_rooms);
 	i = 0;
+	winner = 0;
 	// then for each connection check how much connection there is
 	// and act accordingly (1 = perfect, >1 = dup path, 0 = drop)
 	find_starting_links(data, connections); // find and copy starting links
 	if (connections[i])
-		connections = find_connections(data, connections);
-	// connections = 456
-	i = 0;
-	while (connections[i])
-		ft_printf("connections = %d\n", connections[i++]);
-	if (connections[i])
-		connections = find_connections(data, connections);
-	i = 0;
-	while (connections[i])
-		ft_printf("connections = %d\n", connections[i++]);
-	free(connections);
+	{
+		while (!winner)
+		{
+			connections = find_connections(data, connections);
+			i = 0;
+			while (connections[i++])
+			{
+				if (connections[i] == data->nb_rooms - 1)
+				{
+					ft_printf("winner = %d\n", i);
+					winner = 1;
+				}
+			}
+		}
+		free(connections);
+		// store winner in final path, increase path number ++
+		// clear all paths, reset visited++
+		// recommencer xd
+	}
 }

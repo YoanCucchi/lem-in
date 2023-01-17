@@ -103,6 +103,16 @@ int	main(int argc, char **argv)
 	ft_printf("data->path[3][2] = %d\n", data->path[3][2]);
 	ft_printf("data->path[3][3] = %d\n", data->path[3][3]);
 	ft_printf("--------------------------------------------------\n");
+	ft_printf("data->path[4][0] = %d\n", data->path[4][0]);
+	ft_printf("data->path[4][1] = %d\n", data->path[4][1]);
+	ft_printf("data->path[4][2] = %d\n", data->path[4][2]);
+	ft_printf("data->path[4][3] = %d\n", data->path[4][3]);
+	ft_printf("--------------------------------------------------\n");
+	ft_printf("data->path[5][0] = %d\n", data->path[5][0]);
+	ft_printf("data->path[5][1] = %d\n", data->path[5][1]);
+	ft_printf("data->path[5][2] = %d\n", data->path[5][2]);
+	ft_printf("data->path[5][3] = %d\n", data->path[5][3]);
+	ft_printf("--------------------------------------------------\n");
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
