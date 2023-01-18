@@ -94,5 +94,9 @@ int		find_starting_links(t_data *data, int *connections);
 void	reset_connections(t_data *data, int *connections);
 int		*find_connections(t_data *data, int *connections);
 void	print_connections(int *connections);
+void	reset_path(t_data *data);
+void	reset_visited(t_data *data);
+void	store_final_path(t_data *data, int i);
+
 
 #endif

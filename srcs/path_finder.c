@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-static void	reset_path(t_data *data)
+void	reset_path(t_data *data)
 {
 	int	i;
 	int	j;
@@ -28,7 +28,7 @@ static void	reset_path(t_data *data)
 	}
 }
 
-static void	reset_visited(t_data *data)
+void	reset_visited(t_data *data)
 {
 	int	i;
 	int	j;
@@ -50,7 +50,7 @@ static void	reset_visited(t_data *data)
 	}
 }
 
-static void	store_final_path(t_data *data, int i)
+void	store_final_path(t_data *data, int i)
 {
 	int	j;
 
@@ -76,14 +76,28 @@ void	find_path(t_data *data)
 	// then for each connection check how much connection there is
 	// and act accordingly (1 = perfect, >1 = dup path, 0 = drop)
 	if (!find_starting_links(data, connections)) // find and copy starting links
-		return (free(connections));
+	{
+		free(connections);
+		ft_printf("free avant return\n");
+		return ;
+	}
 	if (connections[i] && connections[i] != data->nb_rooms - 1)
 	{
 		while (!winner && connections)
 		{
 			if (find_connections(data, connections) == NULL)
+			{	
+				ft_printf("find connections is NULL\n");
 				break ;
+			}
 			connections = find_connections(data, connections);
+			ft_printf("juste avant free connections\n");
+			if (connections == NULL)
+			{
+				ft_printf("connetions = %s\n", connections);
+				ft_printf("on est dans free connections\n");
+				break ;
+			}
 			i = 0;
 			while (connections[i])
 			{
@@ -101,5 +115,6 @@ void	find_path(t_data *data)
 		reset_path(data);
 	}
 	free(connections);
+	ft_printf("connections a été free\n");
 	find_path(data);
 }
