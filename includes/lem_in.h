@@ -62,6 +62,9 @@ typedef struct s_data {
 	int		path_i;
 	int		path_j;
 	int		init_2;
+	int		over;
+	int		*dead_connections;
+	int		connections_index;
 }			t_data;
 
 /*

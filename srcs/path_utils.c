@@ -65,6 +65,7 @@ int	find_starting_links(t_data *data, int *connections)
 		j++;
 	}
 	data->path_j++;
+	ft_printf("connections du debut \n");
 	print_connections(connections);
 	ft_printf("--------------------------------------------------\n");
 	ft_printf("data->final_path[0][0] = %d\n", data->final_path[0][0]);
@@ -146,8 +147,13 @@ static int	*remove_connection(t_data *data, int *connections, int index)
 	int	size;
 	int	i;
 
+	ft_printf("index = %d\n", index);
 	i = index;
 	size = data->nb_rooms;
+	ft_printf("data->connections_index = %d\n", data->connections_index);
+	data->dead_connections[data->connections_index] = index;
+	data->connections_index++;
+	ft_printf("data->dead_connections[data->connections_index] = %d\n", data->dead_connections[data->connections_index - 1]);
 	while (index < size) // 123   ==> .13
 	{
 		connections[index] = connections[index + 1];
@@ -219,7 +225,9 @@ int	*find_connections(t_data *data, int *connections)
 					free(save);
 					store_final_path(data, i);
 					reset_visited(data);
-					return (0);
+					data->over = 1;
+					ft_printf("return connections\n");
+					return (connections);
 				}
 				data->path_i++;
 				save[++k] = j;
@@ -268,6 +276,7 @@ int	*find_connections(t_data *data, int *connections)
 	ft_printf("data->path[4][5] = %d\n", data->path[4][5]);
 	ft_printf("--------------------------------------------------\n");
 	if (no_possible_solution(data, connections) == 0)
-		return (0);
+		data->over = 1;
+	data->over = 0;
 	return (connections);
 }

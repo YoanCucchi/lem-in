@@ -40,6 +40,8 @@ static void	clean_struct(t_data *data)
 		free(data->start);
 	if (data->end)
 		free(data->end);
+	if (data->dead_connections)
+		free(data->dead_connections);
 	if (data->path)
 		free_tab_array(data, data->path);
 	if (data->final_path)

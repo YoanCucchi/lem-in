@@ -1,27 +1,25 @@
-Process:         lem-in [2935]
+Process:         lem-in [82636]
 Path:            /Users/USER/*/lem-in
-Load Address:    0x100644000
+Load Address:    0x102cf0000
 Identifier:      lem-in
 Version:         0
 Code Type:       ARM64
 Platform:        macOS
-Parent Process:  zsh [96347]
+Parent Process:  zsh [76952]
 
-Date/Time:       2023-01-18 17:58:14.091 +0200
-Launch Time:     2023-01-18 17:58:13.619 +0200
+Date/Time:       2023-01-18 19:32:37.340 +0200
+Launch Time:     2023-01-18 19:32:37.055 +0200
 OS Version:      macOS 13.1 (22C65)
 Report Version:  7
 Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
 Analysis Tool Version:  Xcode 14.1 (14B47b)
 
-Physical footprint:         1281K
-Physical footprint (peak):  1281K
+Physical footprint:         1345K
+Physical footprint (peak):  1345K
 Idle exit: untracked
 ----
 
 leaks Report Version: 4.0
-Process 2935: 210 nodes malloced for 12 KB
-Process 2935: 1 leak for 48 total leaked bytes.
-
-    1 (48 bytes) ROOT LEAK: 0x600001760000 [48]
+Process 82636: 209 nodes malloced for 12 KB
+Process 82636: 0 leaks for 0 total leaked bytes.
 
