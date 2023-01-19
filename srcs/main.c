@@ -12,6 +12,54 @@
 
 #include "lem_in.h"
 
+void	print_final_path(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	ft_printf("============================================================\n");
+	while (i < data->path_counter)
+	{
+		j = 0;
+		while (j < data->nb_rooms || (j > 2 && data->final_path[i][j] > 0))
+		{
+			ft_printf("data->final_path[%d]", i);
+			ft_printf("[%d]", j);
+			ft_printf(" = %d\n", data->final_path[i][j]);
+			j++;
+		}
+		ft_printf("--------------------------------------------------------\n");
+		i++;
+	}
+	ft_printf("============================================================\n");
+}
+
+void	print_path(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	ft_printf("============================================================\n");
+	while (i < 2 || (i > 2 && data->path[i][j] > 0))
+	{
+		j = 0;
+		while (j < data->nb_rooms || (j > 2 && data->path[i][j] > 0))
+		{
+			ft_printf("data->path[%d]", i);
+			ft_printf("[%d]", j);
+			ft_printf(" = %d\n", data->path[i][j]);
+			j++;
+		}
+		ft_printf("--------------------------------------------------------\n");
+		i++;
+	}
+	ft_printf("============================================================\n");
+}
+
 static void	free_map_array(t_data *data)
 {
 	int	i;
@@ -83,35 +131,7 @@ int	main(int argc, char **argv)
 	// solver(data, 1);
 	// result(data);
 	find_path(data);
-
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("final\n");
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("data->final_path[0][0] = %d\n", data->final_path[0][0]);
-	ft_printf("data->final_path[0][1] = %d\n", data->final_path[0][1]);
-	ft_printf("data->final_path[0][2] = %d\n", data->final_path[0][2]);
-	ft_printf("data->final_path[0][3] = %d\n", data->final_path[0][3]);
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("data->final_path[1][0] = %d\n", data->final_path[1][0]);
-	ft_printf("data->final_path[1][1] = %d\n", data->final_path[1][1]);
-	ft_printf("data->final_path[1][2] = %d\n", data->final_path[1][2]);
-	ft_printf("data->final_path[1][3] = %d\n", data->final_path[1][3]);
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("data->final_path[2][0] = %d\n", data->final_path[2][0]);
-	ft_printf("data->final_path[2][1] = %d\n", data->final_path[2][1]);
-	ft_printf("data->final_path[2][2] = %d\n", data->final_path[2][2]);
-	ft_printf("data->final_path[2][3] = %d\n", data->final_path[2][3]);
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("data->final_path[3][0] = %d\n", data->final_path[3][0]);
-	ft_printf("data->final_path[3][1] = %d\n", data->final_path[3][1]);
-	ft_printf("data->final_path[3][2] = %d\n", data->final_path[3][2]);
-	ft_printf("data->final_path[3][3] = %d\n", data->final_path[3][3]);
-	ft_printf("--------------------------------------------------\n");
-	ft_printf("data->final_path[4][0] = %d\n", data->final_path[4][0]);
-	ft_printf("data->final_path[4][1] = %d\n", data->final_path[4][1]);
-	ft_printf("data->final_path[4][2] = %d\n", data->final_path[4][2]);
-	ft_printf("data->final_path[4][3] = %d\n", data->final_path[4][3]);
-	ft_printf("--------------------------------------------------\n");
+	print_final_path(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);

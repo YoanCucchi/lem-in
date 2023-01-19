@@ -92,8 +92,7 @@ void	find_path(t_data *data)
 	connections = (int *)malloc(sizeof(int) * data->nb_rooms * 2); // malloc protec
 	i = 0;
 	winner = 0;
-	// then for each connection check how much connection there is
-	// and act accordingly (1 = perfect, >1 = dup path, 0 = drop)
+// PROBLEM HERE WHEN THE PATH IS USELESS IT'S CREATING A LOOP
 	if (!find_starting_links(data, connections)) // find and copy starting links
 	{
 		free(connections);

@@ -100,6 +100,8 @@ void	print_connections(int *connections);
 void	reset_path(t_data *data);
 void	reset_visited(t_data *data);
 void	store_final_path(t_data *data, int i);
+void	print_final_path(t_data *data);
+void	print_path(t_data *data);
 
 
 #endif
