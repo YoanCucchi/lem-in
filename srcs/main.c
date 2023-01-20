@@ -88,8 +88,6 @@ static void	clean_struct(t_data *data)
 		free(data->start);
 	if (data->end)
 		free(data->end);
-	if (data->saved_connections)
-		free(data->saved_connections);
 	if (data->dead_connections)
 		free(data->dead_connections);
 	if (data->path)

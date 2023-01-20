@@ -24,9 +24,8 @@ t_data	*struct_init_2(t_data *data)
 	data->path = (int **)ft_memalloc(sizeof(int *) * 1000);
 	data->final_path = (int **)ft_memalloc(sizeof(int *) * 1000);
 	data->tab = (int **)ft_memalloc(sizeof(int *) * 1000);
-	data->saved_connections = (int *)malloc(sizeof(int) * data->nb_rooms);
 	if (!data->path || !data->tab || !data->rooms || !data->final_path || \
-	!data->dead_connections || ! data->saved_connections)
+	!data->dead_connections)
 		clean_all(data, 1);
 	while (++i < data->nb_rooms)
 	{
