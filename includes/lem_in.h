@@ -64,6 +64,7 @@ typedef struct s_data {
 	int		init_2;
 	int		over;
 	int		*dead_connections;
+	int		*saved_connections;
 	int		connections_index;
 }			t_data;
 
@@ -102,6 +103,7 @@ void	reset_visited(t_data *data);
 void	store_final_path(t_data *data, int i);
 void	print_final_path(t_data *data);
 void	print_path(t_data *data);
-
+int		is_it_same_connections(t_data *data, int *connections);
+void	save_connetions(t_data *data, int *connections);
 
 #endif

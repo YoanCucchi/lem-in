@@ -132,6 +132,8 @@ void	find_path(t_data *data)
 		}
 		reset_path(data);
 	}
+	ft_printf("juste avant free\n");
+	print_connections(connections);
 	free(connections);
 	ft_printf("connections a été free\n");
 	find_path(data);

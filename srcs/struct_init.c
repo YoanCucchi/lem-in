@@ -18,13 +18,15 @@ t_data	*struct_init_2(t_data *data)
 	int	j;
 
 	i = -1;
-	data->init_2 = 1;
+	data->init_2 = 1; // Check those malloc for the size
 	data->rooms = (t_rooms *)ft_memalloc(sizeof(t_data));
 	data->dead_connections = (int *)malloc(sizeof(int) * data->nb_rooms);
 	data->path = (int **)ft_memalloc(sizeof(int *) * 1000);
 	data->final_path = (int **)ft_memalloc(sizeof(int *) * 1000);
 	data->tab = (int **)ft_memalloc(sizeof(int *) * 1000);
-	if (!data->path || !data->tab || !data->rooms || !data->final_path || !data->dead_connections)
+	data->saved_connections = (int *)malloc(sizeof(int) * data->nb_rooms);
+	if (!data->path || !data->tab || !data->rooms || !data->final_path || \
+	!data->dead_connections || ! data->saved_connections)
 		clean_all(data, 1);
 	while (++i < data->nb_rooms)
 	{

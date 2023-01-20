@@ -12,6 +12,44 @@
 
 #include "lem_in.h"
 
+void	save_connetions(t_data *data, int *connections)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("beginning of save connections\n");
+	while (i < data->nb_rooms - 1)
+	{
+		data->saved_connections[i] = connections[i];
+		i++;
+	}
+	ft_printf("after saving\n");
+	ft_printf("connections = \n");
+	print_connections(connections);
+	ft_printf("saved connections = \n");
+	print_connections(data->saved_connections);
+}
+
+int	is_it_same_connections(t_data *data, int *connections)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("debut de is it the same connections\n");
+	while (i < data->nb_rooms - 1)
+	{
+		if (connections[i] != data->saved_connections[i])
+		{
+			ft_printf("connections[i] = %d\n", connections[i]);
+			ft_printf("saved_connections[i] = %d\n", data->saved_connections[i]);
+			return (1);
+		}
+		i++;
+	}
+	ft_printf("on a return 0 fin\n");
+	return (0);
+}
+
 int	no_possible_solution(t_data *data, int *connections)
 {
 	int	i;
@@ -64,13 +102,14 @@ int	find_starting_links(t_data *data, int *connections)
 		}
 		j++;
 	}
+	if (!found)
+		return (0);
 	data->path_j++;
+	save_connetions(data, connections);
 	ft_printf("connections du debut \n");
 	print_connections(connections);
 	ft_printf("final_path at this point\n");
 	print_final_path(data);
-	if (!found)
-		return (0);
 	return (1);
 }
 
@@ -97,7 +136,6 @@ static void	move_path_data(t_data *data, int index, int delete)
 	{
 		while (index < i)
 		{
-			ft_printf("in loop : index = %d\n", index);
 			ft_memcpy(data->path[index], data->path[index + 1], size * sizeof(int));
 			index++;
 		}
@@ -196,7 +234,16 @@ int	*find_connections(t_data *data, int *connections)
 		if (nb_links(data, connections[i]) > 1)
 			connections = add_new_connection(data, connections, i);
 		else if (nb_links(data, connections[i]) == 0)
+		{
 			connections = remove_connection(data, connections, i);
+			if (no_possible_solution(data, connections) == 0)
+			{
+				ft_printf("RETURN CONNECTIONS because no possible solution");
+				data->over = 1;
+				free(save);
+				return (connections);
+			}
+		}
 		while (++j < data->nb_rooms)
 		{
 			if (data->tab[connections[i]][j] && !data->rooms[j].visited)
@@ -222,6 +269,7 @@ int	*find_connections(t_data *data, int *connections)
 		}
 	}
 	reset_connections(data, connections);
+	// if (connections) // pas sur 
 	connections = cpy_new_connections(data, connections, save);
 	free(save);
 	ft_printf("end of find connections\n");
