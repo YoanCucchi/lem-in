@@ -59,7 +59,7 @@ t_data	*struct_init(t_data *data)
 	data->links = ft_strnew(data->nb_rooms * 1000);
 	data->rooms_list = ft_strnew(data->nb_rooms * 1000);
 	data->rooms_trim = ft_strnew(data->nb_rooms * 5000);
-	data->map = ft_strnew(100000);
+	// data->map = ft_strnew(1000000);
 	data->start = ft_strnew(1000);
 	data->end = ft_strnew(1000);
 	data->trim_start = ft_strnew(1000);

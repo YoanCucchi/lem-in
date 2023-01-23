@@ -44,12 +44,20 @@ int	is_empty(char *str)
 void	copy_map(t_data *data, char *line)
 {
 	char	*line_copy;
+	int		len;
 
 	line_copy = NULL;
+	len = 0;
 	if (is_empty(line))
 		clean_all(data, 1);
 	line_copy = ft_strdup(line);
 	line_copy = ft_strcat(line_copy, "\n");
+	if (data->map)
+		len = ft_strlen(line_copy) + ft_strlen(data->map) + 1;
+	free(data->map);
+	data->map = (char *)malloc(sizeof(char) * len);
+	if (!data->map)
+		clean_all(data, 1);
 	data->map = ft_strcat(data->map, line_copy);
 	free(line_copy);
 }
