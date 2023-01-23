@@ -20,10 +20,10 @@ t_data	*struct_init_2(t_data *data)
 	i = -1;
 	data->init_2 = 1; // Check those malloc for the size
 	data->rooms = (t_rooms *)ft_memalloc(sizeof(t_data));
-	data->dead_connections = (int *)malloc(sizeof(int) * (1000000));
-	data->path = (int **)ft_memalloc(sizeof(int *) * (1000000));
-	data->final_path = (int **)ft_memalloc(sizeof(int *) * 1000000);
-	data->tab = (int **)ft_memalloc(sizeof(int *) * 1000000);
+	data->dead_connections = (int *)malloc(sizeof(int) * (1000));
+	data->path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 200));
+	data->final_path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 100));
+	data->tab = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 100));
 	if (!data->path || !data->tab || !data->rooms || !data->final_path || \
 	!data->dead_connections)
 		clean_all(data, 1);
@@ -59,7 +59,6 @@ t_data	*struct_init(t_data *data)
 	data->links = ft_strnew(data->nb_rooms * 1000);
 	data->rooms_list = ft_strnew(data->nb_rooms * 1000);
 	data->rooms_trim = ft_strnew(data->nb_rooms * 5000);
-	// data->map = ft_strnew(1000000);
 	data->start = ft_strnew(1000);
 	data->end = ft_strnew(1000);
 	data->trim_start = ft_strnew(1000);
