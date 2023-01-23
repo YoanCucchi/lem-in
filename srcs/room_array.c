@@ -14,31 +14,37 @@
 
 static void	storing_start_end_rooms(t_data *data)
 {
-	data->rooms[0].name = ft_strcpy(data->rooms[0].name, data->trim_start);
+	data->rooms[0].name = (char *)ft_memalloc(sizeof(char) * 100);
 	if (!data->rooms[0].name)
+		clean_all(data, 1);
+	data->rooms[0].name = ft_strcpy(data->rooms[0].name, data->trim_start);
+	data->rooms[data->nb_rooms - 1].name = (char *)ft_memalloc(sizeof(char) * 100);
+	if (!data->rooms[data->nb_rooms - 1].name)
 		clean_all(data, 1);
 	data->rooms[data->nb_rooms - 1].name = \
 	ft_strcpy(data->rooms[data->nb_rooms - 1].name, data->trim_end);
-	if (!data->rooms[data->nb_rooms - 1].name)
-		clean_all(data, 1);
 }
 
 static void	storing_rooms(t_data *data, char **line, int i, int j)
 {
-	while (line[++i] && j < data->nb_rooms)
+	while (line[++i] && j < data->nb_rooms - 1)
 	{
 		if (!ft_strcmp(data->trim_start, line[i]))
 			data->start_found++;
 		else if (!ft_strcmp(data->trim_end, line[i]))
 			data->end_found++;
-		else if (data->start_found > 1 || data->end_found > 1)
-			free_char_array(data, line, 1);
 		else
 		{
-			data->rooms[j].name = ft_strcpy(data->rooms[j].name, line[i]);
-			if (!data->rooms[j].name)
+			data->rooms[j].name = (char *)ft_memalloc(sizeof(char) * 50);
+			if (data->start_found > 1 || data->end_found > 1)
 				free_char_array(data, line, 1);
-			j++;
+			else
+			{
+				data->rooms[j].name = ft_strcpy(data->rooms[j].name, line[i]);
+				if (!data->rooms[j].name)
+					free_char_array(data, line, 1);
+				j++;
+			}
 		}
 	}
 }
@@ -80,12 +86,15 @@ void	make_rooms_array(t_data *data)
 	i = 0;
 	line = NULL;
 	trim_room_array(data, line, i);
+	ft_printf("apres trim room array\n");
 	line = ft_strsplit(data->rooms_trim, ' ');
 	if (!line)
 		clean_all(data, 1);
 	i = -1;
 	j = 1;
 	storing_start_end_rooms(data);
+	ft_printf("apres store start / end\n");
 	storing_rooms(data, line, i, j);
+	ft_printf("apres storing rooms \n");
 	free_char_array(data, line, 0);
 }

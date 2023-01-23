@@ -44,10 +44,10 @@ void	print_path(t_data *data)
 	i = 0;
 	j = 0;
 	ft_printf("============================================================\n");
-	while (i < 2 || (i > 2 && data->path[i][j] > 0))
+	while (i < 2 || (i > 2 && data->path[i][j] >= 1))
 	{
 		j = 0;
-		while (j < data->nb_rooms || (j > 2 && data->path[i][j] > 0))
+		while (j < data->nb_rooms || (j > 2 && data->path[i][j] >= 1))
 		{
 			ft_printf("data->path[%d]", i);
 			ft_printf("[%d]", j);
@@ -118,19 +118,33 @@ void	clean_all(t_data *data, int error)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
+	int	i;
 
+	i = 0;
 	data = NULL;
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
 		clean_all(data, 1);
 	data = struct_init(data);
-	
+	ft_printf("apres struct_init\n");
 	map_reader(data);
+	ft_printf("apres map_reader\n");
 	make_rooms_array(data);
+	ft_printf("apres make rooms array\n");
+	while (i < data->nb_rooms)
+	{
+		ft_printf("data->rooms[%d].name", i);
+		ft_printf(" = %s\n", data->rooms[i].name);
+		i++;
+	}
 	tab_array(data);
+	ft_printf("apres tab array\n");
 	print_matrix(data);
+	ft_printf("apres print matrix\n");
 	// solver(data, 1);
 	// result(data);
+	ft_printf("data->links = %s\n", data->links);
 	find_path(data);
+	ft_printf("apres find data\n");
 	print_final_path(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");

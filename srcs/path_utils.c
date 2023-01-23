@@ -234,6 +234,8 @@ int	*find_connections(t_data *data, int *connections)
 	free(save);
 	ft_printf("end of find connections\n");
 	print_path(data);
+	ft_printf("final path at this point\n");
+	print_final_path(data);
 	if (no_possible_solution(data, connections) == 0)
 		data->over = 1;
 	data->over = 0;

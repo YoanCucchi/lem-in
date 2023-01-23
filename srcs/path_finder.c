@@ -74,6 +74,7 @@ void	store_final_path(t_data *data, int i)
 	int	j;
 
 	j = 0;
+	ft_printf(" STORE IN FINAL PATH\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	while (j < data->nb_rooms)
 	{
 		data->final_path[data->path_counter][j] = data->path[i][j];
