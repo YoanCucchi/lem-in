@@ -94,7 +94,6 @@ void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
 void	find_path(t_data *data);
 int		find_starting_links(t_data *data, int *connections);
-void	reset_connections(t_data *data, int *connections);
 int		*find_connections(t_data *data, int *connections);
 void	print_connections(int *connections);
 void	reset_path(t_data *data);
@@ -102,5 +101,6 @@ void	reset_visited(t_data *data);
 void	store_final_path(t_data *data, int i);
 void	print_final_path(t_data *data);
 void	print_path(t_data *data);
+void	reset_int_array(t_data *data, int *connections, int full);
 
 #endif

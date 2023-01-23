@@ -22,12 +22,14 @@ void	print_final_path(t_data *data)
 	ft_printf("============================================================\n");
 	while (i < data->path_counter)
 	{
-		j = 0;
-		while (j < data->nb_rooms || (j > 2 && data->final_path[i][j] > 0))
+		j = 1;
+		ft_printf("data->final_path[0] = %d\n", data->final_path[i][0]);
+		while (data->final_path[i][j] != 0)
 		{
 			ft_printf("data->final_path[%d]", i);
 			ft_printf("[%d]", j);
-			ft_printf(" = %d\n", data->final_path[i][j]);
+			ft_printf(" = %d", data->final_path[i][j]);
+			ft_printf(" ==> name : %s\n", data->rooms[data->final_path[i][j]].name);
 			j++;
 		}
 		ft_printf("--------------------------------------------------------\n");
@@ -120,6 +122,9 @@ int	main(int argc, char **argv)
 	t_data	*data;
 	int	i;
 
+// maps 42 malloc issue not enough memory
+// long hard map bon test apparement je dois pas set visited
+// avant que les connections en cours aient été testé
 	i = 0;
 	data = NULL;
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))

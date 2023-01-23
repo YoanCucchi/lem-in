@@ -12,6 +12,17 @@
 
 #include "lem_in.h"
 
+void	reset_int_array(t_data *data, int *connections, int full)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nb_rooms)
+		connections[i] = 0;
+	if (full)
+	free(connections);
+}
+
 void	reset_path(t_data *data)
 {
 	int	i;
@@ -90,13 +101,13 @@ void	find_path(t_data *data)
 	int	i;
 	int	winner;
 
-	connections = (int *)malloc(sizeof(int) * data->nb_rooms * 2); // malloc protec
+	connections = (int *)malloc(sizeof(int) * data->nb_rooms * 200); // malloc protec
+	reset_int_array(data, connections, 0);
 	i = 0;
 	winner = 0;
-// PROBLEM HERE WHEN THE PATH IS USELESS IT'S CREATING A LOOP
 	if (!find_starting_links(data, connections)) // find and copy starting links
 	{
-		free(connections);
+		reset_int_array(data, connections, 1);
 		ft_printf("free avant return\n");
 		return ;
 	}
@@ -126,7 +137,7 @@ void	find_path(t_data *data)
 					winner = 1;
 					store_final_path(data, i);
 					reset_visited(data);
-					reset_connections(data, connections);
+					reset_int_array(data, connections, 0);
 				}
 				i++;
 			}
@@ -135,7 +146,7 @@ void	find_path(t_data *data)
 	}
 	ft_printf("juste avant free\n");
 	print_connections(connections);
-	free(connections);
+	reset_int_array(data, connections, 1);
 	ft_printf("connections a été free\n");
 	find_path(data);
 }

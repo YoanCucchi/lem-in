@@ -73,16 +73,6 @@ int	find_starting_links(t_data *data, int *connections)
 	return (1);
 }
 
-void	reset_connections(t_data *data, int *connections)
-{
-	int	i;
-
-	i = 0;
-	ft_printf("reset connections \n");
-	while (i < data->nb_rooms)
-		connections[i++] = 0;
-}
-
 static void	move_path_data(t_data *data, int index, int delete)
 {
 	int	size;
@@ -130,11 +120,18 @@ static int	*remove_connection(t_data *data, int *connections, int index)
 {
 	int	size;
 	int	i;
+	int	j;
 
 	ft_printf("index = %d\n", index);
 	i = index;
+	j = -1;
 	size = data->nb_rooms;
 	ft_printf("data->connections_index = %d\n", data->connections_index);
+	while (data->dead_connections[++j])
+	{
+		if (data->dead_connections[j] == index)
+			break ;
+	}
 	data->dead_connections[data->connections_index] = index;
 	data->connections_index++;
 	ft_printf("data->dead_connections[data->connections_index] = %d\n", data->dead_connections[data->connections_index - 1]);
@@ -184,12 +181,14 @@ int	*find_connections(t_data *data, int *connections)
 
 	ft_printf("début de find connections\n");
 	save = (int *)malloc(sizeof(int) * data->nb_rooms);
+	reset_int_array(data, save, 0);
 	i = -1;
 	k = -1;
 	data->path_i = 0;
 	while (connections[++i])
 	{
 		ft_printf("i = %d\n", i);
+		ft_printf("nb rooms = %d\n", data->nb_rooms);
 		j = -1;
 		if (nb_links(data, connections[i]) > 1)
 			connections = add_new_connection(data, connections, i);
@@ -228,10 +227,10 @@ int	*find_connections(t_data *data, int *connections)
 			}
 		}
 	}
-	reset_connections(data, connections);
+	reset_int_array(data, connections, 0);
 	// if (connections) // pas sur 
 	connections = cpy_new_connections(data, connections, save);
-	free(save);
+	reset_int_array(data, save, 1);
 	ft_printf("end of find connections\n");
 	print_path(data);
 	ft_printf("final path at this point\n");

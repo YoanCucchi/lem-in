@@ -64,8 +64,10 @@ void	tab_array(t_data *data)
 		r_2 = find_index(data, l[1]);
 		if (r_1 >= data->nb_rooms || r_2 >= data->nb_rooms)
 			clean_links_array_all(data, links, l);
+		data->tab[r_1][r_2] = 0;
 		if (r_2)
 			data->tab[r_1][r_2] = 1;
+		data->tab[r_2][r_1] = 0;
 		if (r_1)
 			data->tab[r_2][r_1] = 1;
 		free_char_array(data, l, 0);
