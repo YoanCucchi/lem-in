@@ -122,9 +122,8 @@ int	main(int argc, char **argv)
 	t_data	*data;
 	int	i;
 
-// maps 42 malloc issue not enough memory
-// long hard map bon test apparement je dois pas set visited
-// avant que les connections en cours aient été testé
+// maps 42 malloc issue not enough memory probleme is with line
+// des fois line = "" sans raison au cours du programme.
 	i = 0;
 	data = NULL;
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))

@@ -17,17 +17,23 @@ void	get_ants(t_data *data, char *line)
 	int		i;
 	char	*s;
 
-	i = -1;
+	i = 0;
+	ft_printf("ant line = %s\n", line);
 	if (line[0] == '#')
+	{
+		ft_printf("# spotted\n");
 		return (ft_strdel(&line));
+	}
 	data->dispatch = 1;
 	s = ft_strtrim(line);
+	ft_printf("ant line after strtrim= %s\n", line);
 	if (!s)
 		clean_line_all(data, line);
-	while (s[++i] != '\n' && s[++i] != '\0')
+	while (s[i] != '\n' && s[i] != '\0')
 	{
 		if (!ft_isdigit(s[i]))
 			clean_line_array_all(data, s, line);
+		i++;
 	}
 	data->ants = ft_atoi(s);
 	if (data->ants <= 0)
