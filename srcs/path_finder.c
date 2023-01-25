@@ -60,7 +60,7 @@ void	reset_visited(t_data *data)
 		}
 	}
 	i = 0;
-	while (data->dead_connections[i])
+	while (i < data->connections_index)
 	{
 		ft_printf("i = %d\n", i);
 		ft_printf("data->dead_connections[i] = %d\n", data->dead_connections[i]);
@@ -68,16 +68,6 @@ void	reset_visited(t_data *data)
 		i++;
 	}
 	ft_printf("after visited reset \n");
-	ft_printf("data->rooms[0].visited = %d\n", data->rooms[0].visited);
-	ft_printf("data->rooms[1].visited = %d\n", data->rooms[1].visited);
-	ft_printf("data->rooms[2].visited = %d\n", data->rooms[2].visited);
-	ft_printf("data->rooms[3].visited = %d\n", data->rooms[3].visited);
-	ft_printf("data->rooms[4].visited = %d\n", data->rooms[4].visited);
-	ft_printf("data->rooms[5].visited = %d\n", data->rooms[5].visited);
-	ft_printf("data->rooms[6].visited = %d\n", data->rooms[6].visited);
-	ft_printf("data->rooms[7].visited = %d\n", data->rooms[7].visited);
-	ft_printf("data->rooms[8].visited = %d\n", data->rooms[8].visited);
-	ft_printf("data->rooms[9].visited = %d\n", data->rooms[9].visited);
 }
 
 void	store_final_path(t_data *data, int i)
