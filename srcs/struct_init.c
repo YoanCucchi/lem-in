@@ -19,7 +19,7 @@ t_data	*struct_init_2(t_data *data)
 
 	i = -1;
 	data->init_2 = 1; // Check those malloc for the size
-	data->rooms = (t_rooms *)ft_memalloc(sizeof(t_data));
+	data->rooms = (t_rooms *)ft_memalloc(sizeof(t_data) * data->nb_rooms);
 	data->dead_connections = (int *)malloc(sizeof(int) * (10000));
 	data->path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 200));
 	data->final_path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 100));

@@ -105,6 +105,7 @@ static int	*add_new_connection(t_data *data, int *connections, int index)
 	int	i;
 
 	i = 0;
+	ft_printf("start add new connections\n");
 	while (connections[i])
 		i++;
 	i++;
@@ -113,6 +114,7 @@ static int	*add_new_connection(t_data *data, int *connections, int index)
 	connections[index] = connections[index];
 	print_connections(connections);
 	move_path_data(data, i, 0);
+	ft_printf("end add new connections\n");
 	return (connections);
 }
 
@@ -151,12 +153,17 @@ static int	nb_links(t_data *data, int room)
 
 	i = 0;
 	count = 0;
-	while (i < data->nb_rooms)
+	ft_printf("start nb links\n");
+	while (i < data->nb_rooms) // bug ici je dois trouver pourquoi .visited bug 
 	{
+		ft_printf("nb rooms = %d\n", data->nb_rooms);
+		ft_printf("i = %d\n", i);
+		ft_printf("data->rooms[i].visited = %d\n", data->rooms[i].visited);
 		if (data->tab[room][i] && !data->rooms[i].visited)
 			count++;
 		i++;
 	}
+	ft_printf("end nb links\n");
 	return (count);
 }
 static int	*cpy_new_connections(t_data *data, int *connections, int *save)

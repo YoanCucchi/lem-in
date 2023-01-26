@@ -120,11 +120,9 @@ void	clean_all(t_data *data, int error)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
-	int	i;
 
 // maps 42 malloc issue not enough memory probleme is with line
 // des fois line = "" sans raison au cours du programme.
-	i = 0;
 	data = NULL;
 	if (argc != 1 || !ft_strcmp(argv[0], "lem-in"))
 		clean_all(data, 1);
@@ -134,12 +132,6 @@ int	main(int argc, char **argv)
 	ft_printf("apres map_reader\n");
 	make_rooms_array(data);
 	ft_printf("apres make rooms array\n");
-	while (i < data->nb_rooms)
-	{
-		ft_printf("data->rooms[%d].name", i);
-		ft_printf(" = %s\n", data->rooms[i].name);
-		i++;
-	}
 	tab_array(data);
 	ft_printf("apres tab array\n");
 	print_matrix(data);
