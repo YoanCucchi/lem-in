@@ -47,11 +47,12 @@ void	copy_map(t_data *data, char *line)
 	int		len;
 
 	line_copy = NULL;
+	line_copy = (char *)malloc(sizeof(char) * 500); // correct size to be found
 	len = 0;
 	ft_printf("line 1 = %s\n", line);
 	if (is_empty(line))
 		clean_all(data, 1);
-	line_copy = ft_strdup(line);
+	line_copy = ft_strcpy(line_copy, line);
 	ft_printf("line 2 = %s\n", line);
 	line_copy = ft_strcat(line_copy, "\n");
 	ft_printf("line 3 = %s\n", line);

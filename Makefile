@@ -6,7 +6,7 @@
 #    By: ycucchi <yoan066@yahoo.fr>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/25 15:15:52 by ycucchi           #+#    #+#              #
-#    Updated: 2023/01/26 16:20:05 by ycucchi          ###   ########.fr        #
+#    Updated: 2023/01/27 09:04:17 by ycucchi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ clean_all_helper.c struct_init.c room_array.c tab_array.c print.c \
 print_result.c path_finder.c path_utils.c
 
 CC = gcc
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra
 
 INCLUDES = -I ./includes/
 LIBFT_INC = -I ./libft/includes/
