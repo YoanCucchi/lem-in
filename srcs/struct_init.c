@@ -29,7 +29,7 @@ t_data	*struct_init_2(t_data *data)
 		clean_all(data, 1);
 	while (++i < data->nb_rooms)
 	{
-		data->path[i] = (int *)ft_memalloc(sizeof(int) * 10000);
+		data->path[i] = (int *)ft_memalloc(sizeof(int) * 100000);
 		data->final_path[i] = (int *)ft_memalloc(sizeof(int) * 10000);
 		data->tab[i] = (int *)ft_memalloc(sizeof(int) * 1000);
 		if (!data->tab[i])

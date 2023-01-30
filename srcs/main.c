@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h" // CHANGE
 
 void	print_final_path(t_data *data)
 {
@@ -23,7 +23,9 @@ void	print_final_path(t_data *data)
 	while (i < data->path_counter)
 	{
 		j = 1;
-		ft_printf("data->final_path[0] = %d\n", data->final_path[i][0]);
+		ft_printf("data->final_path[%d][0] =", i);
+		ft_printf(" %d", data->final_path[i][0]);
+		ft_printf(" ==> name : %s\n", data->rooms[0].name);
 		while (data->final_path[i][j] != 0)
 		{
 			ft_printf("data->final_path[%d]", i);
@@ -46,10 +48,10 @@ void	print_path(t_data *data)
 	i = 0;
 	j = 0;
 	ft_printf("============================================================\n");
-	while (i < 2 || (i > 2 && data->path[i][j] >= 1))
+	while (i < 6) // change value to debug
 	{
 		j = 0;
-		while (j < data->nb_rooms || (j > 2 && data->path[i][j] >= 1))
+		while (j < 10) // change value to debug
 		{
 			ft_printf("data->path[%d]", i);
 			ft_printf("[%d]", j);
