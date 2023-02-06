@@ -18,15 +18,10 @@ void	get_ants(t_data *data, char *line)
 	char	*s;
 
 	i = 0;
-	ft_printf("ant line = %s\n", line);
 	if (line[0] == '#')
-	{
-		ft_printf("# spotted\n");
 		return (ft_strdel(&line));
-	}
 	data->dispatch = 1;
 	s = ft_strtrim(line);
-	ft_printf("ant line after strtrim= %s\n", line);
 	if (!s)
 		clean_line_all(data, line);
 	while (s[i] != '\n' && s[i] != '\0')

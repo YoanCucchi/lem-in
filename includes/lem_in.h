@@ -51,20 +51,17 @@ typedef struct s_data {
 	char	*rooms_trim;
 	char	*links;
 	char	*map;
-	int		**path;
-	int		**final_path;
+	int		**path; // not used yet
+	int		**final_path; // not used yet
 	int		path_counter;
 	int		start_found;
 	int		end_found;
 	int		ants;
 	int		nb_rooms;
 	int		dispatch;
-	int		path_i;
+	int		path_i; // not used yet
 	int		path_j;
 	int		init_2;
-	int		over;
-	int		*dead_connections;
-	int		connections_index;
 }			t_data;
 
 /*
@@ -90,17 +87,9 @@ void	print_matrix(t_data *data);
 void	clean_line_all(t_data *data, char *line);
 void	free_tab_array(t_data *data, int **tab);
 void	clean_line_array_all(t_data *data, char *s, char *line);
-void	result(t_data *data);
+// void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
-void	find_path(t_data *data);
-int		find_starting_links(t_data *data, int *connections);
-int		*find_connections(t_data *data, int *connections);
-void	print_connections(int *connections);
-void	reset_path(t_data *data);
-void	reset_visited(t_data *data);
-void	store_final_path(t_data *data, int i);
-void	print_final_path(t_data *data);
-void	print_path(t_data *data);
-void	reset_int_array(t_data *data, int *connections, int full);
+// void	print_final_path(t_data *data);
+// void	print_path(t_data *data);
 
 #endif

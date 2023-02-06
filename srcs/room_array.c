@@ -86,15 +86,12 @@ void	make_rooms_array(t_data *data)
 	i = 0;
 	line = NULL;
 	trim_room_array(data, line, i);
-	ft_printf("apres trim room array\n");
 	line = ft_strsplit(data->rooms_trim, ' ');
 	if (!line)
 		clean_all(data, 1);
 	i = -1;
 	j = 1;
 	storing_start_end_rooms(data);
-	ft_printf("apres store start / end\n");
 	storing_rooms(data, line, i, j);
-	ft_printf("apres storing rooms \n");
 	free_char_array(data, line, 0);
 }
