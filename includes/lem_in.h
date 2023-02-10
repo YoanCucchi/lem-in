@@ -33,7 +33,6 @@
 ** Structures
 */
 
-
 typedef struct s_rooms {
 	char	*name;
 	int		links;
@@ -62,7 +61,15 @@ typedef struct s_data {
 	int		path_i; // not used yet
 	int		path_j;
 	int		init_2;
+	int		q_size;
 }			t_data;
+
+typedef struct s_queue
+{
+	int				index;
+	struct s_queue	*next;
+}					t_queue;
+
 
 /*
 ** Prototypes
@@ -87,9 +94,7 @@ void	print_matrix(t_data *data);
 void	clean_line_all(t_data *data, char *line);
 void	free_tab_array(t_data *data, int **tab);
 void	clean_line_array_all(t_data *data, char *s, char *line);
-// void	result(t_data *data);
 void	copy_map(t_data *data, char *line);
-// void	print_final_path(t_data *data);
-// void	print_path(t_data *data);
+void	path_finder(t_data *data);
 
 #endif

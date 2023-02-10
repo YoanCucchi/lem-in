@@ -133,6 +133,7 @@ int	main(int argc, char **argv)
 	print_matrix(data);
 	// solver(data, 1);
 	// result(data);
+	path_finder(data);
 	clean_all(data, 0);
 	system("leaks lem-in > leaks.txt");
 	return (0);
