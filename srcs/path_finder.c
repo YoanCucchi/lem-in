@@ -24,7 +24,7 @@ static void	add_to_queue(t_queue *q, int j)
 	q->next = new;
 }
 
-static int	find_start_connections(t_data *data, t_queue *q)
+static int	find_start_connections(t_data *data, t_queue *q, int index)
 {
 	int	i;
 	int	j;
@@ -40,13 +40,13 @@ static int	find_start_connections(t_data *data, t_queue *q)
 	while (j < data->nb_rooms)
 	{
 		ft_printf("inside while loop\n");
-		if (data->tab[0][j] && !data->rooms[j].visited)
+		if (data->tab[index][j])
 		{
 			found++;
+			ft_printf("room : %s\n", data->rooms[q->index]);
 			ft_printf("connection with : %d\n", j);
 			add_to_queue(q, j);
 			data->q_size++;
-			data->rooms[j].visited = 1;
 			data->path[data->path_i++][data->path_j] = j;
 			i++;
 		}
@@ -62,11 +62,19 @@ void	path_finder(t_data *data)
 	t_queue	*q;
 	t_queue *tmp;
 
+	// idea working pretty much fine but i need to implement properly the path
+	// to be able to check if a room is already inside it, in wich case i do
+	// not want to visit the room again 
 	data->q_size = 0;
 	q = (t_queue *)malloc(sizeof(t_queue));
 	q->index = 0;
 	q->next = NULL;
-	find_start_connections(data, q);
+	while (q && q->index != data->nb_rooms - 1)
+	{
+		ft_printf("q->index = %d\n", q->index);
+		find_start_connections(data, q, q->index);
+		q = q->next;
+	}
 	q->index = 0;
 	ft_printf("data->q_size = %d\n", data->q_size);
 	ft_printf("q->index = %d\n", q->index);
