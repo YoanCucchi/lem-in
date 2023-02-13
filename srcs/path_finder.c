@@ -69,6 +69,7 @@ void	path_finder(t_data *data)
 	q = (t_queue *)malloc(sizeof(t_queue));
 	q->index = 0;
 	q->next = NULL;
+	tmp = q;
 	while (q && q->index != data->nb_rooms - 1)
 	{
 		ft_printf("q->index = %d\n", q->index);
@@ -81,6 +82,7 @@ void	path_finder(t_data *data)
 	ft_printf("q->next->index = %d\n", q->next->index);
 	ft_printf("q->next->next->index = %d\n", q->next->next->index);
 	ft_printf("q->next->next->next->index = %d\n", q->next->next->next->index);
+	q = tmp;
 	while (q)
 	{
 		tmp = q;
