@@ -20,14 +20,12 @@ t_data	*struct_init_2(t_data *data)
 	i = -1;
 	data->init_2 = 1; // Check those malloc for the size
 	data->rooms = (t_rooms *)ft_memalloc(sizeof(t_data) * data->nb_rooms);
-	data->path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 2000));
 	data->final_path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 1000));
 	data->tab = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 1000));
-	if (!data->path || !data->tab || !data->rooms || !data->final_path)
+	if ( !data->tab || !data->rooms || !data->final_path)
 		clean_all(data, 1);
 	while (++i < data->nb_rooms)
 	{
-		data->path[i] = (int *)ft_memalloc(sizeof(int) * 100000);
 		data->final_path[i] = (int *)ft_memalloc(sizeof(int) * 10000);
 		data->tab[i] = (int *)ft_memalloc(sizeof(int) * 1000);
 		if (!data->tab[i])
@@ -36,13 +34,7 @@ t_data	*struct_init_2(t_data *data)
 		while (data->tab[i][++j])
 			data->tab[i][j] = 0;
 		j = -1;
-		while (data->path[i][++j])
-		{
-			data->path[i][j] = 0;
-			data->final_path[i][j] = 0;
-		}
 	}
-	data->path[i] = 0;
 	data->final_path[i] = 0;
 	data->path_j = 1;
 	return (data);
