@@ -27,36 +27,29 @@ static int	*new_int_arr(t_data *data)
 	return (new);
 }
 
-static void	swap(int *a, int *b)
-{
-	int	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
 static void	cpy_path(t_data *data)
 {
+	int	i;
 	int	tmp;
 
+	i = 0;
 	tmp = data->path_counter;
-	// on decale les paths de 1 vers la droite
 	ft_printf("début cpy_path\n");
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	data->path[data->path_counter] = new_int_arr(data);
-	if (!data->path[data->path_counter])
-		ft_printf("malloc problem\n");
-	// data->path[data->path_counter] = data->path[data->path_i]; // fais tout bug
 	ft_printf("data->path_i = %d\n", data->path_i);
 	ft_printf("data->path_counter = %d\n", data->path_counter);
-	while (data->path_counter > data->path_i)
+	while (i < data->nb_rooms)
 	{
-		swap(data->path[data->path_counter], data->path[data->path_counter - 1]);
-		data->path_counter--;
+		data->path[data->path_counter][i] = data->path[data->path_i][i];
+		ft_printf("data->path[data->path_counter][i] = %d\n", data->path[data->path_counter][i]);
+		i++;
 	}
-	ft_printf("fin cpy_path\n");
+	// need to swap but fucking how 
+	ft_printf("avant loop\n");
 	data->path_counter = tmp;
+	data->path_counter++;
+	ft_printf("fin cpy_path\n");
 }
 
 static void	print_path(t_data *data, int index)
@@ -117,8 +110,7 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	while (found > data->path_counter)
 	{
-		ft_printf("found > data->path_counter\n");
-		cpy_path(data);
+		data->path[data->path_counter] = new_int_arr(data);
 		data->path_counter++;
 	}
 	j = 0;
@@ -174,13 +166,13 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 	{
 		ft_printf("found > data->path_counter\n");
 		cpy_path(data);
-		data->path_counter++;
 		found--;
 	}
 	j = 0;
 	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
 	ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
 	ft_printf("data->path[2][1] = %d\n", data->path[2][1]);
+	ft_printf("data->path[3][1] = %d\n", data->path[3][1]);
 	while (j < data->nb_rooms)
 	{
 		ft_printf("j = %d\n", j);
@@ -195,7 +187,7 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 			ft_printf("data->path_j = %d\n", data->path_j);
 			ft_printf("j = %d\n", j);
 			data->path[data->path_i][data->path_j] = j;
-			print_path(data, 2);
+			print_path(data, 3);
 			data->path_i++;
 			i++;
 			ft_printf("end\n");
