@@ -12,19 +12,51 @@
 
 #include "../includes/lem_in.h" // change
 
+static int	*new_int_arr(t_data *data)
+{
+	int	*new;
+	int	i;
+
+	i = 0;
+	new = (int *)ft_memalloc(sizeof(int) * data->nb_rooms);
+	while (i < data->nb_rooms)
+	{
+		new[i] = 0;
+		i++;
+	}
+	return (new);
+}
+
+static void	swap(int *a, int *b)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
 static void	cpy_path(t_data *data)
 {
-	int	j;
+	int	tmp;
 
-	j = 0;
+	tmp = data->path_counter;
+	// on decale les paths de 1 vers la droite
 	ft_printf("début cpy_path\n");
-	while (j < data->nb_rooms)
+	ft_printf("data->path_counter = %d\n", data->path_counter);
+	data->path[data->path_counter] = new_int_arr(data);
+	if (!data->path[data->path_counter])
+		ft_printf("malloc problem\n");
+	// data->path[data->path_counter] = data->path[data->path_i]; // fais tout bug
+	ft_printf("data->path_i = %d\n", data->path_i);
+	ft_printf("data->path_counter = %d\n", data->path_counter);
+	while (data->path_counter > data->path_i)
 	{
-		if (data->path_i > 0)
-			data->path[data->path_i][j] = data->path[data->path_i - 1][j];
-		j++;
+		swap(data->path[data->path_counter], data->path[data->path_counter - 1]);
+		data->path_counter--;
 	}
 	ft_printf("fin cpy_path\n");
+	data->path_counter = tmp;
 }
 
 static void	print_path(t_data *data, int index)
@@ -64,20 +96,6 @@ static void	add_to_queue(t_queue *q, int j)
 	ft_printf("end add to queue\n");
 }
 
-static void init_index(t_data *data)
-{
-	int	j;
-
-	j = 0;
-	ft_printf("début init_index\n");
-	while (j < data->nb_rooms)
-	{
-		data->path[data->path_i][j] = 0;
-		j++;
-	}
-	ft_printf("fin init_index\n");
-}
-
 static int	find_start_connections(t_data *data, t_queue *q, int index)
 {
 	int	i;
@@ -96,7 +114,17 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 		j++;
 	}
 	ft_printf("found = %d\n", found);
+	ft_printf("data->path_counter = %d\n", data->path_counter);
+	while (found > data->path_counter)
+	{
+		ft_printf("found > data->path_counter\n");
+		cpy_path(data);
+		data->path_counter++;
+	}
 	j = 0;
+	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
+	ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
+	ft_printf("data->path[2][1] = %d\n", data->path[2][1]);
 	while (j < data->nb_rooms)
 	{
 		ft_printf("j = %d\n", j);
@@ -104,10 +132,6 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 		if (data->tab[index][j])
 		{
 			ft_printf("inside if \n");
-			data->path[data->path_i] = (int *)ft_memalloc(sizeof(int) * data->nb_rooms);
-			init_index(data);
-			cpy_path(data);
-			// ft_printf("room : %s\n", data->rooms[q->index]);
 			ft_printf("connection with : %d\n", j);
 			add_to_queue(q, j);
 			data->q_size++;
@@ -115,8 +139,63 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 			ft_printf("data->path_j = %d\n", data->path_j);
 			ft_printf("j = %d\n", j);
 			data->path[data->path_i][data->path_j] = j;
-			ft_printf("testing = %d\n", data->path[data->path_i][data->path_j]);
-			print_path(data, data->path_i);
+			print_path(data, 2);
+			data->path_i++;
+			i++;
+			ft_printf("end\n");
+		}
+		j++;
+	}
+	if (!found)
+		return (0);
+	return (1);
+}
+
+static int	find_connections(t_data *data, t_queue *q, int index)
+{
+	int	i;
+	int	j;
+	int	found;
+
+	i = 0;
+	j = 0;
+	found = 0;
+	ft_printf("data->path_j = %d\n", data->path_j);
+	ft_printf("in starting links\n");
+	while (j < data->nb_rooms)
+	{
+		if (data->tab[index][j])
+			found++;
+		j++;
+	}
+	ft_printf("found = %d\n", found);
+	ft_printf("data->path_counter = %d\n", data->path_counter);
+	while (found > 1)
+	{
+		ft_printf("found > data->path_counter\n");
+		cpy_path(data);
+		data->path_counter++;
+		found--;
+	}
+	j = 0;
+	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
+	ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
+	ft_printf("data->path[2][1] = %d\n", data->path[2][1]);
+	while (j < data->nb_rooms)
+	{
+		ft_printf("j = %d\n", j);
+		ft_printf("inside while loop\n");
+		if (data->tab[index][j])
+		{
+			ft_printf("inside if \n");
+			ft_printf("connection with : %d\n", j);
+			add_to_queue(q, j);
+			data->q_size++;
+			ft_printf("data->path_i = %d\n", data->path_i);
+			ft_printf("data->path_j = %d\n", data->path_j);
+			ft_printf("j = %d\n", j);
+			data->path[data->path_i][data->path_j] = j;
+			print_path(data, 2);
 			data->path_i++;
 			i++;
 			ft_printf("end\n");
@@ -139,12 +218,18 @@ void	path_finder(t_data *data)
 	q->index = 0;
 	q->next = NULL;
 	tmp = q;
+	find_start_connections(data, q, q->index);
+	data->path_i = 0;
+	data->path_j++;
+	q = q->next;
 	while (q && q->index != data->nb_rooms - 1)
 	{
+		ft_printf("path_counter = %d\n", data->path_counter);
 		ft_printf("q->index = %d\n", q->index);
-		find_start_connections(data, q, q->index);
+		find_connections(data, q, q->index);
 		q = q->next;
-		data->path_i = 0;
+		if (data->path_counter == data->path_i)
+			data->path_i = 0;
 		data->path_j++;
 	}
 	q->index = 0;
