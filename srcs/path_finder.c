@@ -64,7 +64,7 @@ static void	cpy_path(t_data *data)
 	}
 	// need to swap but fucking how 
 	ft_printf("avant loop\n");
-	intercalate_data_path(data, 1, 1);
+	intercalate_data_path(data, data->path_i + 1, 1);
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
