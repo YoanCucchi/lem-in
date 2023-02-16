@@ -20,6 +20,7 @@ static void intercalate_data_path(t_data *data, int index, int new_value)
 	ft_printf("data->path_i = %d\n", data->path_i);
 	ft_printf("data->path_j = %d\n", data->path_j);
 	ft_printf("data->path_counter = %d\n", data->path_counter);
+	ft_printf("new value = %d\n", new_value);
 
 	tmp1 = data->path[index][1];
 	data->path[index][1] = new_value;
@@ -71,8 +72,9 @@ static void	cpy_path(t_data *data)
 	}
 	// need to swap but fucking how 
 	ft_printf("avant loop\n");
+	ft_printf("data->path_i = %d\n", data->path_i);
 	index = data->path_i + 1;
-	intercalate_data_path(data, index, 1);
+	intercalate_data_path(data, index, data->path[data->path_i][data->path_j - 1]);
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
@@ -195,10 +197,14 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 		found--;
 	}
 	j = 0;
-	ft_printf("data->path[0][1] = %d\n", data->path[0][1]);
-	ft_printf("data->path[1][1] = %d\n", data->path[1][1]);
-	ft_printf("data->path[2][1] = %d\n", data->path[2][1]);
-	ft_printf("data->path[3][1] = %d\n", data->path[3][1]);
+	i = 0;
+	while (i < data->path_counter)
+	{
+		ft_printf("%d\n", data->path[i][1]);
+		i++;
+	}
+	j = 0;
+	i = 0;
 	while (j < data->nb_rooms)
 	{
 		ft_printf("j = %d\n", j);
@@ -213,7 +219,7 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 			ft_printf("data->path_j = %d\n", data->path_j);
 			ft_printf("j = %d\n", j);
 			data->path[data->path_i][data->path_j] = j;
-			print_path(data, 3);
+			print_path(data, data->path_counter - 1);
 			data->path_i++;
 			i++;
 			ft_printf("end\n");
@@ -251,6 +257,8 @@ void	path_finder(t_data *data)
 			data->path_i = 0;
 			data->path_j++;
 		}
+		if (data->path_counter > 5)
+			return ;
 	}
 	q->index = 0;
 	q = tmp;
