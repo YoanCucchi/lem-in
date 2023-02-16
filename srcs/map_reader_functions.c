@@ -43,7 +43,7 @@ void	get_start(t_data *data, char *line)
 
 	if (!data->ants)
 		clean_line_all(data, line);
-	ft_strdel(&line);
+	// ft_strdel(&line); this line is not good with f_sanitize .. 
 	if (get_next_line(0, &line) < 0)
 		clean_all(data, 1);
 	while (line[0] == '#')

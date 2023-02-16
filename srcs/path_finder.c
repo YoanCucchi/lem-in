@@ -17,6 +17,10 @@ static void intercalate_data_path(t_data *data, int index, int new_value)
 	int	tmp1;
 	int	tmp2;
 
+	ft_printf("data->path_i = %d\n", data->path_i);
+	ft_printf("data->path_j = %d\n", data->path_j);
+	ft_printf("data->path_counter = %d\n", data->path_counter);
+
 	tmp1 = data->path[index][1];
 	data->path[index][1] = new_value;
 	index ++;
@@ -36,6 +40,7 @@ static int	*new_int_arr(t_data *data)
 
 	i = 0;
 	new = (int *)ft_memalloc(sizeof(int) * data->nb_rooms);
+	ft_printf("data->nb_rooms = %d\n", data->nb_rooms);
 	while (i < data->nb_rooms)
 	{
 		new[i] = 0;
@@ -48,8 +53,10 @@ static void	cpy_path(t_data *data)
 {
 	int	i;
 	int	tmp;
+	int	index;
 
 	i = 0;
+	index = 0;
 	tmp = data->path_counter;
 	ft_printf("début cpy_path\n");
 	ft_printf("data->path_counter = %d\n", data->path_counter);
@@ -64,7 +71,8 @@ static void	cpy_path(t_data *data)
 	}
 	// need to swap but fucking how 
 	ft_printf("avant loop\n");
-	intercalate_data_path(data, data->path_i + 1, 1);
+	index = data->path_i + 1;
+	intercalate_data_path(data, index, 1);
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
@@ -124,8 +132,8 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 			found++;
 		j++;
 	}
-	ft_printf("found = %d\n", found);
 	ft_printf("data->path_counter = %d\n", data->path_counter);
+	ft_printf("found = %d\n", found);
 	while (found > data->path_counter)
 	{
 		data->path[data->path_counter] = new_int_arr(data);
@@ -222,7 +230,7 @@ void	path_finder(t_data *data)
 	t_queue	*q;
 	t_queue *tmp;
 
-	data->path = (int **)ft_memalloc(sizeof(int *));
+	data->path = (int **)ft_memalloc(sizeof(int *) * (data->nb_rooms * 5)); // find proper value 
 	data->q_size = 0;
 	q = (t_queue *)malloc(sizeof(t_queue));
 	q->index = 0;
