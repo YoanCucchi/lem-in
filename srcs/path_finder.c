@@ -12,6 +12,23 @@
 
 #include "../includes/lem_in.h" // change
 
+static void intercalate_data_path(t_data *data, int index, int new_value) 
+{
+	int	tmp1;
+	int	tmp2;
+
+	tmp1 = data->path[index][1];
+	data->path[index][1] = new_value;
+	index ++;
+	while (index < data->path_counter)
+	{
+		tmp2 = data->path[index][1]; //s3
+		data->path[index][1] = tmp1; // = s2
+		tmp1 = data->path[index + 1][1];
+		data->path[index + 1][1] = tmp2;
+		index++;
+	}
+}
 static int	*new_int_arr(t_data *data)
 {
 	int	*new;
@@ -47,6 +64,7 @@ static void	cpy_path(t_data *data)
 	}
 	// need to swap but fucking how 
 	ft_printf("avant loop\n");
+	intercalate_data_path(data, 1, 1);
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
@@ -221,8 +239,10 @@ void	path_finder(t_data *data)
 		find_connections(data, q, q->index);
 		q = q->next;
 		if (data->path_counter == data->path_i)
+		{
 			data->path_i = 0;
-		data->path_j++;
+			data->path_j++;
+		}
 	}
 	q->index = 0;
 	q = tmp;
