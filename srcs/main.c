@@ -12,6 +12,19 @@
 
 #include "lem_in.h"
 
+static void	free_path_array(t_data *data, int **tab)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->path_counter)
+	{
+		free(tab[i]);
+		tab[i] = NULL;
+	}
+	free(tab);
+	tab = NULL;
+}
 void	print_final_path(t_data *data)
 {
 	int	i;
@@ -93,7 +106,7 @@ static void	clean_struct(t_data *data)
 	if (data->end)
 		free(data->end);
 	if (data->path)
-		free_tab_array(data, data->path);
+		free_path_array(data, data->path);
 	if (data->final_path)
 		free_tab_array(data, data->final_path);
 	if (data->map)
