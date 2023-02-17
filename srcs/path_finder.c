@@ -29,7 +29,7 @@ static int	already_in_path(t_data *data, int index)
 static void intercalate_data_path(t_data *data)
 {
 	int	i;
-	int	index = data->path[data->path_i][data->path_j - 1];
+	int	index = data->path_i;
 	int *temp1 = data->path[index];
 	int *temp2;
 
