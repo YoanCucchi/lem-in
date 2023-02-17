@@ -36,7 +36,6 @@ static void intercalate_data_path(t_data *data, int index, int new_value)
 	ft_printf("data->path_j = %d\n", data->path_j);
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	ft_printf("new value = %d\n", new_value);
-
 	tmp_j = data->path_j - 1;
 	tmp1 = data->path[index][tmp_j];
 	data->path[index][tmp_j] = new_value;
