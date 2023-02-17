@@ -12,25 +12,51 @@
 
 #include "../includes/lem_in.h" // change
 
+static int	already_in_path(t_data *data, int index)
+{
+	int	j;
+
+	j = 0;
+	while(j < data->nb_rooms)
+	{
+		if (data->path[data->path_i][j] == index)
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 static void intercalate_data_path(t_data *data, int index, int new_value) 
 {
 	int	tmp1;
 	int	tmp2;
+	int	tmp_j;
 
 	ft_printf("data->path_i = %d\n", data->path_i);
 	ft_printf("data->path_j = %d\n", data->path_j);
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	ft_printf("new value = %d\n", new_value);
 
-	tmp1 = data->path[index][1];
-	data->path[index][1] = new_value;
+	tmp_j = data->path_j - 1;
+	tmp1 = data->path[index][tmp_j];
+	data->path[index][tmp_j] = new_value;
 	index ++;
 	while (index < data->path_counter)
 	{
-		tmp2 = data->path[index][1]; //s3
-		data->path[index][1] = tmp1; // = s2
-		tmp1 = data->path[index + 1][1];
-		data->path[index + 1][1] = tmp2;
+		tmp_j = data->path_j - 1;
+		ft_printf("index = %d\n", index);
+		while (tmp_j < data->nb_rooms)
+		{
+			ft_printf("tmp_j = %d\n", tmp_j);
+			tmp2 = data->path[index][tmp_j];
+			ft_printf("tmp2 = %d\n", tmp2);
+			data->path[index][tmp_j] = tmp1;
+			ft_printf("data->path[index + 1][tmp_j] = %d\n", data->path[index + 1][tmp_j]);
+			tmp1 = data->path[index + 1][tmp_j];
+			ft_printf("tmp1 = %d\n", tmp1);
+			data->path[index + 1][tmp_j] = tmp2;
+			tmp_j++;
+		}
 		index++;
 	}
 }
@@ -48,6 +74,30 @@ static int	*new_int_arr(t_data *data)
 		i++;
 	}
 	return (new);
+}
+
+static void	print_path(t_data *data, int index)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	ft_printf("============================================================\n");
+	while (i <= index) // change value to debug
+	{
+		j = 0;
+		while (j < 10) // change value to debug
+		{
+			ft_printf("data->path[%d]", i);
+			ft_printf("[%d]", j);
+			ft_printf(" = %d\n", data->path[i][j]);
+			j++;
+		}
+		ft_printf("--------------------------------------------------------\n");
+		i++;
+	}
+	ft_printf("============================================================\n");
 }
 
 static void	cpy_path(t_data *data)
@@ -74,34 +124,14 @@ static void	cpy_path(t_data *data)
 	ft_printf("avant loop\n");
 	ft_printf("data->path_i = %d\n", data->path_i);
 	index = data->path_i + 1;
+	print_path(data, 3);
 	intercalate_data_path(data, index, data->path[data->path_i][data->path_j - 1]);
+	print_path(data, 3);
+	while (1)
+		i++;
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
-}
-
-static void	print_path(t_data *data, int index)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	ft_printf("============================================================\n");
-	while (i <= index) // change value to debug
-	{
-		j = 0;
-		while (j < 10) // change value to debug
-		{
-			ft_printf("data->path[%d]", i);
-			ft_printf("[%d]", j);
-			ft_printf(" = %d\n", data->path[i][j]);
-			j++;
-		}
-		ft_printf("--------------------------------------------------------\n");
-		i++;
-	}
-	ft_printf("============================================================\n");
 }
 
 static void	add_to_queue(t_queue *q, int j)
@@ -192,7 +222,7 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	while (found > 1)
 	{
-		ft_printf("found > data->path_counter\n");
+		ft_printf("found > 1\n");
 		cpy_path(data);
 		found--;
 	}
@@ -209,7 +239,7 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 	{
 		ft_printf("j = %d\n", j);
 		ft_printf("inside while loop\n");
-		if (data->tab[index][j])
+		if (data->tab[index][j] && !already_in_path(data, j))
 		{
 			ft_printf("inside if \n");
 			ft_printf("connection with : %d\n", j);
@@ -257,8 +287,6 @@ void	path_finder(t_data *data)
 			data->path_i = 0;
 			data->path_j++;
 		}
-		if (data->path_counter > 5)
-			return ;
 	}
 	q->index = 0;
 	q = tmp;
