@@ -50,7 +50,7 @@ typedef struct s_data {
 	char	*rooms_trim;
 	char	*links;
 	char	*map;
-	int		**path; // not used yet
+	int		**path;
 	int		**final_path; // not used yet
 	int		path_counter;
 	int		start_found;
@@ -58,7 +58,7 @@ typedef struct s_data {
 	int		ants;
 	int		nb_rooms;
 	int		dispatch;
-	int		path_i; // not used yet
+	int		path_i;
 	int		path_j;
 	int		init_2;
 	int		q_size;
@@ -67,6 +67,7 @@ typedef struct s_data {
 typedef struct s_queue
 {
 	int				index;
+	int				prev;
 	struct s_queue	*next;
 }					t_queue;
 

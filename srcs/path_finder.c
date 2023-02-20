@@ -71,7 +71,7 @@ static void	print_path(t_data *data, int index)
 	while (i < index) // change value to debug
 	{
 		j = 0;
-		while (j < 4) // change value to debug
+		while (j < data->nb_rooms) // change value to debug
 		{
 			ft_printf("data->path[%d]", i);
 			ft_printf("[%d]", j);
@@ -106,7 +106,7 @@ static void	cpy_path(t_data *data)
 	ft_printf("avant loop\n");
 	ft_printf("data->path_i = %d\n", data->path_i);
 	intercalate_data_path(data);
-	print_path(data, data->path_counter);
+	print_path(data, data->path_counter + 1);
 	data->path_counter = tmp;
 	data->path_counter++;
 	ft_printf("fin cpy_path\n");
@@ -118,6 +118,9 @@ static void	add_to_queue(t_queue *q, int j)
 
 	new = (t_queue *)malloc(sizeof(t_queue));
 	new->index = j;
+	new->prev = q->index;
+	ft_printf("index to q = %d\n", j);
+	ft_printf("prev = %d\n", q->index);
 	while(q->next != NULL)
 		q = q->next;
 	new->next = NULL;
@@ -132,10 +135,11 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 	int	found;
 
 	i = 0;
-	j = 0;
+	j = 1;
 	found = 0;
 	ft_printf("data->path_j = %d\n", data->path_j);
 	ft_printf("in starting links\n");
+	ft_printf("q->index = %d\n", q->index);
 	while (j < data->nb_rooms)
 	{
 		if (data->tab[index][j])
@@ -160,6 +164,7 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 			ft_printf("connection with : %d\n", j);
 			add_to_queue(q, j);
 			data->q_size++;
+			ft_printf("data->q_size = %d\n", data->q_size);
 			ft_printf("data->path_i = %d\n", data->path_i);
 			ft_printf("data->path_j = %d\n", data->path_j);
 			ft_printf("j = %d\n", j);
@@ -186,14 +191,30 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 	j = 0;
 	found = 0;
 	ft_printf("data->path_j = %d\n", data->path_j);
-	ft_printf("in starting links\n");
-	while (j < data->nb_rooms)
+	ft_printf("in find connections\n");
+	ft_printf("q->index = %d\n", q->index);
+	ft_printf("data->q_size = %d\n", data->q_size);
+	// if (q->index == data->nb_rooms - 1)
+	// {
+	// 	q = q->next;
+	// 	if (!q->next)
+	// 		ft_printf("ERRORROROOR\n");
+	// 	data->path_i++;
+	// 	return (0);
+	// }
+	while (j < data->nb_rooms) // problem here because he finds ALL connections
 	{
-		if (data->tab[index][j])
+		if (data->tab[index][j] && j != q->prev)
 			found++;
 		j++;
 	}
 	ft_printf("found = %d\n", found);
+	if (found == 0)
+	{
+		data->path_i++;
+		q = q->next;
+		return (0);
+	}
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	while (found > 1)
 	{
@@ -220,19 +241,18 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 			ft_printf("connection with : %d\n", j);
 			add_to_queue(q, j);
 			data->q_size++;
+			ft_printf("data->q_size = %d\n", data->q_size);
 			ft_printf("data->path_i = %d\n", data->path_i);
 			ft_printf("data->path_j = %d\n", data->path_j);
 			ft_printf("j = %d\n", j);
 			data->path[data->path_i][data->path_j] = j;
-			print_path(data, data->path_counter - 1);
+			print_path(data, data->path_counter);
 			data->path_i++;
 			i++;
 			ft_printf("end\n");
 		}
 		j++;
 	}
-	if (!found)
-		return (0);
 	return (1);
 }
 
@@ -262,7 +282,7 @@ void	path_finder(t_data *data)
 	data->path_i = 0;
 	data->path_j++;
 	q = q->next;
-	while (q && q->index != data->nb_rooms - 1)
+	while (q)
 	{
 		ft_printf("path_counter = %d\n", data->path_counter);
 		ft_printf("q->index = %d\n", q->index);
