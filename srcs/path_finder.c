@@ -331,6 +331,11 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 					save_in_final(data);
 					q = q->next;
 					delete_row(data, data->path_i, data->path_counter);
+					if (data->path_counter == data->path_i)
+				{
+					data->path_i = 0;
+					data->path_j++;
+				}
 					find_connections(data, q, q->index);
 				}
 				else
