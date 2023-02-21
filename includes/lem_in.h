@@ -62,6 +62,7 @@ typedef struct s_data {
 	int		path_j;
 	int		init_2;
 	int		q_size;
+	int		final_path_counter;
 }			t_data;
 
 typedef struct s_queue
