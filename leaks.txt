@@ -1,27 +1,54 @@
-Process:         lem-in [23064]
+Process:         lem-in [34607]
 Path:            /Users/USER/*/lem-in
-Load Address:    0x1008f4000
+Load Address:    0x102f6c000
 Identifier:      lem-in
 Version:         0
 Code Type:       ARM64
 Platform:        macOS
-Parent Process:  zsh [14041]
+Parent Process:  zsh [25251]
 
-Date/Time:       2023-02-20 15:07:39.792 +0200
-Launch Time:     2023-02-20 15:07:39.284 +0200
+Date/Time:       2023-02-22 15:49:41.939 +0200
+Launch Time:     2023-02-22 15:49:41.305 +0200
 OS Version:      macOS 13.1 (22C65)
 Report Version:  7
 Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
 Analysis Tool Version:  Xcode 14.1 (14B47b)
 
-Physical footprint:         1969K
-Physical footprint (peak):  1969K
+Physical footprint:         2049K
+Physical footprint (peak):  2049K
 Idle exit: untracked
 ----
 
 leaks Report Version: 4.0
-Process 23064: 210 nodes malloced for 12 KB
-Process 23064: 1 leak for 16 total leaked bytes.
+Process 34607: 235 nodes malloced for 652 KB
+Process 34607: 27 leaks for 656144 total leaked bytes.
 
-    1 (16 bytes) ROOT LEAK: 0x600003174060 [16]
+    27 (641K) << TOTAL >>
+      1 (64.0K) ROOT LEAK: 0x120008000 [65536]
+      1 (64.0K) ROOT LEAK: 0x120018000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130038000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130048000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130058000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130068000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130078000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130088000 [65536]
+      1 (64.0K) ROOT LEAK: 0x130098000 [65536]
+      1 (64.0K) ROOT LEAK: 0x1300a8000 [65536]
+      1 (48 bytes) ROOT LEAK: 0x600001a44000 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a44030 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a44060 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a44090 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a440c0 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a441e0 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a44240 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a442d0 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a44300 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48000 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48030 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48060 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48090 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a480f0 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48120 [48]
+      1 (48 bytes) ROOT LEAK: 0x600001a48180 [48]
+      1 (16 bytes) ROOT LEAK: 0x600001644060 [16]
 

@@ -12,6 +12,19 @@
 
 #include "../includes/lem_in.h" // change
 
+static void	print_q(t_queue *q)
+{
+	t_queue *tmp;
+	ft_printf("avant printing : %d\n", q->index);
+	tmp = q;
+	while (tmp)
+	{
+		ft_printf("tmp_index = %d\n", tmp->index);
+		tmp = tmp->next;
+	}
+	ft_printf("after printing : %d\n", q->index);
+}
+
 // static void	print_final_path(t_data *data, int index)
 // {
 // 	int	i;
@@ -56,6 +69,7 @@ static void	save_in_final(t_data *data)
 		j++;
 	}
 	data->final_path_counter++;
+	ft_printf("getting out of save in final\n");
 }
 
 static int	already_in_path(t_data *data, int index)
@@ -160,6 +174,7 @@ static void	cpy_path(t_data *data)
 	print_path(data, data->path_counter + 1);
 	data->path_counter = tmp;
 	data->path_counter++;
+	ft_printf("data->path_counter = %d\n", data->path_counter);
 	ft_printf("fin cpy_path\n");
 }
 
@@ -207,6 +222,7 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 	j = 0;
 	while (j < data->nb_rooms)
 	{
+		ft_printf("data->path_counter = %d\n", data->path_counter);
 		ft_printf("j = %d\n", j);
 		ft_printf("inside while loop\n");
 		if (data->tab[index][j])
@@ -221,6 +237,7 @@ static int	find_start_connections(t_data *data, t_queue *q, int index)
 			ft_printf("j = %d\n", j);
 			data->path[data->path_i][data->path_j] = j;
 			print_path(data, data->path_counter);
+			ft_printf("data->path_counter = %d\n", data->path_counter);
 			data->path_i++;
 			i++;
 			ft_printf("end\n");
@@ -251,10 +268,12 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 	i = 0;
 	j = 0;
 	found = 0;
+	print_q(q);
 	ft_printf("data->path_i = %d\n", data->path_i);
 	ft_printf("data->path_j = %d\n", data->path_j);
 	ft_printf("in find connections\n");
 	ft_printf("q->index = %d\n", q->index);
+	ft_printf("q->prev = %d\n", q->prev);
 	ft_printf("data->q_size = %d\n", data->q_size);
 	// if (q->index == data->nb_rooms - 1)
 	// {
@@ -278,17 +297,28 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 		ft_printf("===========================================================\n");
 		ft_printf("before delete path_i = %d\n", data->path_i);
 		print_path(data, data->path_counter);
+		ft_printf("data->path_counter = %d\n", data->path_counter);
+		ft_printf("avant delete : %d\n", q->index);
 		delete_row(data, data->path_i, data->path_counter); // delete path and counter --
+		ft_printf("apres delete : %d\n", q->index);
 		ft_printf("after delete path_i = %d\n", data->path_i);
+		ft_printf("q->index avant next = %d\n", q->index);
+		q = q->next;
+
+		// solution could be to delete in the q the next value wich is equal to
+		// the index that we are deleting.
+
+		ft_printf("q->index apres next = %d\n", q->index);
 		print_path(data, data->path_counter);
-		data->path_counter--;
-		if (data->path_i == data->path_counter)
-		{
-			ft_printf("in if to check if path_i = path_counter");
-			data->path_i = 0;
-			data->path_j++;
-		}
-		return (0);
+		// ft_printf("data->path_counter = %d\n", data->path_counter);
+		// if (data->path_i == data->path_counter)
+		// {
+		// 	ft_printf("in if to check if path_i = path_counter");
+		// 	data->path_i = 0;
+		// 	data->path_j++;
+		// }
+		// find_connections(data, q, q->index);
+		return (1);
 	}
 	ft_printf("data->path_counter = %d\n", data->path_counter);
 	if (q->index != data->nb_rooms - 1)
@@ -325,22 +355,34 @@ static int	find_connections(t_data *data, t_queue *q, int index)
 				ft_printf("j = %d\n", j);
 				data->path[data->path_i][data->path_j] = j;
 				print_path(data, data->path_counter);
+				ft_printf("data->path_counter = %d\n", data->path_counter);
 				if (j == data->nb_rooms - 1)
 				{
 					ft_printf("SAVING SOMETHING \n\n\n");
 					save_in_final(data);
 					q = q->next;
+					ft_printf("data->counter avant delete = %d\n", data->path_counter);
 					delete_row(data, data->path_i, data->path_counter);
+
+					ft_printf("after delete");
+					ft_printf("data->path_counter = %d\n", data->path_counter);
+					if (data->path_counter == 0)
+						return (0);
 					if (data->path_counter == data->path_i)
-				{
-					data->path_i = 0;
-					data->path_j++;
-				}
-					find_connections(data, q, q->index);
+					{
+						ft_printf("i = path counter");
+						data->path_i = 0;
+						data->path_j++;
+					}
+					ft_printf("q->index after saving and before going find co %d\n", q->index);
+					// find_connections(data, q, q->index);
+					return (1);
 				}
 				else
 				{
+					ft_printf("==============================================\n");
 					add_to_queue(q, j);
+					ft_printf("==============================================\n");
 					data->q_size++;
 				}
 				data->path_i++;
@@ -384,26 +426,20 @@ void	path_finder(t_data *data)
 	{
 		ft_printf("path_counter = %d\n", data->path_counter);
 		ft_printf("q->index = %d\n", q->index);
-		find_connections(data, q, q->index);
+		if (find_connections(data, q, q->index) == 0)
+			break ;
+		
 		ft_printf("in path index \n");
 		ft_printf("q->index = %d\n", q->index);
-		q = q->next;
 		ft_printf("q->index after next = %d\n", q->index);
-		while (q && q->index == data->nb_rooms - 1)
-		{
-			ft_printf("q->index == data->nb_roooms - 1\n");
-			ft_printf("data->path_i = %d\n", data->path_i);
-			// ft_printf("data->path_counter = %d\n", data->path_counter);
-			// save_in_final(data);
-			// delete_row(data, data->path_i, data->path_counter);
-			q = q->next;
-		} 
+		q = q->next;
 		if (data->path_counter == data->path_i)
 		{
 			data->path_i = 0;
 			data->path_j++;
 		}
 	}
+	ft_printf("find connections returned 0, we need to exit");
 	q->index = 0;
 	q = tmp;
 	ft_printf("cleaning\n");
